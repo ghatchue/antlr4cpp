@@ -9,7 +9,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.syncsort</groupId>
-    <artifactId>antlr4-cpp</artifactId>
+    <artifactId>antlr4cpp</artifactId>
     <version>4.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
