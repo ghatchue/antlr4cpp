@@ -5,11 +5,12 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 # additional distclean files
 DISTCLEANFILES = config.sub depcomp missing aclocal.m4 \
-					config.guess configure install-sh \
-					Makefile.in* config.h.in* ltmain.sh
+                    config.guess configure install-sh \
+                    Makefile.in* config.h.in* ltmain.sh \
+                    INSTALL
 
 distclean-local:
-	-rm -rf autom4te.cache lib test/.libs
+    -rm -rf autom4te.cache lib test/.libs
 
 # additional compiler options
 AM_CXXFLAGS = -Wall -Wextra -DANTLR4_EXPORTS -I$(srcdir)/include @AM_CXXFLAGS@
@@ -36,10 +37,10 @@ check_PROGRAMS =
 TESTS += test/antlr4cpp_test
 check_PROGRAMS += test/antlr4cpp_test
 test_antlr4cpp_test_SOURCES = \
-	test/gmock/gmock.h \
-	test/gtest/gtest.h \
-	test/gmock-gtest-all.cc \
-	test/gmock_main.cc
+    test/gmock/gmock.h \
+    test/gtest/gtest.h \
+    test/gmock-gtest-all.cc \
+    test/gmock_main.cc
 test_antlr4cpp_test_LDADD =
 test_antlr4cpp_test_CPPFLAGS = -I"$(srcdir)/test"
 
