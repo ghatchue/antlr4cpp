@@ -1,0 +1,34 @@
+# ignore Java (Maven) build directory
+tool/target/
+
+# ignore emacs backups
+*~
+
+# ignore generated C++ build files
+.deps/
+.libs/
+.dirstamp
+*.o
+*.lo
+*.a
+*.la
+/runtime/Cpp/INSTALL
+/runtime/Cpp/Makefile
+/runtime/Cpp/Makefile.in
+/runtime/Cpp/aclocal.m4
+/runtime/Cpp/autom4te.cache/
+/runtime/Cpp/config.h
+/runtime/Cpp/config.h.in
+/runtime/Cpp/config.log
+/runtime/Cpp/config.status
+/runtime/Cpp/config.status.lineno
+/runtime/Cpp/configure
+/runtime/Cpp/configure.lineno
+/runtime/Cpp/depcomp
+/runtime/Cpp/install-sh
+/runtime/Cpp/missing
+/runtime/Cpp/stamp-h?
+/runtime/Cpp/libtool
+/runtime/Cpp/config.guess
+/runtime/Cpp/config.sub
+/runtime/Cpp/ltmain.sh
