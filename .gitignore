@@ -32,3 +32,4 @@ tool/target/
 /runtime/Cpp/config.guess
 /runtime/Cpp/config.sub
 /runtime/Cpp/ltmain.sh
+/runtime/Cpp/test/antlr4cpp_test

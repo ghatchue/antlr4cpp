@@ -10,7 +10,7 @@ DISTCLEANFILES = config.sub depcomp missing aclocal.m4 \
                     INSTALL
 
 distclean-local:
-    -rm -rf autom4te.cache lib test/.libs
+	-rm -rf autom4te.cache lib test/.libs
 
 # additional compiler options
 AM_CXXFLAGS = -Wall -Wextra -DANTLR4_EXPORTS -I$(srcdir)/include @AM_CXXFLAGS@
