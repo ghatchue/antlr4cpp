@@ -1,11 +1,11 @@
 #ifndef ANTLR4_H
 #define ANTLR4_H
 
-#include "config.h"
+#ifndef _MSC_VER
+	#include "config.h"
+#endif
 
-#ifdef ANTLR4_STATIC
-    #define ANTLR4_API
-#else
+#ifdef ANTLR4_SHARED
     #if defined _WIN32 || defined __CYGWIN__
         #ifdef ANTLR4_EXPORTS
             #ifdef __GNUC__
@@ -27,6 +27,8 @@
             #define ANTLR4_API
         #endif
     #endif
+#else
+    #define ANTLR4_API
 #endif
 
 #endif /* ANTLR4_H */

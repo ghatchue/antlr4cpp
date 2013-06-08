@@ -13,7 +13,7 @@ distclean-local:
 	-rm -rf autom4te.cache lib test/.libs
 
 # additional compiler options
-AM_CXXFLAGS = -Wall -Wextra -DANTLR4_EXPORTS -I$(srcdir)/include @AM_CXXFLAGS@
+AM_CXXFLAGS = -Wall -Wextra -DANTLR4_SHARED -DANTLR4_EXPORTS -I$(srcdir)/include @AM_CXXFLAGS@
 
 ## The main antlr4cpp library
 lib_LTLIBRARIES = lib/libantlr4cpp.la
@@ -40,7 +40,8 @@ test_antlr4cpp_test_SOURCES = \
     test/gmock/gmock.h \
     test/gtest/gtest.h \
     test/gmock-gtest-all.cc \
-    test/gmock_main.cc
+    test/gmock_main.cc \
+    tests/TestTests.cpp
 test_antlr4cpp_test_LDADD =
 test_antlr4cpp_test_CPPFLAGS = -I"$(srcdir)/test"
 

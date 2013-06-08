@@ -1,5 +1,3 @@
-#ifndef UTILS_H
-#define UTILS_H
 /*
  * [The "BSD license"]
  *  Copyright (c) 2012 Terence Parr
@@ -35,20 +33,13 @@
  * Gael Hatchue
  */
 
+#include <gtest/gtest.h>
 #include <antlr4.h>
-#include <string.h>
+#include <Test.h>
 
-namespace antlr4 {
-namespace misc {
-
-class ANTLR4_API Utils
+// Dummy test
+TEST(TestTest, helloWorksOK)
 {
-public:
-
-
-};
-
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef UTILS_H */
+	antlr4::Test test;
+	EXPECT_EQ(1, test.hello());
+}

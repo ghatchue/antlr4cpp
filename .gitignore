@@ -4,7 +4,7 @@ tool/target/
 # ignore emacs backups
 *~
 
-# ignore generated C++ build files
+# ignore automake artifacts
 .deps/
 .libs/
 .dirstamp
@@ -33,3 +33,10 @@ tool/target/
 /runtime/Cpp/config.sub
 /runtime/Cpp/ltmain.sh
 /runtime/Cpp/test/antlr4cpp_test
+
+# ignore Visual Studio artifacts and user files
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.user
+vsbuild/
