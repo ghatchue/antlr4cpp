@@ -6,10 +6,14 @@
 #endif
 
 #if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_EXPORTS
-#        define ANTLR4_API __declspec(dllexport)
+#    if defined ANTLR4_SHARED
+#        if defined ANTLR4_EXPORTS
+#            define ANTLR4_API __declspec(dllexport)
+#        else
+#            define ANTLR4_API __declspec(dllimport)
+#        endif
 #    else
-#        define ANTLR4_API __declspec(dllimport)
+#        define ANTLR4_API
 #    endif
 #else
 #    define ANTLR4_API
