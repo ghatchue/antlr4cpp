@@ -2,7 +2,7 @@
 #define ANTLR4_H
 
 #ifndef _MSC_VER
-    #include "config.h"
+#    include "config.h"
 #endif
 
 #if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
