@@ -33,6 +33,7 @@ tool/target/
 /runtime/Cpp/config.sub
 /runtime/Cpp/ltmain.sh
 /runtime/Cpp/test/antlr4cpp_test
+/runtime/Cpp/test/antlr4cpp_test_shared
 
 # ignore Visual Studio artifacts and user files
 *.sdf

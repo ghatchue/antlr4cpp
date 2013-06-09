@@ -40,6 +40,6 @@
 // Dummy test
 TEST(TestTest, helloWorksOK)
 {
-	antlr4::Test test;
-	EXPECT_EQ(1, test.hello());
+    antlr4::Test test;
+    EXPECT_EQ(1, test.hello());
 }

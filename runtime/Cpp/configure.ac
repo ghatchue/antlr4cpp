@@ -38,5 +38,9 @@ AC_SUBST([AM_LDFLAGS])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile])
 
+# conditionals indicating if building static or shared
+AM_CONDITIONAL([ENABLE_STATIC], [test "$enable_static" = "yes"])
+AM_CONDITIONAL([ENABLE_SHARED], [test "$enable_shared" = "yes"])
+
 # generate the final Makefile etc.
 AC_OUTPUT
