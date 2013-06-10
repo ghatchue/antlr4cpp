@@ -78,11 +78,10 @@ public:
     virtual antlr_uint32_t size() const = 0;
 
     virtual bool isNil() const = 0;
-
     
     virtual bool operator==(const IntSet& other) const = 0;
 
-    virtual int getSingleElement() const = 0;
+    virtual antlr_int32_t getSingleElement() const = 0;
 
     virtual bool contains(antlr_int32_t el) const = 0;
 
