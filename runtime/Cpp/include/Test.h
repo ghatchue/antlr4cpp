@@ -1,7 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <antlr4.h>
+#include <Antlr4Definitions.h>
 
 namespace antlr4 {
 

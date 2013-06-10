@@ -34,7 +34,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <antlr4.h>
 #include <Test.h>
 
 // Dummy test

@@ -33,23 +33,68 @@
  * Gael Hatchue
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef INTSET_H
+#define INTSET_H
 
 #include <Antlr4Definitions.h>
 #include <string.h>
+#include <list>
 
 namespace antlr4 {
 namespace misc {
 
-class ANTLR4_API Utils
+/** A generic set of ints.
+ *
+ *  @see IntervalSet
+ */
+class ANTLR4_API IntSet
 {
 public:
+    
+    virtual ~IntSet() { }
 
+    /** Add an element to the set */
+    virtual void add(antlr_int32_t el) = 0;
 
+    /** Add all elements from incoming set to this set.  Can limit
+     *  to set of its own type. Return "this" so we can chain calls.
+     */
+    virtual IntSet* addAll(IntSet* set) = 0;
+
+    /** Return the intersection of this set with the argument, creating
+     *  a new set.
+     */
+    virtual IntSet* and(IntSet* a) const = 0;
+
+    virtual IntSet* complement(IntSet* elements) const = 0;
+
+    virtual IntSet* or(IntSet* a) const = 0;
+
+    virtual IntSet* subtract(IntSet* a) const = 0;
+
+    /** Return the size of this set (not the underlying implementation's
+     *  allocated memory size, for example).
+     */
+    virtual antlr_uint32_t size() const = 0;
+
+    virtual bool isNil() const = 0;
+
+    
+    virtual bool operator==(const IntSet& other) const = 0;
+
+    virtual int getSingleElement() const = 0;
+
+    virtual bool contains(antlr_int32_t el) const = 0;
+
+    /** remove this element from this set */
+    virtual void remove(antlr_int32_t el) = 0;
+
+    virtual std::list<antlr_int32_t> toList() const = 0;
+    
+    virtual std::string toString() const = 0;
 };
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef UTILS_H */
+#endif /* ifndef INTSET_H */

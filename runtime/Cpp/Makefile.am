@@ -17,6 +17,10 @@ TESTS =
 check_PROGRAMS =
 
 antlr4cpp_headers = \
+    include/antlr4.h \
+    include/Antlr4Definitions.h \
+    include/misc/IntSet.h \
+    include/misc/Utils.h \
     include/Test.h
 
 antlr4cpp_sources = \

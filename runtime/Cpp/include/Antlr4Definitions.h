@@ -33,23 +33,38 @@
  * Gael Hatchue
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef ANTLR4_DEFINITIONS_H
+#define ANTLR4_DEFINITIONS_H
 
-#include <Antlr4Definitions.h>
-#include <string.h>
+/* config.h */
+#ifdef HAVE_CONFIG_H
+#    include "config.h"
+#endif
 
-namespace antlr4 {
-namespace misc {
+/* ANTLR4_API */
+#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
+#    if defined ANTLR4_SHARED
+#        if defined ANTLR4_EXPORTS
+#            define ANTLR4_API __declspec(dllexport)
+#        else
+#            define ANTLR4_API __declspec(dllimport)
+#        endif
+#    else
+#        define ANTLR4_API
+#    endif
+#else
+#    define ANTLR4_API
+#endif
 
-class ANTLR4_API Utils
-{
-public:
 
+/* Integer data types */
+#ifdef HAVE_INTTYPES_H
+#   include <inttypes.h>
+    typedef int32_t antlr_int32_t;
+    typedef uint32_t antlr_uint32_t;
+#else /* HAVE_INTTYPES_H */
+    typedef int antlr_int32_t;
+    typedef unsigned int antlr_uint32_t;
+#endif /* HAVE_INTTYPES_H */
 
-};
-
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef UTILS_H */
+#endif /* ANTLR4_DEFINITIONS_H */

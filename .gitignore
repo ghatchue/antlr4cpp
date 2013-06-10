@@ -41,3 +41,7 @@ tool/target/
 *.suo
 *.vcxproj.user
 vsbuild/
+
+# ignore netbeans project artifacts
+runtime/Cpp/a.out.dSYM/
+runtime/Cpp/nbproject/

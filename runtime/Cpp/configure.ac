@@ -23,6 +23,7 @@ AC_LANG([C++])
 
 # Checks for header files.
 AC_HEADER_STDC
+AC_CHECK_HEADERS([inttypes.h])
 AC_CHECK_HEADERS([string])
 AC_CHECK_HEADERS([iostream])
 
