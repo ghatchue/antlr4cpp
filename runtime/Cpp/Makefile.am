@@ -19,13 +19,15 @@ check_PROGRAMS =
 antlr4cpp_headers = \
     include/antlr4.h \
     include/Antlr4Definitions.h \
+    include/Test.h \
+    include/misc/Interval.h \
     include/misc/IntSet.h \
-    include/misc/Utils.h \
-    include/Test.h
+    include/misc/Utils.h
 
 antlr4cpp_sources = \
     $(antlr4cpp_headers) \
-    src/Test.cpp
+    src/Test.cpp \
+    src/misc/Interval.cpp
 
 antlr4cpp_unit_test_sources = \
     test/gmock/gmock.h \

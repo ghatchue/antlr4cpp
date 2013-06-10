@@ -59,18 +59,18 @@ public:
     /** Add all elements from incoming set to this set.  Can limit
      *  to set of its own type. Return "this" so we can chain calls.
      */
-    virtual IntSet* addAll(IntSet* set) = 0;
+    virtual IntSet* addAll(const IntSet& set) = 0;
 
     /** Return the intersection of this set with the argument, creating
      *  a new set.
      */
-    virtual IntSet* and(IntSet* a) const = 0;
+    virtual IntSet* and(const IntSet& a) const = 0;
 
-    virtual IntSet* complement(IntSet* elements) const = 0;
+    virtual IntSet* complement(const IntSet& elements) const = 0;
 
-    virtual IntSet* or(IntSet* a) const = 0;
+    virtual IntSet* or(const IntSet& a) const = 0;
 
-    virtual IntSet* subtract(IntSet* a) const = 0;
+    virtual IntSet* subtract(const IntSet& a) const = 0;
 
     /** Return the size of this set (not the underlying implementation's
      *  allocated memory size, for example).

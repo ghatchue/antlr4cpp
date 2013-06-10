@@ -36,10 +36,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\antlr4.h" />
+    <ClInclude Include="include\Antlr4Definitions.h" />
+    <ClInclude Include="include\misc\Interval.h" />
+    <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\Utils.h" />
     <ClInclude Include="include\Test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\misc\Interval.cpp" />
     <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

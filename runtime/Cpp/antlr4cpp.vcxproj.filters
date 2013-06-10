@@ -16,6 +16,9 @@
     <Filter Include="Header Files\misc">
       <UniqueIdentifier>{6f0a25b4-7822-42a6-b000-3d6aec5cd015}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\misc">
+      <UniqueIdentifier>{7b3f5a44-6d9c-4d79-8511-ccb91d5f0cfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\antlr4.h">
@@ -27,10 +30,22 @@
     <ClInclude Include="include\misc\Utils.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\IntSet.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Antlr4Definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\Interval.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Test.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\Interval.cpp">
+      <Filter>Source Files\misc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

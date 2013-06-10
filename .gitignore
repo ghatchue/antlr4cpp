@@ -12,6 +12,8 @@ tool/target/
 *.lo
 *.a
 *.la
+*.exe
+*.dll
 /runtime/Cpp/INSTALL
 /runtime/Cpp/Makefile
 /runtime/Cpp/Makefile.in
