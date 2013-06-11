@@ -3,6 +3,7 @@
 # General project information
 AC_INIT([antlr4cpp], [1.0])
 AC_PREREQ([2.59])
+AC_CONFIG_MACRO_DIR([m4])
 
 # check for C compiler
 AC_PROG_CC
@@ -20,6 +21,7 @@ AM_INIT_AUTOMAKE([1.10 -Wall])
 
 # use the C++ compiler for the following checks
 AC_LANG([C++])
+AX_CXX_COMPILE_STDCXX_11([noext], [optional])
 
 # Checks for header files.
 AC_HEADER_STDC

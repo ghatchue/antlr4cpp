@@ -64,11 +64,11 @@ public:
     /** Return the intersection of this set with the argument, creating
      *  a new set.
      */
-    virtual IntSet* and(const IntSet& a) const = 0;
+    virtual IntSet* and_(const IntSet& a) const = 0;
 
     virtual IntSet* complement(const IntSet& elements) const = 0;
 
-    virtual IntSet* or(const IntSet& a) const = 0;
+    virtual IntSet* or_(const IntSet& a) const = 0;
 
     virtual IntSet* subtract(const IntSet& a) const = 0;
 

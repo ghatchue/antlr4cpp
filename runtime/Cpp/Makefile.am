@@ -9,6 +9,7 @@ distclean-local:
 	-rm -rf autom4te.cache lib test/.libs
 
 ## General options
+ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = subdir-objects
 AM_CXXFLAGS = -Wall -Wextra -I$(srcdir)/include @AM_CXXFLAGS@
 dist_noinst_SCRIPTS = autogen.sh

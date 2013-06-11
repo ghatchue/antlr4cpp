@@ -41,6 +41,12 @@
 #    include "config.h"
 #endif
 
+/* C++11 support for VS2012 C++ compiler */
+#if _MSC_VER >= 1700
+#    define HAVE_CXX11
+#endif
+
+
 /* ANTLR4_API */
 #if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
 #    if defined ANTLR4_SHARED

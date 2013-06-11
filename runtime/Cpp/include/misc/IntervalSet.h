@@ -58,146 +58,146 @@ namespace misc {
  *
  *  The ranges are ordered and disjoint so that 2..6 appears before 101..103.
  */
-class IntervalSet : IntSet
-{
-public:
-
-	IntervalSet(const std::list<Interval> intervals);
-
-	IntervalSet(const IntervalSet& set);
-
-	IntervalSet();
-
-	IntervalSet(antlr_int32_t el);
-
-	IntervalSet(antlr_int32_t a, antlr_int32_t b);
-
-	/** Create a set with a single element, el. */
-    static IntervalSet of(antlr_int32_t a);
-
-    /** Create a set with all ints within range [a..b] (inclusive) */
-	static IntervalSet of(antlr_int32_t a, antlr_int32_t b);
-
-	void clear();
-
-    /** Add a single element to the set.  An isolated element is stored
-     *  as a range el..el.
-     */
-    void add(antlr_int32_t el);
-
-    /** Add interval; i.e., add all integers from a to b to set.
-     *  If b<a, do nothing.
-     *  Keep list in sorted order (by left range value).
-     *  If overlap, combine ranges.  For example,
-     *  If this is {1..5, 10..20}, adding 6..7 yields
-     *  {1..5, 6..7, 10..20}.  Adding 4..8 yields {1..8, 10..20}.
-     */
-    void add(antlr_int32_t a, antlr_int32_t b);
-
-	// copy on write so we can cache a..a intervals and sets of that
-	protected void add(Interval addition);
-
-	/** combine all sets in the array returned the or'd value */
-	static IntervalSet or(IntervalSet[] sets);
-
-	IntervalSet addAll(IntSet set);
-
-    IntervalSet complement(int minElement, int maxElement);
-
-    /** Given the set of possible values (rather than, say UNICODE or MAXINT),
-     *  return a new set containing all elements in vocabulary, but not in
-     *  this.  The computation is (vocabulary - this).
-     *
-     *  'this' is assumed to be either a subset or equal to vocabulary.
-     */
-    IntervalSet complement(IntSet vocabulary);
-
-	/** Compute this-other via this&~other.
-	 *  Return a new set containing all elements in this but not in other.
-	 *  other is assumed to be a subset of this;
-     *  anything that is in other but not in this will be ignored.
-	 */
-	IntervalSet subtract(IntSet other);
-
-	IntervalSet or(IntSet a);
-
-    /** Return a new set with the intersection of this set with other.  Because
-     *  the intervals are sorted, we can use an iterator for each list and
-     *  just walk them together.  This is roughly O(min(n,m)) for interval
-     *  list lengths n and m.
-     */
-	IntervalSet and(IntSet other);
-
-    /** Is el in any range of this set? */
-    boolean contains(int el);
-
-    /** return true if this set has no members */
-    boolean isNil();
-
-    /** If this set is a single integer, return it otherwise Token.INVALID_TYPE */
-    int getSingleElement();
-
-	int getMaxElement();
-
-	/** Return minimum element >= 0 */
-	int getMinElement();
-
-    /** Return a list of Interval objects. */
-    List<Interval> getIntervals();
-
-	int hashCode();
-
-	/** Are two IntervalSets equal?  Because all intervals are sorted
-     *  and disjoint, equals is a simple linear walk over both lists
-     *  to make sure they are the same.  Interval.equals() is used
-     *  by the List.equals() method to check the ranges.
-     */
-    boolean equals(Object obj);
-
-	String toString();
-
-	String toString(boolean elemAreChar);
-
-	String toString(String[] tokenNames);
-
-    protected String elementName(String[] tokenNames, int a);
-
-    int size();
-
-	IntegerList toIntegerList();
-
-    List<Integer> toList();
-
-	Set<Integer> toSet();
-
-	/** Get the ith element of ordered set.  Used only by RandomPhrase so
-	 *  don't bother to implement if you're not doing that for a new
-	 *  ANTLR code gen target.
-	 */
-	int get(int i);
-
-	int[] toArray();
-
-	void remove(int el);
-
-    boolean isReadonly();
-
-    void setReadonly(boolean readonly);
-
-
-public:
-
-	static final IntervalSet COMPLETE_CHAR_SET = IntervalSet.of(0, Lexer.MAX_CHAR_VALUE);
-	static final IntervalSet EMPTY_SET = new IntervalSet();
-
-protected:
-
-	/** The list of sorted, disjoint intervals. */
-    protected List<Interval> intervals;
-
-    protected boolean readonly;
-
-};
+//class IntervalSet : IntSet
+//{
+//public:
+//
+//	IntervalSet(const std::list<Interval> intervals);
+//
+//	IntervalSet(const IntervalSet& set);
+//
+//	IntervalSet();
+//
+//	IntervalSet(antlr_int32_t el);
+//
+//	IntervalSet(antlr_int32_t a, antlr_int32_t b);
+//
+//	/** Create a set with a single element, el. */
+//    static IntervalSet of(antlr_int32_t a);
+//
+//    /** Create a set with all ints within range [a..b] (inclusive) */
+//	static IntervalSet of(antlr_int32_t a, antlr_int32_t b);
+//
+//	void clear();
+//
+//    /** Add a single element to the set.  An isolated element is stored
+//     *  as a range el..el.
+//     */
+//    void add(antlr_int32_t el);
+//
+//    /** Add interval; i.e., add all integers from a to b to set.
+//     *  If b<a, do nothing.
+//     *  Keep list in sorted order (by left range value).
+//     *  If overlap, combine ranges.  For example,
+//     *  If this is {1..5, 10..20}, adding 6..7 yields
+//     *  {1..5, 6..7, 10..20}.  Adding 4..8 yields {1..8, 10..20}.
+//     */
+//    void add(antlr_int32_t a, antlr_int32_t b);
+//
+//	// copy on write so we can cache a..a intervals and sets of that
+//	protected void add(Interval addition);
+//
+//	/** combine all sets in the array returned the or'd value */
+//	static IntervalSet or(IntervalSet[] sets);
+//
+//	IntervalSet addAll(IntSet set);
+//
+//    IntervalSet complement(int minElement, int maxElement);
+//
+//    /** Given the set of possible values (rather than, say UNICODE or MAXINT),
+//     *  return a new set containing all elements in vocabulary, but not in
+//     *  this.  The computation is (vocabulary - this).
+//     *
+//     *  'this' is assumed to be either a subset or equal to vocabulary.
+//     */
+//    IntervalSet complement(IntSet vocabulary);
+//
+//	/** Compute this-other via this&~other.
+//	 *  Return a new set containing all elements in this but not in other.
+//	 *  other is assumed to be a subset of this;
+//     *  anything that is in other but not in this will be ignored.
+//	 */
+//	IntervalSet subtract(IntSet other);
+//
+//	IntervalSet or(IntSet a);
+//
+//    /** Return a new set with the intersection of this set with other.  Because
+//     *  the intervals are sorted, we can use an iterator for each list and
+//     *  just walk them together.  This is roughly O(min(n,m)) for interval
+//     *  list lengths n and m.
+//     */
+//	IntervalSet and(IntSet other);
+//
+//    /** Is el in any range of this set? */
+//    boolean contains(int el);
+//
+//    /** return true if this set has no members */
+//    boolean isNil();
+//
+//    /** If this set is a single integer, return it otherwise Token.INVALID_TYPE */
+//    int getSingleElement();
+//
+//	int getMaxElement();
+//
+//	/** Return minimum element >= 0 */
+//	int getMinElement();
+//
+//    /** Return a list of Interval objects. */
+//    List<Interval> getIntervals();
+//
+//	int hashCode();
+//
+//	/** Are two IntervalSets equal?  Because all intervals are sorted
+//     *  and disjoint, equals is a simple linear walk over both lists
+//     *  to make sure they are the same.  Interval.equals() is used
+//     *  by the List.equals() method to check the ranges.
+//     */
+//    boolean equals(Object obj);
+//
+//	String toString();
+//
+//	String toString(boolean elemAreChar);
+//
+//	String toString(String[] tokenNames);
+//
+//    protected String elementName(String[] tokenNames, int a);
+//
+//    int size();
+//
+//	IntegerList toIntegerList();
+//
+//    List<Integer> toList();
+//
+//	Set<Integer> toSet();
+//
+//	/** Get the ith element of ordered set.  Used only by RandomPhrase so
+//	 *  don't bother to implement if you're not doing that for a new
+//	 *  ANTLR code gen target.
+//	 */
+//	int get(int i);
+//
+//	int[] toArray();
+//
+//	void remove(int el);
+//
+//    boolean isReadonly();
+//
+//    void setReadonly(boolean readonly);
+//
+//
+//public:
+//
+//	static final IntervalSet COMPLETE_CHAR_SET = IntervalSet.of(0, Lexer.MAX_CHAR_VALUE);
+//	static final IntervalSet EMPTY_SET = new IntervalSet();
+//
+//protected:
+//
+//	/** The list of sorted, disjoint intervals. */
+//    protected List<Interval> intervals;
+//
+//    protected boolean readonly;
+//
+//};
 
 } /* namespace misc */
 } /* namespace antlr4 */
