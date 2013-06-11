@@ -48,6 +48,12 @@ Interval::Interval(antlr_int32_t a, antlr_int32_t b)
 {
 }
 
+Interval::Interval(const Interval& other)
+	: a(other.a),
+	  b(other.b)
+{
+}
+
 /** Interval objects are used readonly so share all with the
 	*  same single value a==b up to some max size.  Use an array as a perfect hash.
 	*  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
@@ -139,18 +145,21 @@ Interval Interval::intersection(const Interval& other) const
 	*/
 Interval Interval::differenceNotProperlyContained(const Interval& other) const
 {
-	Interval diff = INVALID;
 	// other.a to left of this->a (or same)
+	antlr_int32_t val1 = INVALID.a;
+	antlr_int32_t val2 = INVALID.b;
+
 	if ( other.startsBeforeNonDisjoint(*this) ) {
-		diff = Interval::of(std::max(this->a, other.b + 1),
-							this->b);
+		val1 = std::max(this->a, other.b + 1);
+		val2 = this->b;
 	}
 
 	// other.a to right of this->a
 	else if ( other.startsAfterNonDisjoint(*this) ) {
-		diff = Interval::of(this->a, other.a - 1);
+		val1 = this->a;
+		val2 = other.a - 1;
 	}
-	return diff;
+	return Interval(val1, val2);
 }
 
 std::string Interval::toString() const

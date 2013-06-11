@@ -49,13 +49,15 @@ public:
 
 	Interval(antlr_int32_t a, antlr_int32_t b);
 
+	Interval(const Interval& other);
+
 	/** Interval objects are used readonly so share all with the
 	 *  same single value a==b up to some max size.  Use an array as a perfect hash.
 	 *  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
 	 *  Interval object with a..a in it.  On Java.g4, 218623 IntervalSets
 	 *  have a..a (set with 1 element).
 	 */
-	static inline Interval of(antlr_int32_t a, antlr_int32_t b);
+	static Interval of(antlr_int32_t a, antlr_int32_t b);
 
 	/** return number of elements between a and b inclusively. x..x is length 1.
 	 *  if b < a, then length is 0.  9..10 has length 2.

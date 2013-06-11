@@ -39,12 +39,18 @@
     <ClInclude Include="include\misc\Interval.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\IntervalSet.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\misc\Interval.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\IntervalSet.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
   </ItemGroup>
