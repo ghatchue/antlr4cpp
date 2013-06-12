@@ -47,7 +47,7 @@ namespace misc {
  *
  *  @see IntervalSet
  */
-class ANTLR4_API IntSet
+class ANTLR_API IntSet
 {
 public:
     

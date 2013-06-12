@@ -42,7 +42,7 @@
 namespace antlr4 {
 namespace misc {
 
-class ANTLR4_API Utils
+class ANTLR_API Utils
 {
 public:
 

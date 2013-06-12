@@ -47,19 +47,19 @@
 #endif
 
 
-/* ANTLR4_API */
+/* ANTLR_API */
 #if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
 #    if defined ANTLR4_SHARED
 #        if defined ANTLR4_EXPORTS
-#            define ANTLR4_API __declspec(dllexport)
+#            define ANTLR_API __declspec(dllexport)
 #        else
-#            define ANTLR4_API __declspec(dllimport)
+#            define ANTLR_API __declspec(dllimport)
 #        endif
 #    else
-#        define ANTLR4_API
+#        define ANTLR_API
 #    endif
 #else
-#    define ANTLR4_API
+#    define ANTLR_API
 #endif
 
 
@@ -73,4 +73,9 @@
     typedef unsigned int antlr_uint32_t;
 #endif /* HAVE_INTTYPES_H */
 
+/* Attributes */
+#define ANTLR_OVERRIDE
+#define ANTLR_NOTNULL
+
+    
 #endif /* ANTLR4_DEFINITIONS_H */

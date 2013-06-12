@@ -5,7 +5,7 @@
 
 namespace antlr4 {
 
-class ANTLR4_API Test
+class ANTLR_API Test
 {
  public:
 
