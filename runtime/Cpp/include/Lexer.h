@@ -33,67 +33,34 @@
  * Gael Hatchue
  */
 
-#ifndef INTSET_H
-#define INTSET_H
+#ifndef LEXER_H
+#define LEXER_H
 
 #include <Antlr4Definitions.h>
-#include <string.h>
-#include <list>
 
 namespace antlr4 {
-namespace misc {
 
-/** A generic set of ints.
- *
- *  @see IntervalSet
+/** A lexer is recognizer that draws input symbols from a character stream.
+ *  lexer grammars result in a subclass of this object. A Lexer object
+ *  uses simplified match() and error recovery mechanisms in the interest
+ *  of speed.
  */
-class ANTLR_API IntSet
+class Lexer /* : Recognizer<Integer, LexerATNSimulator>,
+                 TokenSource */
 {
 public:
     
-    virtual ~IntSet();
+	static const antlr_int32_t DEFAULT_MODE;
+	static const antlr_int32_t MORE;
+	static const antlr_int32_t SKIP;
 
-    /** Add an element to the set */
-    virtual void add(antlr_int32_t el) = 0;
-
-    /** Add all elements from incoming set to this set.  Can limit
-     *  to set of its own type. Return "this" so we can chain calls.
-     */
-    virtual IntSet* addAll(const IntSet& set) = 0;
-
-    /** Return the intersection of this set with the argument, creating
-     *  a new set.
-     */
-    virtual IntSet* and_(const IntSet& a) const = 0;
-
-    virtual IntSet* complement(const IntSet& elements) const = 0;
-
-    virtual IntSet* or_(const IntSet& a) const = 0;
-
-    virtual IntSet* subtract(const IntSet& a) const = 0;
-
-    /** Return the size of this set (not the underlying implementation's
-     *  allocated memory size, for example).
-     */
-    virtual antlr_uint32_t size() const = 0;
-
-    virtual bool isNil() const = 0;
+	static const antlr_int32_t DEFAULT_TOKEN_CHANNEL;
+	static const antlr_int32_t HIDDEN;
+	static const antlr_int32_t MIN_CHAR_VALUE;
+	static const antlr_int32_t MAX_CHAR_VALUE;
     
-    virtual bool operator==(const IntSet& other) const = 0;
-
-    virtual antlr_int32_t getSingleElement() const = 0;
-
-    virtual bool contains(antlr_int32_t el) const = 0;
-
-    /** remove this element from this set */
-    virtual void remove(antlr_int32_t el) = 0;
-
-    virtual std::list<antlr_int32_t> toList() const = 0;
-    
-    virtual std::string toString() const = 0;
 };
 
-} /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef INTSET_H */
+#endif /* ifndef LEXER_H */

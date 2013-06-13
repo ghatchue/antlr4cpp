@@ -39,8 +39,9 @@
 #include <Antlr4Definitions.h>
 #include <misc/Interval.h>
 #include <misc/IntSet.h>
-#include <string>
 #include <set>
+#include <string>
+#include <vector>
 
 namespace antlr4 {
 namespace misc {
@@ -66,6 +67,8 @@ public:
     IntervalSet(const std::list<Interval> intervals);
 
     IntervalSet(const IntervalSet& set);
+    
+    IntervalSet(const IntervalSet* set);
 
     IntervalSet();
 
@@ -74,10 +77,10 @@ public:
     IntervalSet(antlr_int32_t a, antlr_int32_t b);
 
     /** Create a set with a single element, el. */
-    static IntervalSet* of(antlr_int32_t a);
+    static IntervalSet of(antlr_int32_t a);
 
     /** Create a set with all ints within range [a..b] (inclusive) */
-    static IntervalSet* of(antlr_int32_t a, antlr_int32_t b);
+    static IntervalSet of(antlr_int32_t a, antlr_int32_t b);
 
     void clear();
 
@@ -98,7 +101,7 @@ public:
 
 
     /** combine all sets in the array returned the or'd value */
-    static IntervalSet* or_(const std::list<IntervalSet*>& sets);
+    static IntervalSet or_(const std::vector<IntervalSet>& sets);
 
     ANTLR_OVERRIDE
     IntervalSet* addAll(const IntSet& set);
@@ -185,6 +188,8 @@ public:
      */
     antlr_int32_t get(antlr_uint32_t i) const;
 
+	std::vector<antlr_int32_t> toArray();
+    
     ANTLR_OVERRIDE
     void remove(antlr_int32_t el);
 
@@ -210,7 +215,7 @@ public:
 protected:
 
     /** The list of sorted, disjoint intervals. */
-    std::list<Interval> intervals;
+    std::vector<Interval> intervals;
 
     bool readonly;
 

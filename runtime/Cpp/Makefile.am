@@ -24,7 +24,10 @@ check_PROGRAMS =
 antlr4cpp_headers = \
     include/antlr4.h \
     include/Antlr4Definitions.h \
+    include/IntStream.h \
+    include/Lexer.h \
     include/Test.h \
+    include/Token.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
@@ -32,9 +35,13 @@ antlr4cpp_headers = \
 
 antlr4cpp_sources = \
     $(antlr4cpp_headers) \
+    src/IntStream.cpp \
+    src/Lexer.cpp \
     src/Test.cpp \
+    src/Token.cpp \
     src/misc/IntervalSet.cpp \
-    src/misc/Interval.cpp
+    src/misc/Interval.cpp \
+    src/misc/IntSet.cpp
 
 antlr4cpp_unit_test_sources = \
     test/gmock/gmock.h \
