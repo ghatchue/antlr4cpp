@@ -74,31 +74,32 @@ IntervalSet::IntervalSet(antlr_int32_t el)
     add(el);
 }
 
-IntervalSet::IntervalSet(antlr_int32_t a, antlr_int32_t b)
+IntervalSet::IntervalSet(antlr_int32_t e1, antlr_int32_t e2)
     : intervals(2, Interval::INVALID),
       readonly(false)
 {
-    add(a);
-    add(b);
+    add(e1);
+    add(e2);
 }
 
+/** Create a set with a single element, el. */
+IntervalSet IntervalSet::of(antlr_int32_t a)
+{
+    IntervalSet s;
+    s.add(a);
+    return s;
+}
 
-///** Create a set with a single element, el. */
-//@NotNull
-//public static IntervalSet of(int a) {
-//    IntervalSet s = new IntervalSet();
-//    s.add(a);
-//    return s;
-//}
-//
-///** Create a set with all ints within range [a..b] (inclusive) */
-//public static IntervalSet of(int a, int b) {
-//    IntervalSet s = new IntervalSet();
-//    s.add(a,b);
-//    return s;
-//}
-//
-//public void clear() {
+/** Create a set with all ints within range [a..b] (inclusive) */
+IntervalSet IntervalSet::of(antlr_int32_t a, antlr_int32_t b)
+{
+    IntervalSet s;
+    s.add(a,b);
+    return s;
+}
+
+//void IntervalSet::clear()
+//{
 //    if ( readonly ) throw new IllegalStateException("can't alter readonly IntervalSet");
 //    intervals.clear();
 //}

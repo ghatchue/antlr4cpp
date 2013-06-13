@@ -74,7 +74,7 @@ public:
 
     IntervalSet(antlr_int32_t el);
 
-    IntervalSet(antlr_int32_t a, antlr_int32_t b);
+    IntervalSet(antlr_int32_t e1, antlr_int32_t e2);
 
     /** Create a set with a single element, el. */
     static IntervalSet of(antlr_int32_t a);
