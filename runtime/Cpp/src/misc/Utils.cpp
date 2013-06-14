@@ -33,58 +33,12 @@
  * Gael Hatchue
  */
 
-#ifndef UTILS_H
-#define UTILS_H
-
-#include <Antlr4Definitions.h>
-#include <list>
-#include <string.h>
-#include <sstream>
+#include <misc/Interval.h>
 
 namespace antlr4 {
 namespace misc {
 
-class ANTLR_API Utils
-{
-public:
-
-	// An implementation of the Java method String.valueOf(List)
-	template <typename T>
-	static std::string stringValueOf(const std::list<T>& list);
-
-	// An implementation of the Java method String.valueOf(primitive type)
-	template <typename T>
-	static std::string stringValueOf(T value);
-
-};
-
-
-template<typename T>
-std::string Utils::stringValueOf(const std::list<T>& list)
-{
-	std::stringstream stream;
-	stream << "[";
-	for (typename std::list<T>::const_iterator it = list.begin();
-		it != list.end(); )
-	{
-		stream << *it;
-		if (++it != list.end())
-			stream << ", ";
-	}
-	stream << "]";
-	return stream.str();
-}
-
-template<typename T>
-std::string Utils::stringValueOf(T value)
-{
-	std::stringstream stream;
-	stream << value;
-	return stream.str();
-}
 
 
 } /* namespace misc */
 } /* namespace antlr4 */
-
-#endif /* ifndef UTILS_H */

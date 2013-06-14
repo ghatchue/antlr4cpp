@@ -361,11 +361,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseTest.cpp" />
     <ClCompile Include="gmock-gtest-all.cc" />
     <ClCompile Include="gmock_main.cc" />
-    <ClCompile Include="TestTests.cpp" />
+    <ClCompile Include="TestIntervalSet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseTest.h" />
     <ClInclude Include="gmock\gmock.h" />
     <ClInclude Include="gtest\gtest.h" />
   </ItemGroup>

@@ -37,16 +37,22 @@
   <ItemGroup>
     <ClInclude Include="include\antlr4.h" />
     <ClInclude Include="include\Antlr4Definitions.h" />
+    <ClInclude Include="include\IntStream.h" />
+    <ClInclude Include="include\Lexer.h" />
     <ClInclude Include="include\misc\Interval.h" />
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\Utils.h" />
-    <ClInclude Include="include\Test.h" />
+    <ClInclude Include="include\Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IntStream.cpp" />
+    <ClCompile Include="src\Lexer.cpp" />
     <ClCompile Include="src\misc\Interval.cpp" />
     <ClCompile Include="src\misc\IntervalSet.cpp" />
-    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\misc\IntSet.cpp" />
+    <ClCompile Include="src\misc\Utils.cpp" />
+    <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2EDBBF66-818B-4B97-85ED-458108F79F5F}</ProjectGuid>

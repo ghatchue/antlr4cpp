@@ -26,7 +26,6 @@ antlr4cpp_headers = \
     include/Antlr4Definitions.h \
     include/IntStream.h \
     include/Lexer.h \
-    include/Test.h \
     include/Token.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
@@ -37,18 +36,20 @@ antlr4cpp_sources = \
     $(antlr4cpp_headers) \
     src/IntStream.cpp \
     src/Lexer.cpp \
-    src/Test.cpp \
     src/Token.cpp \
     src/misc/IntervalSet.cpp \
     src/misc/Interval.cpp \
-    src/misc/IntSet.cpp
+    src/misc/IntSet.cpp \
+	src/misc/Utils.cpp
 
 antlr4cpp_unit_test_sources = \
     test/gmock/gmock.h \
     test/gtest/gtest.h \
     test/gmock-gtest-all.cc \
     test/gmock_main.cc \
-    test/TestTests.cpp
+	test/BaseTest.h \
+	test/BaseTest.cpp \
+    test/TestIntervalSet.cpp
 
 
 ## Main library: libantlr4cpp

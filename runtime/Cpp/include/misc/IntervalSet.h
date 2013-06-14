@@ -154,7 +154,7 @@ public:
     antlr_int32_t getMinElement() const;
 
     /** Return a list of Interval objects. */
-    const std::list<Interval>& getIntervals() const;
+    const std::vector<Interval>& getIntervals() const;
 
     ANTLR_OVERRIDE
     antlr_int32_t hashCode() const;
@@ -172,7 +172,7 @@ public:
 
     std::string toString(bool elemAreChar) const;
 
-    std::string toString(const std::list<std::string>& tokenNames) const;
+    std::string toString(const std::vector<std::string>& tokenNames) const;
 
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
@@ -203,7 +203,7 @@ protected:
     // copy on write so we can cache a..a intervals and sets of that
     void add(const Interval& addition);
 
-    std::string elementName(const std::list<std::string>& tokenNames,
+    std::string elementName(const std::vector<std::string>& tokenNames,
         antlr_uint32_t a) const;
     
 

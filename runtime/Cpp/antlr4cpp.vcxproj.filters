@@ -24,9 +24,6 @@
     <ClInclude Include="include\antlr4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\misc\Utils.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
@@ -42,15 +39,36 @@
     <ClInclude Include="include\misc\IntervalSet.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\IntStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Lexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\misc\Interval.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
     <ClCompile Include="src\misc\IntervalSet.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IntStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\IntSet.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\Utils.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
   </ItemGroup>
