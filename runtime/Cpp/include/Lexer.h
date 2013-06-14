@@ -50,14 +50,14 @@ class Lexer /* : Recognizer<Integer, LexerATNSimulator>,
 {
 public:
     
-	static const antlr_int32_t DEFAULT_MODE;
-	static const antlr_int32_t MORE;
-	static const antlr_int32_t SKIP;
+    static const antlr_int32_t DEFAULT_MODE;
+    static const antlr_int32_t MORE;
+    static const antlr_int32_t SKIP;
 
-	static const antlr_int32_t DEFAULT_TOKEN_CHANNEL;
-	static const antlr_int32_t HIDDEN;
-	static const antlr_int32_t MIN_CHAR_VALUE;
-	static const antlr_int32_t MAX_CHAR_VALUE;
+    static const antlr_int32_t DEFAULT_TOKEN_CHANNEL;
+    static const antlr_int32_t HIDDEN;
+    static const antlr_int32_t MIN_CHAR_VALUE;
+    static const antlr_int32_t MAX_CHAR_VALUE;
     
 };
 

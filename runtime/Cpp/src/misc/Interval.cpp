@@ -43,130 +43,130 @@ namespace misc {
 const Interval Interval::INVALID = Interval(-1, -2);
 
 Interval::Interval(antlr_int32_t a, antlr_int32_t b)
-	: a(a),
-	  b(b)
+    : a(a),
+      b(b)
 {
 }
 
 Interval::Interval(const Interval& other)
-	: a(other.a),
-	  b(other.b)
+    : a(other.a),
+      b(other.b)
 {
 }
 
 /** Interval objects are used readonly so share all with the
-	*  same single value a==b up to some max size.  Use an array as a perfect hash.
-	*  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
-	*  Interval object with a..a in it.  On Java.g4, 218623 IntervalSets
-	*  have a..a (set with 1 element).
-	*/
+    *  same single value a==b up to some max size.  Use an array as a perfect hash.
+    *  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
+    *  Interval object with a..a in it.  On Java.g4, 218623 IntervalSets
+    *  have a..a (set with 1 element).
+    */
 Interval Interval::of(antlr_int32_t a, antlr_int32_t b)
 {
-	return Interval(a, b);
+    return Interval(a, b);
 }
 
 /** return number of elements between a and b inclusively. x..x is length 1.
-	*  if b < a, then length is 0.  9..10 has length 2.
-	*/
+    *  if b < a, then length is 0.  9..10 has length 2.
+    */
 antlr_int32_t Interval::length() const
 {
-	if ( b<a ) return 0;
-	return b-a+1;
+    if ( b<a ) return 0;
+    return b-a+1;
 }
 
 bool Interval::operator==(const Interval& other) const
 {
-	return this->a==other.a && this->b==other.b;
+    return this->a==other.a && this->b==other.b;
 }
 
 /** Does this start completely before other? Disjoint */
 bool Interval::startsBeforeDisjoint(const Interval& other) const
 {
-	return this->a<other.a && this->b<other.a;
+    return this->a<other.a && this->b<other.a;
 }
 
 /** Does this start at or before other? Nondisjoint */
 bool Interval::startsBeforeNonDisjoint(const Interval& other) const
 {
-	return this->a<=other.a && this->b>=other.a;
+    return this->a<=other.a && this->b>=other.a;
 }
 
 /** Does this->a start after other.b? May or may not be disjoint */
 bool Interval::startsAfter(const Interval& other) const
 {
-	return this->a>other.a;
+    return this->a>other.a;
 }
 
 /** Does this start completely after other? Disjoint */
 bool Interval::startsAfterDisjoint(const Interval& other) const
 {
-	return this->a>other.b;
+    return this->a>other.b;
 }
 
 /** Does this start after other? NonDisjoint */
 bool Interval::startsAfterNonDisjoint(const Interval& other) const
 {
-	return this->a>other.a && this->a<=other.b; // this->b>=other.b implied
+    return this->a>other.a && this->a<=other.b; // this->b>=other.b implied
 }
 
 /** Are both ranges disjoint? I.e., no overlap? */
 bool Interval::disjoint(const Interval& other) const
 {
-	return startsBeforeDisjoint(other) || startsAfterDisjoint(other);
+    return startsBeforeDisjoint(other) || startsAfterDisjoint(other);
 }
 
 /** Are two intervals adjacent such as 0..41 and 42..42? */
 bool Interval::adjacent(const Interval& other) const
 {
-	return this->a == other.b+1 || this->b == other.a-1;
+    return this->a == other.b+1 || this->b == other.a-1;
 }
 
 bool Interval::properlyContains(const Interval& other) const
 {
-	return other.a >= this->a && other.b <= this->b;
+    return other.a >= this->a && other.b <= this->b;
 }
 
 /** Return the interval computed from combining this and other */
 Interval Interval::union_(const Interval& other) const
 {
-	return Interval::of(std::min(a, other.a), std::max(b, other.b));
+    return Interval::of(std::min(a, other.a), std::max(b, other.b));
 }
 
 /** Return the interval in common between this and o */
 Interval Interval::intersection(const Interval& other) const
 {
-	return Interval::of(std::max(a, other.a), std::min(b, other.b));
+    return Interval::of(std::max(a, other.a), std::min(b, other.b));
 }
 
 /** Return the interval with elements from this not in other;
-	*  other must not be totally enclosed (properly contained)
-	*  within this, which would result in two disjoint intervals
-	*  instead of the single one returned by this method.
-	*/
+    *  other must not be totally enclosed (properly contained)
+    *  within this, which would result in two disjoint intervals
+    *  instead of the single one returned by this method.
+    */
 Interval Interval::differenceNotProperlyContained(const Interval& other) const
 {
-	// other.a to left of this->a (or same)
-	antlr_int32_t val1 = INVALID.a;
-	antlr_int32_t val2 = INVALID.b;
+    // other.a to left of this->a (or same)
+    antlr_int32_t val1 = INVALID.a;
+    antlr_int32_t val2 = INVALID.b;
 
-	if ( other.startsBeforeNonDisjoint(*this) ) {
-		val1 = std::max(this->a, other.b + 1);
-		val2 = this->b;
-	}
+    if ( other.startsBeforeNonDisjoint(*this) ) {
+        val1 = std::max(this->a, other.b + 1);
+        val2 = this->b;
+    }
 
-	// other.a to right of this->a
-	else if ( other.startsAfterNonDisjoint(*this) ) {
-		val1 = this->a;
-		val2 = other.a - 1;
-	}
-	return Interval(val1, val2);
+    // other.a to right of this->a
+    else if ( other.startsAfterNonDisjoint(*this) ) {
+        val1 = this->a;
+        val2 = other.a - 1;
+    }
+    return Interval(val1, val2);
 }
 
 std::string Interval::toString() const
 {
-	std::stringstream stream;
-	stream << a << ".." << b;
-	return stream.str();
+    std::stringstream stream;
+    stream << a << ".." << b;
+    return stream.str();
 }
 
 } /* namespace misc */

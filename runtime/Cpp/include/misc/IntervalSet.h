@@ -190,7 +190,7 @@ public:
      */
     antlr_int32_t get(antlr_uint32_t i) const;
 
-	std::vector<antlr_int32_t> toArray();
+    std::vector<antlr_int32_t> toArray();
     
     ANTLR_OVERRIDE
     void remove(antlr_int32_t el);

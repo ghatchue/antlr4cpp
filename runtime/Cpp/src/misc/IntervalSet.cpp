@@ -208,7 +208,7 @@ IntervalSet* IntervalSet::addAll(const IntSet* set)
 
 IntervalSet* IntervalSet::complement(antlr_int32_t minElement, antlr_int32_t maxElement) const
 {
-	return NULL;
+    return NULL;
 }
 
 /** Given the set of possible values (rather than, say UNICODE or MAXINT),
@@ -219,7 +219,7 @@ IntervalSet* IntervalSet::complement(antlr_int32_t minElement, antlr_int32_t max
     */
 IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
 {
-	return NULL;
+    return NULL;
 }
 
 /** Compute this-other via this&~other.
@@ -229,12 +229,12 @@ IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
     */
 IntervalSet* IntervalSet::subtract(const IntSet* other) const
 {
-	return NULL;
+    return NULL;
 }
 
 IntervalSet* IntervalSet::or_(const IntSet* a) const
 {
-	return NULL;
+    return NULL;
 }
 
 /** Return a new set with the intersection of this set with other.  Because
@@ -244,47 +244,47 @@ IntervalSet* IntervalSet::or_(const IntSet* a) const
     */
 IntervalSet* IntervalSet::and_(const IntSet* other) const
 {
-	return NULL;
+    return NULL;
 }
 
 /** Is el in any range of this set? */
 bool IntervalSet::contains(antlr_int32_t el) const
 {
-	return false;
+    return false;
 }
 
 /** return true if this set has no members */
 bool IntervalSet::isNil() const
 {
-	return false;
+    return false;
 }
 
 /** If this set is a single integer, return it otherwise Token.INVALID_TYPE */
 antlr_int32_t IntervalSet::getSingleElement() const
 {
-	return -1;
+    return -1;
 }
 
 antlr_int32_t IntervalSet::getMaxElement() const
 {
-	return -1;
+    return -1;
 }
 
 /** Return minimum element >= 0 */
 antlr_int32_t IntervalSet::getMinElement() const
 {
-	return -1;
+    return -1;
 }
 
 /** Return a list of Interval objects. */
 const std::vector<Interval>& IntervalSet::getIntervals() const
 {
-	return intervals;
+    return intervals;
 }
 
 antlr_int32_t IntervalSet::hashCode() const
 {
-	return -1;
+    return -1;
 }
 
 /** Are two IntervalSets equal?  Because all intervals are sorted
@@ -294,42 +294,42 @@ antlr_int32_t IntervalSet::hashCode() const
     */
 bool IntervalSet::operator==(const IntSet& other) const
 {
-	return false;
+    return false;
 }
 
 std::string IntervalSet::toString() const
 {
-	return std::string();
+    return std::string();
 }
 
 std::string IntervalSet::toString(bool elemAreChar) const
 {
-	return std::string();
+    return std::string();
 }
 
 std::string IntervalSet::toString(const std::vector<std::string>& tokenNames) const
 {
-	return std::string();
+    return std::string();
 }
 
 std::string IntervalSet::elementName(const std::vector<std::string>& tokenNames, antlr_uint32_t a) const
 {
-	return std::string();
+    return std::string();
 }
 
 antlr_uint32_t IntervalSet::size() const
 {
-	return 0;
+    return 0;
 }
 
 std::list<antlr_int32_t> IntervalSet::toList() const
 {
-	return std::list<antlr_int32_t>();
+    return std::list<antlr_int32_t>();
 }
 
 std::set<antlr_int32_t> IntervalSet::toSet() const
 {
-	return std::set<antlr_int32_t>();
+    return std::set<antlr_int32_t>();
 }
 
 /** Get the ith element of ordered set.  Used only by RandomPhrase so
@@ -338,12 +338,12 @@ std::set<antlr_int32_t> IntervalSet::toSet() const
     */
 antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
 {
-	return -1;
+    return -1;
 }
 
 std::vector<antlr_int32_t> IntervalSet::toArray()
 {
-	return std::vector<antlr_int32_t>();
+    return std::vector<antlr_int32_t>();
 }
     
 void IntervalSet::remove(antlr_int32_t el)
@@ -352,12 +352,12 @@ void IntervalSet::remove(antlr_int32_t el)
 
 bool IntervalSet::isReadonly() const
 {
-	return readonly;
+    return readonly;
 }
 
 void IntervalSet::setReadonly(bool readonly)
 {
-	this->readonly = readonly;
+    this->readonly = readonly;
 }
 
 } /* namespace misc */
