@@ -64,8 +64,7 @@ std::string Utils::stringValueOf(const std::list<T>& list)
 {
     std::stringstream stream;
     stream << "[";
-    for (typename std::list<T>::const_iterator it = list.begin();
-        it != list.end(); )
+    for (typename std::list<T>::const_iterator it = list.begin(); it != list.end();)
     {
         stream << *it;
         if (++it != list.end())

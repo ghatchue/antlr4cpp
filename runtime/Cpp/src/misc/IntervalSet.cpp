@@ -34,7 +34,11 @@
  */
 
 #include <misc/IntervalSet.h>
+#include <misc/MurmurHash.h>
 #include <Lexer.h>
+#include <Token.h>
+#include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <typeinfo>
 
@@ -108,8 +112,8 @@ void IntervalSet::clear()
 }
 
 /** Add a single element to the set.  An isolated element is stored
-    *  as a range el..el.
-    */
+ *  as a range el..el.
+ */
 void IntervalSet::add(antlr_int32_t el)
 {
     if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
@@ -117,12 +121,12 @@ void IntervalSet::add(antlr_int32_t el)
 }
 
 /** Add interval; i.e., add all integers from a to b to set.
-    *  If b<a, do nothing.
-    *  Keep list in sorted order (by left range value).
-    *  If overlap, combine ranges.  For example,
-    *  If this is {1..5, 10..20}, adding 6..7 yields
-    *  {1..5, 6..7, 10..20}.  Adding 4..8 yields {1..8, 10..20}.
-    */
+ *  If b<a, do nothing.
+ *  Keep list in sorted order (by left range value).
+ *  If overlap, combine ranges.  For example,
+ *  If this is {1..5, 10..20}, adding 6..7 yields
+ *  {1..5, 6..7, 10..20}.  Adding 4..8 yields {1..8, 10..20}.
+ */
 void IntervalSet::add(antlr_int32_t a, antlr_int32_t b)
 {
     add(Interval::of(a, b));
@@ -138,7 +142,7 @@ void IntervalSet::add(const Interval& addition)
     }
     // find position in list
     // Use iterators as we modify list in place
-    for (std::vector<Interval>::iterator iter = intervals.begin(); iter != intervals.end();) {
+    for (std::vector<Interval>::iterator iter = intervals.begin(); iter != intervals.end(); iter++) {
         const Interval& r = *iter;
         if ( addition == r ) {
             return;
@@ -146,11 +150,11 @@ void IntervalSet::add(const Interval& addition)
         if ( addition.adjacent(r) || !addition.disjoint(r) ) {
             // next to each other, make a single larger interval
             Interval bigger = addition.union_(r);
-            *iter = bigger;
+         *iter = bigger;
             // make sure we didn't just create an interval that
             // should be merged with next interval in list
-            while ( iter != intervals.end() ) {
-                const Interval& next = *(++iter);
+            while ( (iter+1) != intervals.end() ) {
+                Interval next = *(++iter);
                 if ( !bigger.adjacent(next) && bigger.disjoint(next) ) {
                     break;
                 }
@@ -158,14 +162,12 @@ void IntervalSet::add(const Interval& addition)
                 // if we bump up against or overlap next, merge
                 iter = intervals.erase(iter);   // remove this one
                 iter--; // move backwards to what we just set
-                *iter = bigger.union_(next); // set to 3 merged ones
-                iter++; // first call to next after previous duplicates the result
+             *iter = bigger.union_(next); // set to 3 merged ones
             }
             return;
         }
         if ( addition.startsBeforeDisjoint(r) ) {
             // insert before r
-            iter--;
             intervals.insert(iter, addition);
             return;
         }
@@ -208,72 +210,231 @@ IntervalSet* IntervalSet::addAll(const IntSet* set)
 
 IntervalSet* IntervalSet::complement(antlr_int32_t minElement, antlr_int32_t maxElement) const
 {
-    return NULL;
+    IntervalSet s = IntervalSet::of(minElement,maxElement);
+    return this->complement(&s);
 }
 
 /** Given the set of possible values (rather than, say UNICODE or MAXINT),
-    *  return a new set containing all elements in vocabulary, but not in
-    *  this.  The computation is (vocabulary - this).
-    *
-    *  'this' is assumed to be either a subset or equal to vocabulary.
-    */
+ *  return a new set containing all elements in vocabulary, but not in
+ *  this.  The computation is (vocabulary - this).
+ *
+ *  'this' is assumed to be either a subset or equal to vocabulary.
+ */
 IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
 {
-    return NULL;
+    if ( vocabulary==NULL ) {
+        return NULL; // nothing in common with null set
+    }
+    const IntervalSet* vocabularyIS = dynamic_cast<const IntervalSet*>(vocabulary);
+    if ( !(vocabularyIS) ) {
+        throw std::invalid_argument(std::string(
+            "can't complement with non IntervalSet (")+
+            typeid(*vocabulary).name()+")");
+    }
+    antlr_int32_t maxElement = vocabularyIS->getMaxElement();
+
+    antlr_auto_ptr<IntervalSet> comp(new IntervalSet());
+    antlr_uint32_t n = intervals.size();
+    if ( n ==0 ) {
+        return comp.release();
+    }
+    const Interval& first = intervals.at(0);
+    // add a range from 0 to first.a constrained to vocab
+    if ( first.a > 0 ) {
+        IntervalSet s = IntervalSet::of(0, first.a-1);
+        antlr_auto_ptr<IntervalSet> a(s.and_(vocabularyIS));
+        comp->addAll(a.get());
+    }
+    for (antlr_uint32_t i=1; i<n; i++) { // from 2nd interval .. nth
+        const Interval& previous = intervals.at(i-1);
+        const Interval& current = intervals.at(i);
+        IntervalSet s = IntervalSet::of(previous.b+1, current.a-1);
+        antlr_auto_ptr<IntervalSet> a(s.and_(vocabularyIS));
+        comp->addAll(a.get());
+    }
+    const Interval& last = intervals.at(n -1);
+    // add a range from last.b to maxElement constrained to vocab
+    if ( last.b < maxElement ) {
+        IntervalSet s = IntervalSet::of(last.b+1, maxElement);
+        antlr_auto_ptr<IntervalSet> a(s.and_(vocabularyIS));
+        comp->addAll(a.get());
+    }
+    return comp.release();
 }
 
 /** Compute this-other via this&~other.
-    *  Return a new set containing all elements in this but not in other.
-    *  other is assumed to be a subset of this;
-    *  anything that is in other but not in this will be ignored.
-    */
+ *  Return a new set containing all elements in this but not in other.
+ *  other is assumed to be a subset of this;
+ *  anything that is in other but not in this will be ignored.
+ */
 IntervalSet* IntervalSet::subtract(const IntSet* other) const
 {
-    return NULL;
+    // assume the whole unicode range here for the complement
+    // because it doesn't matter.  Anything beyond the max of this' set
+    // will be ignored since we are doing this & ~other.  The intersection
+    // will be empty.  The only problem would be when this' set max value
+    // goes beyond MAX_CHAR_VALUE, but hopefully the constant MAX_CHAR_VALUE
+    // will prevent this.
+    antlr_auto_ptr<IntervalSet> comp(
+        dynamic_cast<const IntervalSet*>(other)->complement(&COMPLETE_CHAR_SET));
+    return this->and_(comp.get());
 }
 
 IntervalSet* IntervalSet::or_(const IntSet* a) const
 {
-    return NULL;
+    antlr_auto_ptr<IntervalSet> o(new IntervalSet());
+    o->addAll(this);
+    o->addAll(a);
+    return o.release();
 }
 
 /** Return a new set with the intersection of this set with other.  Because
-    *  the intervals are sorted, we can use an iterator for each list and
-    *  just walk them together.  This is roughly O(min(n,m)) for interval
-    *  list lengths n and m.
-    */
+ *  the intervals are sorted, we can use an iterator for each list and
+ *  just walk them together.  This is roughly O(min(n,m)) for interval
+ *  list lengths n and m.
+ */
 IntervalSet* IntervalSet::and_(const IntSet* other) const
 {
-    return NULL;
+    if ( other==NULL ) { //|| !(other instanceof IntervalSet) ) {
+        return NULL; // nothing in common with null set
+    }
+
+	const std::vector<Interval>& myIntervals = this->intervals;
+	const std::vector<Interval>& theirIntervals = dynamic_cast<const IntervalSet*>(other)->intervals;
+    antlr_auto_ptr<IntervalSet> intersection;
+    antlr_uint32_t mySize = myIntervals.size();
+    antlr_uint32_t theirSize = theirIntervals.size();
+    antlr_uint32_t i = 0;
+    antlr_uint32_t j = 0;
+    // iterate down both interval lists looking for nondisjoint intervals
+    while ( i<mySize && j<theirSize ) {
+        const Interval& mine = myIntervals.at(i);
+        const Interval& theirs = theirIntervals.at(j);
+        //System.out.println("mine="+mine+" and theirs="+theirs);
+        if ( mine.startsBeforeDisjoint(theirs) ) {
+            // move this iterator looking for interval that might overlap
+            i++;
+        }
+        else if ( theirs.startsBeforeDisjoint(mine) ) {
+            // move other iterator looking for interval that might overlap
+            j++;
+        }
+        else if ( mine.properlyContains(theirs) ) {
+            // overlap, add intersection, get next theirs
+            if ( intersection.get()==NULL ) {
+                intersection.reset(new IntervalSet());
+            }
+            intersection->add(mine.intersection(theirs));
+            j++;
+        }
+        else if ( theirs.properlyContains(mine) ) {
+            // overlap, add intersection, get next mine
+            if ( intersection.get()==NULL) {
+                intersection.reset(new IntervalSet());
+            }
+            intersection->add(mine.intersection(theirs));
+            i++;
+        }
+        else if ( !mine.disjoint(theirs) ) {
+            // overlap, add intersection
+            if ( intersection.get()==NULL ) {
+                intersection.reset(new IntervalSet());
+            }
+            intersection->add(mine.intersection(theirs));
+            // Move the iterator of lower range [a..b], but not
+            // the upper range as it may contain elements that will collide
+            // with the next iterator. So, if mine=[0..115] and
+            // theirs=[115..200], then intersection is 115 and move mine
+            // but not theirs as theirs may collide with the next range
+            // in thisIter.
+            // move both iterators to next ranges
+            if ( mine.startsAfterNonDisjoint(theirs) ) {
+                j++;
+            }
+            else if ( theirs.startsAfterNonDisjoint(mine) ) {
+                i++;
+            }
+        }
+    }
+    if ( intersection.get()==NULL) {
+        return new IntervalSet();
+    }
+    return intersection.release();
 }
 
 /** Is el in any range of this set? */
 bool IntervalSet::contains(antlr_int32_t el) const
 {
+	antlr_uint32_t n = intervals.size();
+	for (antlr_uint32_t i = 0; i < n; i++) {
+		const Interval& I = intervals.at(i);
+		int a = I.a;
+		int b = I.b;
+		if ( el<a ) {
+			break; // list is sorted and el is before this interval; not here
+		}
+		if ( el>=a && el<=b ) {
+			return true; // found in this interval
+		}
+	}
+	return false;
+	/*
+	for (ListIterator iter = intervals.listIterator(); iter.hasNext();) {
+        Interval I = (Interval) iter.next();
+        if ( el<I.a ) {
+            break; // list is sorted and el is before this interval; not here
+        }
+        if ( el>=I.a && el<=I.b ) {
+            return true; // found in this interval
+        }
+    }
     return false;
+    */
 }
 
 /** return true if this set has no members */
 bool IntervalSet::isNil() const
 {
-    return false;
+    return intervals.empty();
 }
 
 /** If this set is a single integer, return it otherwise Token.INVALID_TYPE */
 antlr_int32_t IntervalSet::getSingleElement() const
 {
-    return -1;
+    if ( intervals.size()==1 ) {
+        const Interval& I = intervals.at(0);
+        if ( I.a == I.b ) {
+            return I.a;
+        }
+    }
+    return Token::INVALID_TYPE;
 }
 
 antlr_int32_t IntervalSet::getMaxElement() const
 {
-    return -1;
+	if ( isNil() ) {
+		return Token::INVALID_TYPE;
+	}
+	const Interval& last = intervals.at(intervals.size()-1);
+	return last.b;
 }
 
 /** Return minimum element >= 0 */
 antlr_int32_t IntervalSet::getMinElement() const
 {
-    return -1;
+	if ( isNil() ) {
+		return Token::INVALID_TYPE;
+	}
+	antlr_uint32_t n = intervals.size();
+	for (antlr_uint32_t i = 0; i < n; i++) {
+		const Interval& I = intervals.at(i);
+		int a = I.a;
+		int b = I.b;
+		for (int v=a; v<=b; v++) {
+			if ( v>=0 ) return v;
+		}
+	}
+	return Token::INVALID_TYPE;
 }
 
 /** Return a list of Interval objects. */
@@ -284,61 +445,176 @@ const std::vector<Interval>& IntervalSet::getIntervals() const
 
 antlr_int32_t IntervalSet::hashCode() const
 {
-    return -1;
+	MurmurHash murmur;
+	int hash = murmur.initialize();
+	for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
+		const Interval& I = *it;
+		hash = murmur.update(hash, I.a);
+		hash = murmur.update(hash, I.b);
+	}
+
+	hash = murmur.finish(hash, intervals.size() * 2);
+	return hash;
 }
 
 /** Are two IntervalSets equal?  Because all intervals are sorted
-    *  and disjoint, equals is a simple linear walk over both lists
-    *  to make sure they are the same.  Interval.equals() is used
-    *  by the List.equals() method to check the ranges.
-    */
+ *  and disjoint, equals is a simple linear walk over both lists
+ *  to make sure they are the same.  Interval.equals() is used
+ *  by the List.equals() method to check the ranges.
+ */
 bool IntervalSet::operator==(const IntSet& other) const
 {
-    return false;
+    const IntervalSet* otherI = dynamic_cast<const IntervalSet*>(&other);
+	antlr_uint32_t n = intervals.size();
+	if ( !otherI || n != otherI->intervals.size() ) {
+        return false;
+    }
+	for (antlr_uint32_t i = 0; i < n; i++)
+		if ( !(intervals.at(i) == otherI->intervals.at(i)) )
+			return false;
+	return true;
 }
 
 std::string IntervalSet::toString() const
 {
-    return std::string();
+    return toString(false);
 }
 
 std::string IntervalSet::toString(bool elemAreChar) const
 {
-    return std::string();
+    std::stringstream stream;
+    if ( this->intervals.empty() ) {
+        return "{}";
+    }
+    if ( this->size()>1 ) {
+        stream << "{";
+    }
+    for (std::vector<Interval>::const_iterator iter = intervals.begin(); iter < intervals.end(); iter++) {
+        const Interval& I = *iter;
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        if ( a==b ) {
+            if ( a==-1 ) stream << "<EOF>";
+            else if ( elemAreChar ) stream << "'" << (char)a << "'";
+            else stream << a;
+        }
+        else {
+            if ( elemAreChar ) stream << "'" << (char)a << "'..'" << (char)b << "'";
+            else stream << a << ".." << b;
+        }
+        if ( (iter+1) != intervals.end() ) {
+            stream << ", ";
+        }
+    }
+    if ( this->size()>1 ) {
+        stream << "}";
+    }
+    return stream.str();
 }
 
 std::string IntervalSet::toString(const std::vector<std::string>& tokenNames) const
 {
-    return std::string();
+    std::stringstream stream;
+    if ( this->intervals.empty() ) {
+        return "{}";
+    }
+    if ( this->size()>1 ) {
+        stream << "{";
+    }
+    for (std::vector<Interval>::const_iterator iter = intervals.begin(); iter < intervals.end(); iter++) {
+        const Interval& I = *iter;
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        if ( a==b ) {
+            stream << elementName(tokenNames, a);
+        }
+        else {
+            for (antlr_int32_t i=a; i<=b; i++) {
+                if ( i>a ) stream << ", ";
+                stream << elementName(tokenNames, i);
+            }
+        }
+        if ( (iter+1) != intervals.end() ) {
+            stream << ", ";
+        }
+    }
+    if ( this->size()>1 ) {
+        stream << "}";
+    }
+    return stream.str();
 }
 
 std::string IntervalSet::elementName(const std::vector<std::string>& tokenNames, antlr_uint32_t a) const
 {
-    return std::string();
+    if ( a==(antlr_uint32_t)Token::EOF_ ) return "<EOF>";
+    else if ( a==(antlr_uint32_t)Token::EPSILON ) return "<EPSILON>";
+    else return tokenNames[a];
 }
 
 antlr_uint32_t IntervalSet::size() const
 {
-    return 0;
+    antlr_uint32_t n = 0;
+    antlr_uint32_t numIntervals = intervals.size();
+    if ( numIntervals==1 ) {
+        const Interval& firstInterval = this->intervals.at(0);
+        return firstInterval.b-firstInterval.a+1;
+    }
+    for (antlr_uint32_t i = 0; i < numIntervals; i++) {
+        Interval I = intervals.at(i);
+        n += (I.b-I.a+1);
+    }
+    return n;
 }
 
 std::list<antlr_int32_t> IntervalSet::toList() const
 {
-    return std::list<antlr_int32_t>();
+	std::list<antlr_int32_t> values;
+	antlr_uint32_t n = intervals.size();
+	for (antlr_uint32_t i = 0; i < n; i++) {
+		const Interval& I = intervals.at(i);
+		antlr_int32_t a = I.a;
+		antlr_int32_t b = I.b;
+		for (antlr_int32_t v=a; v<=b; v++) {
+			values.push_back(v);
+		}
+	}
+	return values;
 }
 
 std::set<antlr_int32_t> IntervalSet::toSet() const
 {
-    return std::set<antlr_int32_t>();
+	std::set<antlr_int32_t> s;
+	for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
+		const Interval& I = *it;
+		antlr_int32_t a = I.a;
+		antlr_int32_t b = I.b;
+		for (antlr_int32_t v=a; v<=b; v++) {
+			s.insert(v);
+		}
+	}
+	return s;
 }
 
 /** Get the ith element of ordered set.  Used only by RandomPhrase so
-    *  don't bother to implement if you're not doing that for a new
-    *  ANTLR code gen target.
-    */
+ *  don't bother to implement if you're not doing that for a new
+ *  ANTLR code gen target.
+ */
 antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
 {
-    return -1;
+	antlr_uint32_t n = intervals.size();
+	antlr_uint32_t index = 0;
+	for (antlr_uint32_t j = 0; j < n; j++) {
+		const Interval& I = intervals.at(j);
+		antlr_int32_t a = I.a;
+		antlr_int32_t b = I.b;
+		for (antlr_int32_t v=a; v<=b; v++) {
+			if ( index==i ) {
+				return v;
+			}
+			index++;
+		}
+	}
+	return -1;
 }
 
 std::vector<antlr_int32_t> IntervalSet::toArray()
@@ -348,6 +624,37 @@ std::vector<antlr_int32_t> IntervalSet::toArray()
     
 void IntervalSet::remove(antlr_int32_t el)
 {
+	if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
+    antlr_uint32_t n = intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        Interval I = intervals.at(i);
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        if ( el<a ) {
+            break; // list is sorted and el is before this interval; not here
+        }
+        // if whole interval x..x, rm
+        if ( el==a && el==b ) {
+            intervals.erase(intervals.begin()+i);
+            break;
+        }
+        // if on left edge x..b, adjust left
+        if ( el==a ) {
+            I.a++;
+            break;
+        }
+        // if on right edge a..x, adjust right
+        if ( el==b ) {
+            I.b--;
+            break;
+        }
+        // if in middle a..x..b, split interval
+        if ( el>a && el<b ) { // found in this interval
+            antlr_int32_t oldb = I.b;
+            I.b = el-1;      // [a..x-1]
+            add(el+1, oldb); // add [x+1..b]
+        }
+    }
 }
 
 bool IntervalSet::isReadonly() const

@@ -48,7 +48,7 @@ class CharStream;
  *  (so we can ignore tabs), token channel, index, and source from which
  *  we obtained this token.
  */
-class Token
+class ANTLR_API Token
 {
 public:
     

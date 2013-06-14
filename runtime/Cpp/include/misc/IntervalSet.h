@@ -60,7 +60,7 @@ namespace misc {
  *
  *  The ranges are ordered and disjoint so that 2..6 appears before 101..103.
  */
-class IntervalSet : public IntSet
+class ANTLR_API IntervalSet : public IntSet
 {
 public:
 

@@ -58,7 +58,7 @@ namespace antlr4 {
  *   <li>{@link #size}</li>
  * </ul>
  */
-class IntStream
+class ANTLR_API IntStream
 {
 public:
     

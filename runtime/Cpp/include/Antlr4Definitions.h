@@ -77,5 +77,11 @@
 #define ANTLR_OVERRIDE
 #define ANTLR_NOTNULL
 
+/* Auto ptr */
+#ifdef HAVE_CXX11
+#   define antlr_auto_ptr std::unique_ptr
+#else
+#   define antlr_auto_ptr std::auto_ptr
+#endif
     
 #endif /* ANTLR4_DEFINITIONS_H */

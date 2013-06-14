@@ -50,7 +50,7 @@ TEST_F(TestIntervalSet, testSingleElement)
 {
     IntervalSet s = IntervalSet::of(99);
     std::string expecting = "99";
-    EXPECT_EQ(s.toString(), expecting);
+    EXPECT_EQ(expecting, s.toString());
 }
 
 TEST_F(TestIntervalSet, testIsolatedElements)
@@ -60,7 +60,7 @@ TEST_F(TestIntervalSet, testIsolatedElements)
     s.add('z');
     s.add(0xFFF0);
     std::string expecting = "{1, 122, 65520}";
-    EXPECT_EQ(s.toString(), expecting);
+    EXPECT_EQ(expecting, s.toString());
 }
 
 TEST_F(TestIntervalSet, testMixedRangesAndElements)
@@ -70,7 +70,7 @@ TEST_F(TestIntervalSet, testMixedRangesAndElements)
     s.add('a','z');
     s.add('0','9');
     std::string expecting = "{1, 48..57, 97..122}";
-    EXPECT_EQ(s.toString(), expecting);
+    EXPECT_EQ(expecting, s.toString());
 }
 
 TEST_F(TestIntervalSet, testSimpleAnd)
@@ -78,7 +78,7 @@ TEST_F(TestIntervalSet, testSimpleAnd)
     IntervalSet s = IntervalSet::of(10,20);
     IntervalSet s2 = IntervalSet::of(13,15);
     std::string expecting = "{13..15}";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -88,7 +88,7 @@ TEST_F(TestIntervalSet, testRangeAndIsolatedElement)
     IntervalSet s = IntervalSet::of('a','z');
     IntervalSet s2 = IntervalSet::of('d');
     std::string expecting = "100";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -98,7 +98,7 @@ TEST_F(TestIntervalSet, testEmptyIntersection)
     IntervalSet s = IntervalSet::of('a','z');
     IntervalSet s2 = IntervalSet::of('0','9');
     std::string expecting = "{}";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -108,7 +108,7 @@ TEST_F(TestIntervalSet, testEmptyIntersectionSingleElements)
     IntervalSet s = IntervalSet::of('a');
     IntervalSet s2 = IntervalSet::of('d');
     std::string expecting = "{}";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -119,7 +119,7 @@ TEST_F(TestIntervalSet, testNotSingleElement)
     vocabulary.add(2000,3000);
     IntervalSet s = IntervalSet::of(50,50);
     std::string expecting = "{1..49, 51..1000, 2000..3000}";
-    std::auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -131,7 +131,7 @@ TEST_F(TestIntervalSet, testNotSet)
     s.add(5);
     s.add(250,300);
     std::string expecting = "{1..4, 6..49, 61..249, 301..1000}";
-    std::auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -141,7 +141,7 @@ TEST_F(TestIntervalSet, testNotEqualSet)
     IntervalSet vocabulary = IntervalSet::of(1,1000);
     IntervalSet s = IntervalSet::of(1,1000);
     std::string expecting = "{}";
-    std::auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -151,7 +151,7 @@ TEST_F(TestIntervalSet, testNotSetEdgeElement)
     IntervalSet vocabulary = IntervalSet::of(1,2);
     IntervalSet s = IntervalSet::of(1);
     std::string expecting = "2";
-    std::auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -166,7 +166,7 @@ TEST_F(TestIntervalSet, testNotSetFragmentedVocabulary)
     s.add(250,300);
     s.add(10000); // this is outside range of vocab and should be ignored
     std::string expecting = "{1..2, 4..49, 61..249, 1000..2000, 9999}";
-    std::auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(&vocabulary));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -176,7 +176,7 @@ TEST_F(TestIntervalSet, testSubtractOfCompletelyContainedRange)
     IntervalSet s = IntervalSet::of(10,20);
     IntervalSet s2 = IntervalSet::of(12,15);
     std::string expecting = "{10..11, 16..20}";
-    std::auto_ptr<IntervalSet> s3(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.subtract(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -186,7 +186,7 @@ TEST_F(TestIntervalSet, testSubtractOfOverlappingRangeFromLeft)
     IntervalSet s = IntervalSet::of(10,20);
     IntervalSet s2 = IntervalSet::of(5,11);
     std::string expecting = "{12..20}";
-    std::auto_ptr<IntervalSet> s4(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s4(s.subtract(&s2));
     std::string result = s4->toString();
     EXPECT_EQ(expecting, result);
 
@@ -202,7 +202,7 @@ TEST_F(TestIntervalSet, testSubtractOfOverlappingRangeFromRight)
     IntervalSet s = IntervalSet::of(10,20);
     IntervalSet s2 = IntervalSet::of(15,25);
     std::string expecting = "{10..14}";
-    std::auto_ptr<IntervalSet> s4(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s4(s.subtract(&s2));
     std::string result = s4->toString();
     EXPECT_EQ(expecting, result);
 
@@ -218,7 +218,7 @@ TEST_F(TestIntervalSet, testSubtractOfCompletelyCoveredRange)
     IntervalSet s = IntervalSet::of(10,20);
     IntervalSet s2 = IntervalSet::of(1,25);
     std::string expecting = "{}";
-    std::auto_ptr<IntervalSet> s3(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.subtract(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -230,7 +230,7 @@ TEST_F(TestIntervalSet, testSubtractOfRangeSpanningMultipleRanges)
     s.add(50,60); // s has 3 ranges now: 10..20, 30..40, 50..60
     IntervalSet s2 = IntervalSet::of(5,55); // covers one and touches 2nd range
     std::string expecting = "{56..60}";
-    std::auto_ptr<IntervalSet> s4(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s4(s.subtract(&s2));
     std::string result = s4->toString();
     EXPECT_EQ(expecting, result);
 
@@ -251,7 +251,7 @@ TEST_F(TestIntervalSet, testSubtractOfWackyRange)
     IntervalSet s2 = IntervalSet::of(0,115);
     s2.add(117,200);
     std::string expecting = "116";
-    std::auto_ptr<IntervalSet> s3(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.subtract(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -263,7 +263,7 @@ TEST_F(TestIntervalSet, testSimpleEquals)
     EXPECT_EQ(s, s2);
 
     IntervalSet s3 = IntervalSet::of(15,55);
-    EXPECT_FALSE(s.operator==(s3));
+    EXPECT_FALSE(s == s3);
 }
 
 TEST_F(TestIntervalSet, testEquals)
@@ -278,7 +278,7 @@ TEST_F(TestIntervalSet, testEquals)
 
     IntervalSet s3 = IntervalSet::of(10,20);
     s3.add(2);
-    EXPECT_FALSE(s.operator==(s3));
+    EXPECT_FALSE(s == s3);
 }
 
 TEST_F(TestIntervalSet, testSingleElementMinusDisjointSet)
@@ -287,7 +287,7 @@ TEST_F(TestIntervalSet, testSingleElementMinusDisjointSet)
     IntervalSet s2 = IntervalSet::of(1,5);
     s2.add(10,20);
     std::string expecting = "{}"; // 15 - {1..5, 10..20} = {}
-    std::auto_ptr<IntervalSet> s3(s.subtract(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.subtract(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -313,7 +313,7 @@ TEST_F(TestIntervalSet, testIntersectionWithTwoContainedElements)
     s2.add(15);
     s2.add(18);
     std::string expecting = "{15, 18}";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -325,7 +325,7 @@ TEST_F(TestIntervalSet, testIntersectionWithTwoContainedElementsReversed)
     s2.add(15);
     s2.add(18);
     std::string expecting = "{15, 18}";
-    std::auto_ptr<IntervalSet> s3(s2.and_(&s));
+    antlr_auto_ptr<IntervalSet> s3(s2.and_(&s));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -336,7 +336,7 @@ TEST_F(TestIntervalSet, testComplement)
     s.add(101,101);
     IntervalSet s2 = IntervalSet::of(100,102);
     std::string expecting = "102";
-    std::auto_ptr<IntervalSet> s3(s.complement(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.complement(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -346,7 +346,7 @@ TEST_F(TestIntervalSet, testComplement2)
     IntervalSet s = IntervalSet::of(100,101);
     IntervalSet s2 = IntervalSet::of(100,102);
     std::string expecting = "102";
-    std::auto_ptr<IntervalSet> s3(s.complement(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.complement(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -356,7 +356,7 @@ TEST_F(TestIntervalSet, testComplement3)
     IntervalSet s = IntervalSet::of(1,96);
     s.add(99, Lexer::MAX_CHAR_VALUE);
     std::string expecting = "{97..98}";
-    std::auto_ptr<IntervalSet> s2(s.complement(1, Lexer::MAX_CHAR_VALUE));
+    antlr_auto_ptr<IntervalSet> s2(s.complement(1, Lexer::MAX_CHAR_VALUE));
     std::string result = s2->toString();
     EXPECT_EQ(expecting, result);
 }
@@ -455,7 +455,7 @@ TEST_F(TestIntervalSet, testNotRIntersectionNotT)
     IntervalSet s2 = IntervalSet::of(0,'q');
     s2.add('s',200);
     std::string expecting = "{0..113, 115, 117..200}";
-    std::auto_ptr<IntervalSet> s3(s.and_(&s2));
+    antlr_auto_ptr<IntervalSet> s3(s.and_(&s2));
     std::string result = s3->toString();
     EXPECT_EQ(expecting, result);
 }

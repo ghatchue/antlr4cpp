@@ -45,8 +45,8 @@ namespace antlr4 {
  *  uses simplified match() and error recovery mechanisms in the interest
  *  of speed.
  */
-class Lexer /* : Recognizer<Integer, LexerATNSimulator>,
-                 TokenSource */
+class ANTLR_API Lexer /* : Recognizer<Integer, LexerATNSimulator>,
+                           TokenSource */
 {
 public:
     

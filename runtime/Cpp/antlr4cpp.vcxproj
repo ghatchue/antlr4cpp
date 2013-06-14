@@ -42,6 +42,7 @@
     <ClInclude Include="include\misc\Interval.h" />
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
+    <ClInclude Include="include\misc\MurmurHash.h" />
     <ClInclude Include="include\misc\Utils.h" />
     <ClInclude Include="include\Token.h" />
   </ItemGroup>
@@ -51,6 +52,7 @@
     <ClCompile Include="src\misc\Interval.cpp" />
     <ClCompile Include="src\misc\IntervalSet.cpp" />
     <ClCompile Include="src\misc\IntSet.cpp" />
+    <ClCompile Include="src\misc\MurmurHash.cpp" />
     <ClCompile Include="src\misc\Utils.cpp" />
     <ClCompile Include="src\Token.cpp" />
   </ItemGroup>

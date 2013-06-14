@@ -55,19 +55,19 @@ Interval::Interval(const Interval& other)
 }
 
 /** Interval objects are used readonly so share all with the
-    *  same single value a==b up to some max size.  Use an array as a perfect hash.
-    *  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
-    *  Interval object with a..a in it.  On Java.g4, 218623 IntervalSets
-    *  have a..a (set with 1 element).
-    */
+ *  same single value a==b up to some max size.  Use an array as a perfect hash.
+ *  Return shared object for 0..INTERVAL_POOL_MAX_VALUE or a new
+ *  Interval object with a..a in it.  On Java.g4, 218623 IntervalSets
+ *  have a..a (set with 1 element).
+ */
 Interval Interval::of(antlr_int32_t a, antlr_int32_t b)
 {
     return Interval(a, b);
 }
 
 /** return number of elements between a and b inclusively. x..x is length 1.
-    *  if b < a, then length is 0.  9..10 has length 2.
-    */
+ *  if b < a, then length is 0.  9..10 has length 2.
+ */
 antlr_int32_t Interval::length() const
 {
     if ( b<a ) return 0;
@@ -139,10 +139,10 @@ Interval Interval::intersection(const Interval& other) const
 }
 
 /** Return the interval with elements from this not in other;
-    *  other must not be totally enclosed (properly contained)
-    *  within this, which would result in two disjoint intervals
-    *  instead of the single one returned by this method.
-    */
+ *  other must not be totally enclosed (properly contained)
+ *  within this, which would result in two disjoint intervals
+ *  instead of the single one returned by this method.
+ */
 Interval Interval::differenceNotProperlyContained(const Interval& other) const
 {
     // other.a to left of this->a (or same)

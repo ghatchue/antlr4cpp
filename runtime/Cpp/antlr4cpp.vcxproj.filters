@@ -48,6 +48,9 @@
     <ClInclude Include="include\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\MurmurHash.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\misc\Interval.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files\misc</Filter>
     </ClCompile>
     <ClCompile Include="src\misc\Utils.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\MurmurHash.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
   </ItemGroup>

@@ -43,7 +43,7 @@ namespace antlr4 {
 namespace misc {
 
 /** An immutable inclusive interval a..b */
-class Interval
+class ANTLR_API Interval
 {
 public:
 
