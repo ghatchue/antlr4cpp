@@ -74,7 +74,7 @@ antlr_int32_t Interval::length() const
 	return b-a+1;
 }
 
-bool Interval::operator==(const Interval& other)
+bool Interval::operator==(const Interval& other) const
 {
 	return this->a==other.a && this->b==other.b;
 }

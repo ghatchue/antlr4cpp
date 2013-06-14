@@ -77,9 +77,11 @@ public:
     IntervalSet(antlr_int32_t e1, antlr_int32_t e2);
 
     /** Create a set with a single element, el. */
+    ANTLR_NOTNULL
     static IntervalSet of(antlr_int32_t a);
 
     /** Create a set with all ints within range [a..b] (inclusive) */
+    ANTLR_NOTNULL
     static IntervalSet of(antlr_int32_t a, antlr_int32_t b);
 
     void clear();
@@ -104,7 +106,7 @@ public:
     static IntervalSet or_(const std::vector<IntervalSet>& sets);
 
     ANTLR_OVERRIDE
-    IntervalSet* addAll(const IntSet& set);
+    IntervalSet* addAll(const IntSet* set);
 
     IntervalSet* complement(antlr_int32_t minElement, antlr_int32_t maxElement) const;
 
@@ -115,7 +117,7 @@ public:
      *  'this' is assumed to be either a subset or equal to vocabulary.
      */
     ANTLR_OVERRIDE
-    IntervalSet* complement(const IntSet& vocabulary) const;
+    IntervalSet* complement(const IntSet* vocabulary) const;
 
     /** Compute this-other via this&~other.
      *  Return a new set containing all elements in this but not in other.
@@ -123,10 +125,10 @@ public:
      *  anything that is in other but not in this will be ignored.
      */
     ANTLR_OVERRIDE
-    IntervalSet* subtract(const IntSet& other) const;
+    IntervalSet* subtract(const IntSet* other) const;
 
     ANTLR_OVERRIDE
-    IntervalSet* or_(const IntSet& a) const;
+    IntervalSet* or_(const IntSet* a) const;
 
     /** Return a new set with the intersection of this set with other.  Because
      *  the intervals are sorted, we can use an iterator for each list and
@@ -134,7 +136,7 @@ public:
      *  list lengths n and m.
      */
     ANTLR_OVERRIDE
-    IntervalSet* and_(const IntSet& other) const;
+    IntervalSet* and_(const IntSet* other) const;
 
     /** Is el in any range of this set? */
     ANTLR_OVERRIDE

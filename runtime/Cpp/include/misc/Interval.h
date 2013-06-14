@@ -64,7 +64,7 @@ public:
 	 */
 	antlr_int32_t length() const;
 
-	bool operator==(const Interval& other);
+	bool operator==(const Interval& other) const;
 
 	/** Does this start completely before other? Disjoint */
 	bool startsBeforeDisjoint(const Interval& other) const;
@@ -108,8 +108,6 @@ public:
 public:
 
 	static const Interval INVALID;
-
-private:
 
 	antlr_int32_t a;
 	antlr_int32_t b;

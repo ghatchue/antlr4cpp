@@ -35,6 +35,8 @@
 
 #include <misc/IntervalSet.h>
 #include <Lexer.h>
+#include <stdexcept>
+#include <typeinfo>
 
 namespace antlr4 {
 namespace misc {
@@ -49,35 +51,36 @@ IntervalSet::IntervalSet(const std::list<Interval> intervals)
 }
 
 IntervalSet::IntervalSet(const IntervalSet& set)
-    : intervals(set.intervals),
+    : IntSet(),
+      intervals(set.intervals),
       readonly(set.readonly)
 {
 }
 
 IntervalSet::IntervalSet(const IntervalSet* set)
-    : intervals(2, Interval::INVALID),
-      readonly(false)
+    : readonly(false)
 {
-    addAll(*set);
+    intervals.reserve(2);
+    addAll(set);
 }
 
 IntervalSet::IntervalSet()
-    : intervals(2, Interval::INVALID),
-      readonly(false)
+    : readonly(false)
 {
+    intervals.reserve(2);
 }
 
 IntervalSet::IntervalSet(antlr_int32_t el)
-    : intervals(1, Interval::INVALID),
-      readonly(false)
+    : readonly(false)
 {
+    intervals.reserve(1);
     add(el);
 }
 
 IntervalSet::IntervalSet(antlr_int32_t e1, antlr_int32_t e2)
-    : intervals(2, Interval::INVALID),
-      readonly(false)
+    : readonly(false)
 {
+    intervals.reserve(2);
     add(e1);
     add(e2);
 }
@@ -100,6 +103,8 @@ IntervalSet IntervalSet::of(antlr_int32_t a, antlr_int32_t b)
 
 void IntervalSet::clear()
 {
+    if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
+    intervals.clear();
 }
 
 /** Add a single element to the set.  An isolated element is stored
@@ -107,6 +112,8 @@ void IntervalSet::clear()
     */
 void IntervalSet::add(antlr_int32_t el)
 {
+    if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
+    add(el,el);
 }
 
 /** Add interval; i.e., add all integers from a to b to set.
@@ -118,22 +125,85 @@ void IntervalSet::add(antlr_int32_t el)
     */
 void IntervalSet::add(antlr_int32_t a, antlr_int32_t b)
 {
+    add(Interval::of(a, b));
 }
 
 // copy on write so we can cache a..a intervals and sets of that
 void IntervalSet::add(const Interval& addition)
 {
+    if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
+    //System.out.println("add "+addition+" to "+intervals.toString());
+    if ( addition.b<addition.a ) {
+        return;
+    }
+    // find position in list
+    // Use iterators as we modify list in place
+    for (std::vector<Interval>::iterator iter = intervals.begin(); iter != intervals.end();) {
+        const Interval& r = *iter;
+        if ( addition == r ) {
+            return;
+        }
+        if ( addition.adjacent(r) || !addition.disjoint(r) ) {
+            // next to each other, make a single larger interval
+            Interval bigger = addition.union_(r);
+            *iter = bigger;
+            // make sure we didn't just create an interval that
+            // should be merged with next interval in list
+            while ( iter != intervals.end() ) {
+                const Interval& next = *(++iter);
+                if ( !bigger.adjacent(next) && bigger.disjoint(next) ) {
+                    break;
+                }
+
+                // if we bump up against or overlap next, merge
+                iter = intervals.erase(iter);   // remove this one
+                iter--; // move backwards to what we just set
+                *iter = bigger.union_(next); // set to 3 merged ones
+                iter++; // first call to next after previous duplicates the result
+            }
+            return;
+        }
+        if ( addition.startsBeforeDisjoint(r) ) {
+            // insert before r
+            iter--;
+            intervals.insert(iter, addition);
+            return;
+        }
+        // if disjoint and after r, a future iteration will handle it
+    }
+    // ok, must be after last interval (and disjoint from last interval)
+    // just add it
+    intervals.push_back(addition);
 }
 
 /** combine all sets in the array returned the or'd value */
 IntervalSet IntervalSet::or_(const std::vector<IntervalSet>& sets)
 {
-	return IntervalSet();
+    IntervalSet r;
+    for (std::vector<IntervalSet>::const_iterator it; it != sets.end(); it++)
+        r.addAll(&(*it));
+    return r;
 }
 
-IntervalSet* IntervalSet::addAll(const IntSet& set)
+IntervalSet* IntervalSet::addAll(const IntSet* set)
 {
-	return NULL;
+    if ( set==NULL ) {
+        return this;
+    }
+    const IntervalSet* other = dynamic_cast<const IntervalSet*>(set);
+    if ( !other ) {
+        throw std::invalid_argument(std::string(
+                "can't add non IntSet (")+
+                typeid(*set).name()+
+                ") to IntervalSet");
+    }
+    // walk set and add each interval
+    antlr_uint32_t n = other->intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        const Interval& I = other->intervals.at(i);
+        this->add(I.a,I.b);
+    }
+    return this;
 }
 
 IntervalSet* IntervalSet::complement(antlr_int32_t minElement, antlr_int32_t maxElement) const
@@ -147,7 +217,7 @@ IntervalSet* IntervalSet::complement(antlr_int32_t minElement, antlr_int32_t max
     *
     *  'this' is assumed to be either a subset or equal to vocabulary.
     */
-IntervalSet* IntervalSet::complement(const IntSet& vocabulary) const
+IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
 {
 	return NULL;
 }
@@ -157,12 +227,12 @@ IntervalSet* IntervalSet::complement(const IntSet& vocabulary) const
     *  other is assumed to be a subset of this;
     *  anything that is in other but not in this will be ignored.
     */
-IntervalSet* IntervalSet::subtract(const IntSet& other) const
+IntervalSet* IntervalSet::subtract(const IntSet* other) const
 {
 	return NULL;
 }
 
-IntervalSet* IntervalSet::or_(const IntSet& a) const
+IntervalSet* IntervalSet::or_(const IntSet* a) const
 {
 	return NULL;
 }
@@ -172,7 +242,7 @@ IntervalSet* IntervalSet::or_(const IntSet& a) const
     *  just walk them together.  This is roughly O(min(n,m)) for interval
     *  list lengths n and m.
     */
-IntervalSet* IntervalSet::and_(const IntSet& other) const
+IntervalSet* IntervalSet::and_(const IntSet* other) const
 {
 	return NULL;
 }
