@@ -150,7 +150,7 @@ void IntervalSet::add(const Interval& addition)
         if ( addition.adjacent(r) || !addition.disjoint(r) ) {
             // next to each other, make a single larger interval
             Interval bigger = addition.union_(r);
-         *iter = bigger;
+            *iter = bigger;
             // make sure we didn't just create an interval that
             // should be merged with next interval in list
             while ( (iter+1) != intervals.end() ) {
@@ -162,7 +162,7 @@ void IntervalSet::add(const Interval& addition)
                 // if we bump up against or overlap next, merge
                 iter = intervals.erase(iter);   // remove this one
                 iter--; // move backwards to what we just set
-             *iter = bigger.union_(next); // set to 3 merged ones
+                *iter = bigger.union_(next); // set to 3 merged ones
             }
             return;
         }
@@ -560,7 +560,7 @@ antlr_uint32_t IntervalSet::size() const
         return firstInterval.b-firstInterval.a+1;
     }
     for (antlr_uint32_t i = 0; i < numIntervals; i++) {
-        Interval I = intervals.at(i);
+        const Interval& I = intervals.at(i);
         n += (I.b-I.a+1);
     }
     return n;
@@ -627,7 +627,7 @@ void IntervalSet::remove(antlr_int32_t el)
 	if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        Interval I = intervals.at(i);
+        Interval& I = intervals.at(i);
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         if ( el<a ) {

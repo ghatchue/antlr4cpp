@@ -94,7 +94,7 @@ TEST_F(TestIntervalSet, testRangeAndIsolatedElement)
 }
 
 TEST_F(TestIntervalSet, testEmptyIntersection)
-{
+{    
     IntervalSet s = IntervalSet::of('a','z');
     IntervalSet s2 = IntervalSet::of('0','9');
     std::string expecting = "{}";
