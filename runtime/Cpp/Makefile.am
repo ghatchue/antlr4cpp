@@ -56,9 +56,9 @@ antlr4cpp_unit_test_sources = \
     test/gmock_main.cc \
     test/BaseTest.h \
     test/BaseTest.cpp \
-    test/TestIntervalSet.cpp \
-    test/TestPair.cpp \
-    test/TestTriple.cpp
+    test/misc/TestIntervalSet.cpp \
+    test/misc/TestPair.cpp \
+    test/misc/TestTriple.cpp
 
 
 ## Main library: libantlr4cpp
