@@ -30,7 +30,8 @@ antlr4cpp_headers = \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
-	include/misc/MurmurHash.h \
+    include/misc/MurmurHash.h \
+    include/misc/Pair.h \
     include/misc/Utils.h
 
 antlr4cpp_sources = \
@@ -41,17 +42,18 @@ antlr4cpp_sources = \
     src/misc/IntervalSet.cpp \
     src/misc/Interval.cpp \
     src/misc/IntSet.cpp \
-	src/misc/MurmurHash.cpp \
-	src/misc/Utils.cpp
+    src/misc/MurmurHash.cpp \
+    src/misc/Utils.cpp
 
 antlr4cpp_unit_test_sources = \
     test/gmock/gmock.h \
     test/gtest/gtest.h \
     test/gmock-gtest-all.cc \
     test/gmock_main.cc \
-	test/BaseTest.h \
-	test/BaseTest.cpp \
-    test/TestIntervalSet.cpp
+    test/BaseTest.h \
+    test/BaseTest.cpp \
+    test/TestIntervalSet.cpp \
+    test/TestPair.cpp
 
 
 ## Main library: libantlr4cpp

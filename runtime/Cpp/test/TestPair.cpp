@@ -33,55 +33,51 @@
  * Gael Hatchue
  */
 
-#ifndef PAIR_H
-#define PAIR_H
+#include <BaseTest.h>
+#include <misc/Pair.h>
+#include <string>
 
-#include <Antlr4Definitions.h>
+using namespace antlr4::misc;
 
-
-namespace antlr4 {
-namespace misc {
-
-template <typename A, typename B>
-class ANTLR_API Pair
+class TestPair : public BaseTest
 {
-public:
-
-    Pair(const A& a, const B& b);
-    
-    template <typename T1, typename T2>
-    Pair(const Pair<T1, T2>& other);
-    
-    bool operator==(const Pair<A, B>& other) const;
-
-public:
-    
-    const A a;
-    const B b;
 };
 
-
-template<typename A, typename B>
-Pair<A, B>::Pair(const A& a, const B& b)
-    : a(a), b(b)
+TEST_F(TestPair, testConstructorInt)
 {
+    Pair<antlr_int32_t, antlr_int32_t> p(5, 15);
+    EXPECT_EQ(5, p.a);
+    EXPECT_EQ(15, p.b);
 }
 
-template<typename A, typename B>
-template<typename T1, typename T2>
-Pair<A, B>::Pair(const Pair<T1, T2>& other)
-    : a(other.a), b(other.b)
+TEST_F(TestPair, testConstructorString)
 {
+    Pair<std::string, std::string> p("one", "two");
+    EXPECT_EQ("one", p.a);
+    EXPECT_EQ("two", p.b);
 }
 
-template<typename A, typename B>
-bool Pair<A, B>::operator==(const Pair<A, B>& other) const
+TEST_F(TestPair, testCopyConstructor)
 {
-    return a==other.a && b==other.b;
+    Pair<antlr_int32_t, antlr_int32_t> p1(10, 30);
+    Pair<antlr_int32_t, antlr_int32_t> p(p1);
+    EXPECT_EQ(10, p.a);
+    EXPECT_EQ(30, p.b);
 }
 
+TEST_F(TestPair, testCopyConstructorDifferentTypes)
+{
+    Pair<antlr_int32_t, antlr_int32_t> p1(10, 30);
+    Pair<antlr_uint32_t, antlr_uint32_t> p(p1);
+    EXPECT_EQ(10u, p.a);
+    EXPECT_EQ(30u, p.b);
+}
 
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef PAIR_H */
+TEST_F(TestPair, testEqualOperator)
+{
+    Pair<std::string, std::string> p1("one", "two");
+    Pair<std::string, std::string> p2("one", "three");
+    Pair<std::string, std::string> p3("one", "two");
+    EXPECT_TRUE(p1==p3);
+    EXPECT_FALSE(p1==p2);
+}
