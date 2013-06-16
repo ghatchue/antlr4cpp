@@ -33,12 +33,47 @@
  * Gael Hatchue
  */
 
-#include <misc/Utils.h>
+#ifndef PAIR_H
+#define PAIR_H
+
+#include <Antlr4Definitions.h>
+
 
 namespace antlr4 {
 namespace misc {
 
+template <typename A, typename B>
+class ANTLR_API Pair
+{
+public:
+
+    Pair(const A& a, const B& b);
+    
+    template <typename T1, typename T2>
+    Pair(const Pair<T1, T2>& other);
+
+public:
+    
+    const A a;
+    const B b;
+};
+
+
+template<typename A, typename B>
+Pair::Pair(const A& a, const B& b)
+    : a(a), b(b)
+{
+}
+
+template<typename T1, typename T2>
+template<typename A, typename B>
+Pair::Pair(const Pair<T1, T2>& other)
+    : a(other.a), b(other.b)
+{
+}
 
 
 } /* namespace misc */
 } /* namespace antlr4 */
+
+#endif /* ifndef PAIR_H */
