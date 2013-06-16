@@ -299,8 +299,8 @@ IntervalSet* IntervalSet::and_(const IntSet* other) const
         return NULL; // nothing in common with null set
     }
 
-	const std::vector<Interval>& myIntervals = this->intervals;
-	const std::vector<Interval>& theirIntervals = dynamic_cast<const IntervalSet*>(other)->intervals;
+    const std::vector<Interval>& myIntervals = this->intervals;
+    const std::vector<Interval>& theirIntervals = dynamic_cast<const IntervalSet*>(other)->intervals;
     antlr_auto_ptr<IntervalSet> intersection;
     antlr_uint32_t mySize = myIntervals.size();
     antlr_uint32_t theirSize = theirIntervals.size();
@@ -365,21 +365,21 @@ IntervalSet* IntervalSet::and_(const IntSet* other) const
 /** Is el in any range of this set? */
 bool IntervalSet::contains(antlr_int32_t el) const
 {
-	antlr_uint32_t n = intervals.size();
-	for (antlr_uint32_t i = 0; i < n; i++) {
-		const Interval& I = intervals.at(i);
-		int a = I.a;
-		int b = I.b;
-		if ( el<a ) {
-			break; // list is sorted and el is before this interval; not here
-		}
-		if ( el>=a && el<=b ) {
-			return true; // found in this interval
-		}
-	}
-	return false;
-	/*
-	for (ListIterator iter = intervals.listIterator(); iter.hasNext();) {
+    antlr_uint32_t n = intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        const Interval& I = intervals.at(i);
+        int a = I.a;
+        int b = I.b;
+        if ( el<a ) {
+            break; // list is sorted and el is before this interval; not here
+        }
+        if ( el>=a && el<=b ) {
+            return true; // found in this interval
+        }
+    }
+    return false;
+    /*
+    for (ListIterator iter = intervals.listIterator(); iter.hasNext();) {
         Interval I = (Interval) iter.next();
         if ( el<I.a ) {
             break; // list is sorted and el is before this interval; not here
@@ -412,29 +412,29 @@ antlr_int32_t IntervalSet::getSingleElement() const
 
 antlr_int32_t IntervalSet::getMaxElement() const
 {
-	if ( isNil() ) {
-		return Token::INVALID_TYPE;
-	}
-	const Interval& last = intervals.at(intervals.size()-1);
-	return last.b;
+    if ( isNil() ) {
+        return Token::INVALID_TYPE;
+    }
+    const Interval& last = intervals.at(intervals.size()-1);
+    return last.b;
 }
 
 /** Return minimum element >= 0 */
 antlr_int32_t IntervalSet::getMinElement() const
 {
-	if ( isNil() ) {
-		return Token::INVALID_TYPE;
-	}
-	antlr_uint32_t n = intervals.size();
-	for (antlr_uint32_t i = 0; i < n; i++) {
-		const Interval& I = intervals.at(i);
-		int a = I.a;
-		int b = I.b;
-		for (int v=a; v<=b; v++) {
-			if ( v>=0 ) return v;
-		}
-	}
-	return Token::INVALID_TYPE;
+    if ( isNil() ) {
+        return Token::INVALID_TYPE;
+    }
+    antlr_uint32_t n = intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        const Interval& I = intervals.at(i);
+        int a = I.a;
+        int b = I.b;
+        for (int v=a; v<=b; v++) {
+            if ( v>=0 ) return v;
+        }
+    }
+    return Token::INVALID_TYPE;
 }
 
 /** Return a list of Interval objects. */
@@ -445,16 +445,15 @@ const std::vector<Interval>& IntervalSet::getIntervals() const
 
 antlr_int32_t IntervalSet::hashCode() const
 {
-	MurmurHash murmur;
-	int hash = murmur.initialize();
-	for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
-		const Interval& I = *it;
-		hash = murmur.update(hash, I.a);
-		hash = murmur.update(hash, I.b);
-	}
+    int hash = MurmurHash::initialize();
+    for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
+        const Interval& I = *it;
+        hash = MurmurHash::update(hash, I.a);
+        hash = MurmurHash::update(hash, I.b);
+    }
 
-	hash = murmur.finish(hash, intervals.size() * 2);
-	return hash;
+    hash = MurmurHash::finish(hash, intervals.size() * 2);
+    return hash;
 }
 
 /** Are two IntervalSets equal?  Because all intervals are sorted
@@ -465,14 +464,14 @@ antlr_int32_t IntervalSet::hashCode() const
 bool IntervalSet::operator==(const IntSet& other) const
 {
     const IntervalSet* otherI = dynamic_cast<const IntervalSet*>(&other);
-	antlr_uint32_t n = intervals.size();
-	if ( !otherI || n != otherI->intervals.size() ) {
+    antlr_uint32_t n = intervals.size();
+    if ( !otherI || n != otherI->intervals.size() ) {
         return false;
     }
-	for (antlr_uint32_t i = 0; i < n; i++)
-		if ( !(intervals.at(i) == otherI->intervals.at(i)) )
-			return false;
-	return true;
+    for (antlr_uint32_t i = 0; i < n; i++)
+        if ( !(intervals.at(i) == otherI->intervals.at(i)) )
+            return false;
+    return true;
 }
 
 std::string IntervalSet::toString() const
@@ -568,31 +567,31 @@ antlr_uint32_t IntervalSet::size() const
 
 std::list<antlr_int32_t> IntervalSet::toList() const
 {
-	std::list<antlr_int32_t> values;
-	antlr_uint32_t n = intervals.size();
-	for (antlr_uint32_t i = 0; i < n; i++) {
-		const Interval& I = intervals.at(i);
-		antlr_int32_t a = I.a;
-		antlr_int32_t b = I.b;
-		for (antlr_int32_t v=a; v<=b; v++) {
-			values.push_back(v);
-		}
-	}
-	return values;
+    std::list<antlr_int32_t> values;
+    antlr_uint32_t n = intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        const Interval& I = intervals.at(i);
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        for (antlr_int32_t v=a; v<=b; v++) {
+            values.push_back(v);
+        }
+    }
+    return values;
 }
 
 std::set<antlr_int32_t> IntervalSet::toSet() const
 {
-	std::set<antlr_int32_t> s;
-	for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
-		const Interval& I = *it;
-		antlr_int32_t a = I.a;
-		antlr_int32_t b = I.b;
-		for (antlr_int32_t v=a; v<=b; v++) {
-			s.insert(v);
-		}
-	}
-	return s;
+    std::set<antlr_int32_t> s;
+    for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
+        const Interval& I = *it;
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        for (antlr_int32_t v=a; v<=b; v++) {
+            s.insert(v);
+        }
+    }
+    return s;
 }
 
 /** Get the ith element of ordered set.  Used only by RandomPhrase so
@@ -601,20 +600,20 @@ std::set<antlr_int32_t> IntervalSet::toSet() const
  */
 antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
 {
-	antlr_uint32_t n = intervals.size();
-	antlr_uint32_t index = 0;
-	for (antlr_uint32_t j = 0; j < n; j++) {
-		const Interval& I = intervals.at(j);
-		antlr_int32_t a = I.a;
-		antlr_int32_t b = I.b;
-		for (antlr_int32_t v=a; v<=b; v++) {
-			if ( index==i ) {
-				return v;
-			}
-			index++;
-		}
-	}
-	return -1;
+    antlr_uint32_t n = intervals.size();
+    antlr_uint32_t index = 0;
+    for (antlr_uint32_t j = 0; j < n; j++) {
+        const Interval& I = intervals.at(j);
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        for (antlr_int32_t v=a; v<=b; v++) {
+            if ( index==i ) {
+                return v;
+            }
+            index++;
+        }
+    }
+    return -1;
 }
 
 std::vector<antlr_int32_t> IntervalSet::toArray()
@@ -624,7 +623,7 @@ std::vector<antlr_int32_t> IntervalSet::toArray()
     
 void IntervalSet::remove(antlr_int32_t el)
 {
-	if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
+    if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
         Interval& I = intervals.at(i);

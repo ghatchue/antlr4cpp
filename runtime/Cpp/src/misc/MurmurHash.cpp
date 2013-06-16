@@ -41,10 +41,6 @@ namespace misc {
 
 const antlr_int32_t MurmurHash::DEFAULT_SEED = 0;
 
-MurmurHash::MurmurHash()
-{
-}
-
 /**
  * Initialize the hash using the default seed value.
  *

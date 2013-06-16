@@ -50,14 +50,12 @@ class ANTLR_API MurmurHash
 {
 public:
 
-    MurmurHash();
-
     /**
      * Initialize the hash using the default seed value.
      *
      * @return the intermediate hash value
      */
-    antlr_int32_t initialize();
+    static antlr_int32_t initialize();
 
     /**
      * Initialize the hash using the specified {@code seed}.
@@ -65,7 +63,7 @@ public:
      * @param seed the seed
      * @return the intermediate hash value
      */
-    antlr_int32_t initialize(antlr_int32_t seed);
+    static antlr_int32_t initialize(antlr_int32_t seed);
 
     /**
      * Update the intermediate hash value for the next input {@code value}.
@@ -74,7 +72,7 @@ public:
      * @param value the value to add to the current hash
      * @return the updated intermediate hash value
      */
-    antlr_int32_t update(antlr_int32_t hash, antlr_int32_t value);
+    static antlr_int32_t update(antlr_int32_t hash, antlr_int32_t value);
 
     /**
      * Apply the final computation steps to the intermediate value {@code hash}
@@ -84,7 +82,7 @@ public:
      * @param numberOfWords the number of integer values added to the hash
      * @return the final hash result
      */
-    antlr_int32_t finish(antlr_int32_t hash, antlr_int32_t numberOfWords);
+    static antlr_int32_t finish(antlr_int32_t hash, antlr_int32_t numberOfWords);
 
     /**
      * Utility function to compute the hash code of an array using the
@@ -96,10 +94,12 @@ public:
      * @return the hash code of the data
      */
     //template <typename T>
-    //antlr_int32_t hashCode(std::vector<T> data, antlr_int32_t seed);
+    //static antlr_int32_t hashCode(std::vector<T> data, antlr_int32_t seed);
 
 private:
 
+    MurmurHash();
+    
     static const antlr_int32_t DEFAULT_SEED;
 };
 
