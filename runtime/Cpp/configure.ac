@@ -21,7 +21,8 @@ AM_INIT_AUTOMAKE([1.10 -Wall])
 
 # use the C++ compiler for the following checks
 AC_LANG([C++])
-AX_CXX_COMPILE_STDCXX_11([noext], [optional])
+AX_CXX_COMPILE_STDCXX_11([ext], [optional])
+AC_CXX_HAVE_HASH_MAP
 
 # Checks for header files.
 AC_HEADER_STDC

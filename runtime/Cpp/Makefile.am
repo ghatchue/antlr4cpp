@@ -30,6 +30,7 @@ antlr4cpp_headers = \
     include/misc/AbstractEqualityComparator.h \
     include/misc/DoubleKeyMap.h \
     include/misc/EqualityComparator.h \
+    include/misc/HashMap.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
@@ -56,6 +57,7 @@ antlr4cpp_unit_test_sources = \
     test/gmock_main.cc \
     test/BaseTest.h \
     test/BaseTest.cpp \
+    test/misc/TestHashMap.cpp \
     test/misc/TestIntervalSet.cpp \
     test/misc/TestPair.cpp \
     test/misc/TestTriple.cpp
