@@ -32,6 +32,7 @@ antlr4cpp_headers = \
     include/misc/IntSet.h \
     include/misc/MurmurHash.h \
     include/misc/Pair.h \
+    include/misc/Triple.h \
     include/misc/Utils.h
 
 antlr4cpp_sources = \
@@ -53,7 +54,8 @@ antlr4cpp_unit_test_sources = \
     test/BaseTest.h \
     test/BaseTest.cpp \
     test/TestIntervalSet.cpp \
-    test/TestPair.cpp
+    test/TestPair.cpp \
+    test/TestTriple.cpp
 
 
 ## Main library: libantlr4cpp
