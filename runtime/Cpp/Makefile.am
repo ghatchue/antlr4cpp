@@ -27,6 +27,9 @@ antlr4cpp_headers = \
     include/IntStream.h \
     include/Lexer.h \
     include/Token.h \
+    include/misc/AbstractEqualityComparator.h \
+    include/misc/DoubleKeyMap.h \
+    include/misc/EqualityComparator.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
