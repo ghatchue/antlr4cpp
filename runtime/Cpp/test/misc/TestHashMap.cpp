@@ -46,54 +46,54 @@ class TestHashMap : public BaseTest
 TEST_F(TestHashMap, testSize)
 {
     HashMap<antlr_int32_t, antlr_int32_t> map;
-	EXPECT_EQ(0, map.size());
-	map.put(1, 1);
-	map.put(2, 2);
-	map.put(3, 3);
-	EXPECT_EQ(3, map.size());
-	map.remove(2);
-	EXPECT_EQ(2, map.size());
+    EXPECT_EQ(0, map.size());
+    map.put(1, 1);
+    map.put(2, 2);
+    map.put(3, 3);
+    EXPECT_EQ(3, map.size());
+    map.remove(2);
+    EXPECT_EQ(2, map.size());
 }
 
 TEST_F(TestHashMap, testContains)
 {
     HashMap<std::string, antlr_int32_t> map;
-	EXPECT_FALSE(map.contains("five"));
-	map.put("five", 5);
-	EXPECT_TRUE(map.contains("five"));
+    EXPECT_FALSE(map.contains("five"));
+    map.put("five", 5);
+    EXPECT_TRUE(map.contains("five"));
 }
 
 TEST_F(TestHashMap, testPut)
 {
     HashMap<antlr_int32_t, std::string> map;
-	map.put(1, "one");
-	map.put(3, "three");
-	EXPECT_EQ("one", *map.get(1));
-	EXPECT_EQ("three", *map.get(3));
-	map.put(1, "two");
-	EXPECT_EQ("two", *map.get(1));
+    map.put(1, "one");
+    map.put(3, "three");
+    EXPECT_EQ("one", *map.get(1));
+    EXPECT_EQ("three", *map.get(3));
+    map.put(1, "two");
+    EXPECT_EQ("two", *map.get(1));
 }
 
 TEST_F(TestHashMap, testRemove)
 {
     HashMap<antlr_int32_t, std::string> map;
-	map.remove(5);
-	map.put(1, "one");
-	EXPECT_EQ("one", *map.get(1));
-	map.remove(1);
-	EXPECT_EQ(NULL, map.get(1));
+    map.remove(5);
+    map.put(1, "one");
+    EXPECT_EQ("one", *map.get(1));
+    map.remove(1);
+    EXPECT_EQ(NULL, map.get(1));
 }
 
 TEST_F(TestHashMap, testGet)
 {
     HashMap<antlr_int32_t, antlr_int32_t> map;
-	EXPECT_EQ(NULL, map.get(1));
-	map.put(1, 10);
-	map.put(2, 20);
-	map.put(3, 30);
-	EXPECT_EQ(10, *map.get(1));
-	EXPECT_EQ(20, *map.get(2));
-	EXPECT_EQ(30, *map.get(3));
+    EXPECT_EQ(NULL, map.get(1));
+    map.put(1, 10);
+    map.put(2, 20);
+    map.put(3, 30);
+    EXPECT_EQ(10, *map.get(1));
+    EXPECT_EQ(20, *map.get(2));
+    EXPECT_EQ(30, *map.get(3));
 }
 
 struct CustomKey1
@@ -107,30 +107,30 @@ struct CustomKey1
 TEST_F(TestHashMap, testCustomKeyType)
 {
     HashMap<CustomKey1, antlr_uint32_t> map;
-	EXPECT_EQ(NULL, map.get(1));
-	map.put(1, 10);
-	map.put(2, 20);
-	map.put(3, 30);
-	map.put(3, 40);
-	EXPECT_EQ(10, *map.get(1));
-	EXPECT_EQ(20, *map.get(2));
-	EXPECT_EQ(40, *map.get(3));
+    EXPECT_EQ(NULL, map.get(1));
+    map.put(1, 10);
+    map.put(2, 20);
+    map.put(3, 30);
+    map.put(3, 40);
+    EXPECT_EQ(10, *map.get(1));
+    EXPECT_EQ(20, *map.get(2));
+    EXPECT_EQ(40, *map.get(3));
 }
 
 //TEST_F(TestHashMap, testCustomKeyTypePointer)
 //{
-//	struct MyKey
-//	{
-//		MyKey(const antlr_uint32_t& a) { }
-//		operator size_t() const { return 0; }	// always returns the same hash
-//		bool operator<(const MyKey*& other) const { return true; }
-//	};
-//	MyKey keys[4] = {0, 1, 2, 3};
+//    struct MyKey
+//    {
+//        MyKey(const antlr_uint32_t& a) { }
+//        operator size_t() const { return 0; }    // always returns the same hash
+//        bool operator<(const MyKey*& other) const { return true; }
+//    };
+//    MyKey keys[4] = {0, 1, 2, 3};
 //    HashMap<MyKey*, antlr_uint32_t> map;
-//	map.put(&keys[0], 10);
-//	map.put(&keys[1], 20);
-//	map.put(&keys[2], 30);
-//	map.put(&keys[2], 40);
-//	EXPECT_EQ(1, map.size());
-//	EXPECT_EQ(40, *map.get(&keys[3]));
+//    map.put(&keys[0], 10);
+//    map.put(&keys[1], 20);
+//    map.put(&keys[2], 30);
+//    map.put(&keys[2], 40);
+//    EXPECT_EQ(1, map.size());
+//    EXPECT_EQ(40, *map.get(&keys[3]));
 //}
