@@ -88,13 +88,14 @@ public:
 template <typename Key, typename T>
 bool HashMap<Key, T>::contains(const Key& key) const
 {
-	return find(key) != end();
+	return find(key) != antlr_hash_map_base<Key, T>::end();
 }
 
 template <typename Key, typename T>
 void HashMap<Key, T>::put(const Key& key, const T& value)
 {
-	std::pair<iterator, bool> result = insert(std::pair<Key, T>(key, value));
+	std::pair<typename antlr_hash_map_base<Key, T>::iterator, bool> result =
+        insert(std::pair<Key, T>(key, value));
 	if (!result.second)
 		result.first->second = value;
 }
@@ -102,15 +103,15 @@ void HashMap<Key, T>::put(const Key& key, const T& value)
 template <typename Key, typename T>
 void HashMap<Key, T>::remove(const Key& key)
 {
-	erase(key);
+	antlr_hash_map_base<Key, T>::erase(key);
 }
 
 template <typename Key, typename T>
 T* HashMap<Key, T>::get(const Key& key)
 {
 	T* value = NULL;
-	iterator it = find(key);
-	if (it != end())
+	typename antlr_hash_map_base<Key, T>::iterator it = find(key);
+	if (it != antlr_hash_map_base<Key, T>::end())
 		value = &it->second;
 	return value;
 }

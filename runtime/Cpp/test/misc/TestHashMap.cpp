@@ -96,16 +96,17 @@ TEST_F(TestHashMap, testGet)
 	EXPECT_EQ(30, *map.get(3));
 }
 
+struct CustomKey1
+{
+    CustomKey1(const antlr_uint32_t& a) : a(a) { }
+    operator size_t() const { return (size_t)a; }
+    bool operator<(const CustomKey1& other) const { return (size_t)*this < (size_t)other; }
+    antlr_uint32_t a;
+};
+
 TEST_F(TestHashMap, testCustomKeyType)
 {
-	struct MyKey
-	{
-		MyKey(const antlr_uint32_t& a) : a(a) { }
-		operator size_t() const { return (size_t)a; }
-		bool operator<(const MyKey& other) const { return (size_t)*this < (size_t)other; }
-		antlr_uint32_t a;
-	};
-    HashMap<MyKey, antlr_uint32_t> map;
+    HashMap<CustomKey1, antlr_uint32_t> map;
 	EXPECT_EQ(NULL, map.get(1));
 	map.put(1, 10);
 	map.put(2, 20);
