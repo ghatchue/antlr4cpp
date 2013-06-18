@@ -35,6 +35,8 @@
 
 #include <BaseTest.h>
 #include <misc/HashMap.h>
+#include <misc/HashKey.h>
+#include <misc/MurmurHash.h>
 #include <string>
 
 using namespace antlr4::misc;
@@ -43,21 +45,94 @@ class TestHashMap : public BaseTest
 {
 };
 
+class IntKey : public HashKey<IntKey>
+{
+public:
+    
+    IntKey(const IntKey& v) : value(v.value) { }
+    IntKey(const antlr_int32_t& v) : value(v) { }
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const
+    {
+        return value;
+    }
+    
+    ANTLR_OVERRIDE
+    bool equals(const IntKey& other) const
+    {
+        return value == other.value;
+    }
+
+public:
+    antlr_int32_t value;
+};
+
+class StringKey : public HashKey<StringKey>
+{
+public:
+
+    StringKey() { }
+    StringKey(const StringKey& v) : value(v.value) { }
+    StringKey(const std::string& v) : value(v) { }
+    StringKey(const char* v) : value(v) { }
+
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const
+    {
+        antlr_int32_t hash = MurmurHash::initialize();
+        antlr_uint32_t len = value.length();
+        for (antlr_uint32_t i = 0; i < len; i++)
+            hash = MurmurHash::update(hash, (antlr_int32_t)value[i]);
+        hash = MurmurHash::finish(hash, len);
+        return hash;
+    }
+    
+    ANTLR_OVERRIDE
+    bool equals(const StringKey& other) const
+    {
+        return value == other.value;
+    }
+
+public:
+    std::string value;
+};
+
+class ZeroKey : public HashKey<ZeroKey>
+{
+public:
+    
+    ZeroKey(const ZeroKey& v) { }
+    ZeroKey(const antlr_int32_t& v) { }
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const
+    {
+        return 0;
+    }
+    
+    ANTLR_OVERRIDE
+    bool equals(const ZeroKey& other) const
+    {
+        return true;
+    }
+};
+
 TEST_F(TestHashMap, testSize)
 {
-    HashMap<antlr_int32_t, antlr_int32_t> map;
+    HashMap<IntKey, IntKey> map;
     EXPECT_EQ(0, map.size());
     map.put(1, 1);
-    map.put(2, 2);
+    map.put(-2, -2);
     map.put(3, 3);
     EXPECT_EQ(3, map.size());
-    map.remove(2);
+    map.remove(-2);
     EXPECT_EQ(2, map.size());
 }
 
 TEST_F(TestHashMap, testContains)
 {
-    HashMap<std::string, antlr_int32_t> map;
+    HashMap<StringKey, IntKey> map;
     EXPECT_FALSE(map.contains("five"));
     map.put("five", 5);
     EXPECT_TRUE(map.contains("five"));
@@ -65,7 +140,7 @@ TEST_F(TestHashMap, testContains)
 
 TEST_F(TestHashMap, testPut)
 {
-    HashMap<antlr_int32_t, std::string> map;
+    HashMap<IntKey, std::string> map;
     map.put(1, "one");
     map.put(3, "three");
     EXPECT_EQ("one", *map.get(1));
@@ -76,7 +151,7 @@ TEST_F(TestHashMap, testPut)
 
 TEST_F(TestHashMap, testRemove)
 {
-    HashMap<antlr_int32_t, std::string> map;
+    HashMap<IntKey, std::string> map;
     map.remove(5);
     map.put(1, "one");
     EXPECT_EQ("one", *map.get(1));
@@ -86,7 +161,7 @@ TEST_F(TestHashMap, testRemove)
 
 TEST_F(TestHashMap, testGet)
 {
-    HashMap<antlr_int32_t, antlr_int32_t> map;
+    HashMap<IntKey, antlr_int32_t> map;
     EXPECT_EQ(NULL, map.get(1));
     map.put(1, 10);
     map.put(2, 20);
@@ -96,25 +171,38 @@ TEST_F(TestHashMap, testGet)
     EXPECT_EQ(30, *map.get(3));
 }
 
-struct CustomKey1
+TEST_F(TestHashMap, testConstantKeyHash)
 {
-    CustomKey1(const antlr_uint32_t& a) : a(a) { }
-    operator size_t() const { return (size_t)a; }
-    bool operator<(const CustomKey1& other) const { return (size_t)*this < (size_t)other; }
-    antlr_uint32_t a;
-};
+    HashMap<ZeroKey, antlr_uint32_t> map;
+    map.put(0, 10);
+    map.put(1, 20);
+    map.put(2, 30);
+    map.put(2, 40);
+    EXPECT_EQ(1, map.size());
+    EXPECT_EQ(40, *map.get(2));
+}
 
-TEST_F(TestHashMap, testCustomKeyType)
+TEST_F(TestHashMap, testPrimitiveIntHashMap)
 {
-    HashMap<CustomKey1, antlr_uint32_t> map;
-    EXPECT_EQ(NULL, map.get(1));
-    map.put(1, 10);
-    map.put(2, 20);
-    map.put(3, 30);
-    map.put(3, 40);
-    EXPECT_EQ(10, *map.get(1));
-    EXPECT_EQ(20, *map.get(2));
-    EXPECT_EQ(40, *map.get(3));
+    HashMap<antlr_int32_t, antlr_int32_t> map;
+    map.put(0, 10);
+    map.put(1, 20);
+    map.put(1, 30);
+    EXPECT_EQ(2, map.size());
+    EXPECT_EQ(10, *map.get(0));
+    EXPECT_EQ(30, *map.get(1));
+}
+
+TEST_F(TestHashMap, testCStringHashMap)
+{
+    HashMap<char*, std::string> map;
+    map.put("zero", "000");
+    map.put("one", "111");
+    map.put("one", "111111");
+    map.put("onetwo", "111222");
+    EXPECT_EQ(3, map.size());
+    EXPECT_EQ("000", *map.get("zero"));
+    EXPECT_EQ("111111", *map.get("one"));
 }
 
 //TEST_F(TestHashMap, testCustomKeyTypePointer)

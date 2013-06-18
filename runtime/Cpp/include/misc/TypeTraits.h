@@ -33,69 +33,37 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_MAP_H
-#define HASH_MAP_H
+#ifndef TYPE_TRAITS_H
+#define TYPE_TRAITS_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashMapHelper.h>
 
 
 namespace antlr4 {
 namespace misc {
 
-#if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key> >
-#else
-#   define HashMapBase antlr_hash_map_base<Key, T>
-#endif
-
-template <typename Key, typename T>
-class ANTLR_API HashMap : public HashMapBase
+template <typename B, typename D>
+struct Host
 {
-public:
-
-    bool contains(const Key& key) const;
-
-    void put(const Key& key, const T& value);
-
-    void remove(const Key& key);
-
-    T* get(const Key& key);
+    operator B*() const;
+    operator D*();
 };
 
-
-template <typename Key, typename T>
-bool HashMap<Key, T>::contains(const Key& key) const
+template <typename B, typename D>
+struct is_base_of
 {
-    return find(key) != HashMapBase::end();
-}
+    typedef char (&yes)[1];
+    typedef char (&no)[2];
 
-template <typename Key, typename T>
-void HashMap<Key, T>::put(const Key& key, const T& value)
-{
-    std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<Key, T>(key, value));
-    if (!result.second)
-        result.first->second = value;
-}
+    template <typename T> 
+    static yes check(D*, T);
+    static no check(B*, int);
 
-template <typename Key, typename T>
-void HashMap<Key, T>::remove(const Key& key)
-{
-    HashMapBase::erase(key);
-}
+    static const bool value = sizeof(check(Host<B,D>(), int())) == sizeof(yes);
+};
 
-template <typename Key, typename T>
-T* HashMap<Key, T>::get(const Key& key)
-{
-    T* value = NULL;
-    typename HashMapBase::iterator it = find(key);
-    if (it != HashMapBase::end())
-        value = &it->second;
-    return value;
-}
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef HASH_MAP_H */
+#endif /* ifndef TYPE_TRAITS_H */

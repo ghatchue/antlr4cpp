@@ -33,69 +33,43 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_MAP_H
-#define HASH_MAP_H
+#ifndef HASH_KEY_H
+#define HASH_KEY_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashMapHelper.h>
 
 
 namespace antlr4 {
 namespace misc {
 
-#if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key> >
-#else
-#   define HashMapBase antlr_hash_map_base<Key, T>
-#endif
 
-template <typename Key, typename T>
-class ANTLR_API HashMap : public HashMapBase
+template <typename Key>
+class ANTLR_API HashKey
 {
 public:
 
-    bool contains(const Key& key) const;
+    virtual ~HashKey();
 
-    void put(const Key& key, const T& value);
+    virtual antlr_int32_t hashCode() const = 0;
+    
+    virtual bool equals(const Key& other) const = 0;
 
-    void remove(const Key& key);
-
-    T* get(const Key& key);
+    operator size_t() const;
 };
 
-
-template <typename Key, typename T>
-bool HashMap<Key, T>::contains(const Key& key) const
+template <typename Key>
+HashKey<Key>::~HashKey()
 {
-    return find(key) != HashMapBase::end();
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::put(const Key& key, const T& value)
+template <typename Key>
+HashKey<Key>::operator size_t() const
 {
-    std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<Key, T>(key, value));
-    if (!result.second)
-        result.first->second = value;
+    return static_cast<size_t>(hashCode());
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::remove(const Key& key)
-{
-    HashMapBase::erase(key);
-}
-
-template <typename Key, typename T>
-T* HashMap<Key, T>::get(const Key& key)
-{
-    T* value = NULL;
-    typename HashMapBase::iterator it = find(key);
-    if (it != HashMapBase::end())
-        value = &it->second;
-    return value;
-}
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef HASH_MAP_H */
+#endif /* ifndef HASH_KEY_H */

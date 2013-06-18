@@ -33,69 +33,46 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_MAP_H
-#define HASH_MAP_H
+#ifndef STD_HASH_MAP_H
+#define STD_HASH_MAP_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashMapHelper.h>
 
 
-namespace antlr4 {
-namespace misc {
-
-#if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key> >
+#if defined(HAVE_CXX11)
+#   include <unordered_map>
+#   define antlr_hash_map_base std::unordered_map
+#elif defined(HAVE_TR1_UNORDERED_MAP)
+#   include <tr1/unordered_map>
+#   define antlr_hash_map_ns std::tr1
+#   define antlr_hash_map_base antlr_hash_map_ns::unordered_map
+#elif defined (HAVE_STD_EXT_HASH_MAP)
+#   include <ext/hash_map>
+#   define antlr_hash_map_ns std
+#   define antlr_hash_map_base antlr_hash_map_ns::hash_map
+#elif defined (HAVE_GNU_EXT_HASH_MAP)
+#   include <ext/hash_map>
+#   define antlr_hash_map_ns __gnu_cxx
+#   define antlr_hash_map_base antlr_hash_map_ns::hash_map
+#elif defined (HAVE_GLOBAL_HASH_MAP)
+#   include <hash_map>
+#   define antlr_hash_map_ns
+#   define antlr_hash_map_base antlr_hash_map_ns::hash_map
+#elif _MSC_VER >= 1600
+#   include <unordered_map>
+#   define antlr_hash_map_ns std
+#   define antlr_hash_map_base antlr_hash_map_ns::unordered_map
+#elif _MSC_VER >= 1500
+#   include <unordered_map>
+#   define antlr_hash_map_ns std::tr1
+#   define antlr_hash_map_base antlr_hash_map_ns::unordered_map
+#elif _MSC_VER >= 1300
+#   include <hash_map>
+#   define antlr_hash_map_ns stdext
+#   define antlr_hash_map_base antlr_hash_map_ns::hash_map
+#   define ANTLR_USING_MSC_HASH_MAP
 #else
-#   define HashMapBase antlr_hash_map_base<Key, T>
+#   error "hash_map not found"
 #endif
 
-template <typename Key, typename T>
-class ANTLR_API HashMap : public HashMapBase
-{
-public:
-
-    bool contains(const Key& key) const;
-
-    void put(const Key& key, const T& value);
-
-    void remove(const Key& key);
-
-    T* get(const Key& key);
-};
-
-
-template <typename Key, typename T>
-bool HashMap<Key, T>::contains(const Key& key) const
-{
-    return find(key) != HashMapBase::end();
-}
-
-template <typename Key, typename T>
-void HashMap<Key, T>::put(const Key& key, const T& value)
-{
-    std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<Key, T>(key, value));
-    if (!result.second)
-        result.first->second = value;
-}
-
-template <typename Key, typename T>
-void HashMap<Key, T>::remove(const Key& key)
-{
-    HashMapBase::erase(key);
-}
-
-template <typename Key, typename T>
-T* HashMap<Key, T>::get(const Key& key)
-{
-    T* value = NULL;
-    typename HashMapBase::iterator it = find(key);
-    if (it != HashMapBase::end())
-        value = &it->second;
-    return value;
-}
-
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef HASH_MAP_H */
+#endif /* ifndef STD_HASH_MAP_H */

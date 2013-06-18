@@ -33,69 +33,73 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_MAP_H
-#define HASH_MAP_H
+#ifndef HASH_MAP_HELPER_H
+#define HASH_MAP_HELPER_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashMapHelper.h>
+#include <misc/HashKey.h>
+#include <misc/StdHashMap.h>
+#include <misc/TypeTraits.h>
 
 
 namespace antlr4 {
 namespace misc {
 
-#if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key> >
-#else
-#   define HashMapBase antlr_hash_map_base<Key, T>
-#endif
 
-template <typename Key, typename T>
-class ANTLR_API HashMap : public HashMapBase
+template <typename Key>
+class ANTLR_API HashKeyHelper
 {
 public:
 
-    bool contains(const Key& key) const;
+    enum { bucket_size  = 4 };
 
-    void put(const Key& key, const T& value);
+    size_t operator()(const Key& key) const;
 
-    void remove(const Key& key);
-
-    T* get(const Key& key);
+    bool operator()(const Key& left, const Key& right) const;
 };
 
 
-template <typename Key, typename T>
-bool HashMap<Key, T>::contains(const Key& key) const
+template <typename Key>
+size_t HashKeyHelper<Key>::operator()(const Key& key) const
 {
-    return find(key) != HashMapBase::end();
+    if (is_base_of<HashKey<Key>, Key>::value)
+    {
+        const HashKey<Key>* k = reinterpret_cast<const HashKey<Key>* >(&key);
+        return static_cast<size_t>(k->hashCode());
+    }
+    else
+    {
+#if defined(ANTLR_USING_MSC_HASH_MAP)
+        antlr_hash_map_ns::hash_compare<Key> cmp;
+        return cmp.operator()(key);
+#else
+#   error Not implemented
+#endif
+    }
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::put(const Key& key, const T& value)
+template <typename Key>
+bool HashKeyHelper<Key>::operator()(const Key& left, const Key& right) const
 {
-    std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<Key, T>(key, value));
-    if (!result.second)
-        result.first->second = value;
+    if (is_base_of<HashKey<Key>, Key>::value)
+    {
+        const HashKey<Key>* l = reinterpret_cast<const HashKey<Key>* >(&left);
+        const HashKey<Key>* r = reinterpret_cast<const HashKey<Key>* >(&right);
+        return l->hashCode() < r->hashCode();
+    }
+    else
+    {
+#if defined(ANTLR_USING_MSC_HASH_MAP)
+        antlr_hash_map_ns::hash_compare<Key> cmp;
+        return cmp.operator()(left, right);
+#else
+#   error Not implemented
+#endif
+    }
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::remove(const Key& key)
-{
-    HashMapBase::erase(key);
-}
-
-template <typename Key, typename T>
-T* HashMap<Key, T>::get(const Key& key)
-{
-    T* value = NULL;
-    typename HashMapBase::iterator it = find(key);
-    if (it != HashMapBase::end())
-        value = &it->second;
-    return value;
-}
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef HASH_MAP_H */
+#endif /* ifndef HASH_MAP_HELPER_H */
