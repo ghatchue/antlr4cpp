@@ -23,6 +23,7 @@ AM_INIT_AUTOMAKE([1.10 -Wall])
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([ext], [optional])
 AC_CXX_HAVE_HASH_MAP
+AC_HEADER_TR1_UNORDERED_MAP
 
 # Checks for header files.
 AC_HEADER_STDC

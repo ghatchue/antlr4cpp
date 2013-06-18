@@ -39,8 +39,13 @@
 #include <Antlr4Definitions.h>
 
 #if defined(HAVE_CXX11)
-#   include <unordered_map>
-#   define antlr_hash_map_base std::unordered_map
+//#   include <unordered_map>
+//#   define antlr_hash_map_base std::unordered_map
+#   include <hash_map>
+#   define antlr_hash_map_base stdext::hash_map
+#elif defined(HAVE_TR1_UNORDERED_MAP)
+#   include <tr1/unordered_map>
+#   define antlr_hash_map_base std::tr1::unordered_map
 #elif defined (HAVE_STD_EXT_HASH_MAP)
 #   include <ext/hash_map>
 #   define antlr_hash_map_base std::hash_map
@@ -70,9 +75,45 @@ template <typename Key, typename T>
 class ANTLR_API HashMap : public antlr_hash_map_base<Key, T>
 {
 public:
-    
+
+    bool contains(const Key& key) const;
+
+    void put(const Key& key, const T& value);
+
+	void remove(const Key& key);
+
+	T* get(const Key& key);
 };
 
+template <typename Key, typename T>
+bool HashMap<Key, T>::contains(const Key& key) const
+{
+	return find(key) != end();
+}
+
+template <typename Key, typename T>
+void HashMap<Key, T>::put(const Key& key, const T& value)
+{
+	std::pair<iterator, bool> result = insert(std::pair<Key, T>(key, value));
+	if (!result.second)
+		result.first->second = value;
+}
+
+template <typename Key, typename T>
+void HashMap<Key, T>::remove(const Key& key)
+{
+	erase(key);
+}
+
+template <typename Key, typename T>
+T* HashMap<Key, T>::get(const Key& key)
+{
+	T* value = NULL;
+	iterator it = find(key);
+	if (it != end())
+		value = &it->second;
+	return value;
+}
 
 } /* namespace misc */
 } /* namespace antlr4 */

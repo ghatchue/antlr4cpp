@@ -50,6 +50,5 @@ int main(int argc, char** argv) {
   // also responsible for initializing Google Test.  Therefore there's
   // no need for calling testing::InitGoogleTest() separately.
   testing::InitGoogleMock(&argc, argv);
-  testing::GTEST_FLAG(throw_on_failure) = false;
   return RUN_ALL_TESTS();
 }

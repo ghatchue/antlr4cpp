@@ -51,6 +51,24 @@
     <ClInclude Include="include\misc\MurmurHash.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\AbstractEqualityComparator.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\DoubleKeyMap.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\EqualityComparator.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\HashMap.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\Pair.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\Triple.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\misc\Interval.cpp">

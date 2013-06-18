@@ -39,10 +39,16 @@
     <ClInclude Include="include\Antlr4Definitions.h" />
     <ClInclude Include="include\IntStream.h" />
     <ClInclude Include="include\Lexer.h" />
+    <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
+    <ClInclude Include="include\misc\DoubleKeyMap.h" />
+    <ClInclude Include="include\misc\EqualityComparator.h" />
+    <ClInclude Include="include\misc\HashMap.h" />
     <ClInclude Include="include\misc\Interval.h" />
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\MurmurHash.h" />
+    <ClInclude Include="include\misc\Pair.h" />
+    <ClInclude Include="include\misc\Triple.h" />
     <ClInclude Include="include\misc\Utils.h" />
     <ClInclude Include="include\Token.h" />
   </ItemGroup>

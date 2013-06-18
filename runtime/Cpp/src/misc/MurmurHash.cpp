@@ -48,7 +48,7 @@ const antlr_int32_t MurmurHash::DEFAULT_SEED = 0;
  */
 antlr_int32_t MurmurHash::initialize()
 {
-	return initialize(DEFAULT_SEED);
+    return initialize(DEFAULT_SEED);
 }
 
 /**
@@ -59,7 +59,7 @@ antlr_int32_t MurmurHash::initialize()
  */
 antlr_int32_t MurmurHash::initialize(antlr_int32_t seed)
 {
-	return seed;
+    return seed;
 }
 
 /**
@@ -71,23 +71,23 @@ antlr_int32_t MurmurHash::initialize(antlr_int32_t seed)
  */
 antlr_int32_t MurmurHash::update(antlr_int32_t hash, antlr_int32_t value)
 {
-	const antlr_int32_t c1 = 0xCC9E2D51;
-	const antlr_int32_t c2 = 0x1B873593;
-	const antlr_int32_t r1 = 15;
-	const antlr_int32_t r2 = 13;
-	const antlr_int32_t m = 5;
-	const antlr_int32_t n = 0xE6546B64;
+    const antlr_int32_t c1 = 0xCC9E2D51;
+    const antlr_int32_t c2 = 0x1B873593;
+    const antlr_int32_t r1 = 15;
+    const antlr_int32_t r2 = 13;
+    const antlr_int32_t m = 5;
+    const antlr_int32_t n = 0xE6546B64;
 
-	antlr_int32_t k = value;
-	k = k * c1;
-	k = (k << r1) | ((antlr_uint32_t)k >> (32 - r1));
-	k = k * c2;
+    antlr_int32_t k = value;
+    k = k * c1;
+    k = (k << r1) | ((antlr_uint32_t)k >> (32 - r1));
+    k = k * c2;
 
-	hash = hash ^ k;
-	hash = (hash << r2) | ((antlr_uint32_t)hash >> (32 - r2));
-	hash = hash * m + n;
+    hash = hash ^ k;
+    hash = (hash << r2) | ((antlr_uint32_t)hash >> (32 - r2));
+    hash = hash * m + n;
 
-	return hash;
+    return hash;
 }
 
 /**
@@ -100,13 +100,13 @@ antlr_int32_t MurmurHash::update(antlr_int32_t hash, antlr_int32_t value)
  */
 antlr_int32_t MurmurHash::finish(antlr_int32_t hash, antlr_int32_t numberOfWords)
 {
-	hash = hash ^ (numberOfWords * 4);
-	hash = hash ^ ((antlr_uint32_t)hash >> 16);
-	hash = hash * 0x85EBCA6B;
-	hash = hash ^ ((antlr_uint32_t)hash >> 13);
-	hash = hash * 0xC2B2AE35;
-	hash = hash ^ ((antlr_uint32_t)hash >> 16);
-	return hash;
+    hash = hash ^ (numberOfWords * 4);
+    hash = hash ^ ((antlr_uint32_t)hash >> 16);
+    hash = hash * 0x85EBCA6B;
+    hash = hash ^ ((antlr_uint32_t)hash >> 13);
+    hash = hash * 0xC2B2AE35;
+    hash = hash ^ ((antlr_uint32_t)hash >> 16);
+    return hash;
 }
 
 

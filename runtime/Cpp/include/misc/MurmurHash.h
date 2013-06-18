@@ -107,12 +107,12 @@ private:
 //template<typename T>
 //antlr_int32_t MurmurHash::hashCode(std::vector<T> data, antlr_int32_t seed)
 //{
-//	antlr_int32_t hash = initialize(seed);
+//    antlr_int32_t hash = initialize(seed);
 //    for (typename std::list<T>::const_iterator it = data.begin(); it != list.end(); it++) {
-//		hash = update(hash, value);
-//	}
-//	hash = finish(hash, data.length);
-//	return hash;
+//        hash = update(hash, value);
+//    }
+//    hash = finish(hash, data.length);
+//    return hash;
 //}
 
 } /* namespace misc */
