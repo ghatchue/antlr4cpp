@@ -41,7 +41,8 @@
 
 #if defined(HAVE_CXX11)
 #   include <unordered_map>
-#   define antlr_hash_map_base std::unordered_map
+#   define antlr_hash_map_ns std
+#   define antlr_hash_map_base antlr_hash_map_ns::unordered_map
 #elif defined(HAVE_TR1_UNORDERED_MAP)
 #   include <tr1/unordered_map>
 #   define antlr_hash_map_ns std::tr1
