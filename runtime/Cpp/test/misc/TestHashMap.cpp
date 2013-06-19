@@ -85,14 +85,12 @@ public:
         for (antlr_uint32_t i = 0; i < len; i++)
             hash = MurmurHash::update(hash, (antlr_int32_t)value[i]);
         hash = MurmurHash::finish(hash, len);
-        //fprintf(stderr, "## hash (%s) %d\n", value.c_str(), hash);
         return hash;
     }
     
     ANTLR_OVERRIDE
     bool equals(const StringKey& other) const
     {
-        //fprintf(stderr, "## equals (%s) %s\n", value.c_str(), other.value.c_str());
         return value == other.value;
     }
 

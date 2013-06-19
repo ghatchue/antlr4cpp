@@ -44,7 +44,7 @@
     <ClInclude Include="include\misc\EqualityComparator.h" />
     <ClInclude Include="include\misc\HashKey.h" />
     <ClInclude Include="include\misc\HashMap.h" />
-    <ClInclude Include="include\misc\HashMapHelper.h" />
+    <ClInclude Include="include\misc\HashKeyHelper.h" />
     <ClInclude Include="include\misc\Interval.h" />
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />

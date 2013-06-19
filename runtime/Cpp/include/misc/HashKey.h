@@ -43,7 +43,7 @@ namespace antlr4 {
 namespace misc {
 
 
-template <typename Key>
+template <typename K>
 class ANTLR_API HashKey
 {
 public:
@@ -52,18 +52,24 @@ public:
 
     virtual antlr_int32_t hashCode() const = 0;
     
-    virtual bool equals(const Key& other) const = 0;
+    virtual bool equals(const K& other) const;
 
     virtual operator size_t() const;
 };
 
-template <typename Key>
-HashKey<Key>::~HashKey()
+template <typename K>
+HashKey<K>::~HashKey()
 {
 }
 
-template <typename Key>
-HashKey<Key>::operator size_t() const
+template <typename K>
+bool HashKey<K>::equals(const K& other) const
+{
+    return hashCode() == other.hashCode();
+}
+
+template <typename K>
+HashKey<K>::operator size_t() const
 {
     return static_cast<size_t>(hashCode());
 }

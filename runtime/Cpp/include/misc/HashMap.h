@@ -45,49 +45,49 @@ namespace antlr4 {
 namespace misc {
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key, isBaseOf<HashKey<Key>, Key>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value> >
 #else
-#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key, isBaseOf<HashKey<Key>, Key>::value>, HashKeyHelper<Key, isBaseOf<HashKey<Key>, Key>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value>, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value> >
 #endif
 
-template <typename Key, typename T>
+template <typename K, typename T>
 class ANTLR_API HashMap : public HashMapBase
 {
 public:
 
-    bool contains(const Key& key) const;
+    bool contains(const K& key) const;
 
-    void put(const Key& key, const T& value);
+    void put(const K& key, const T& value);
 
-    void remove(const Key& key);
+    void remove(const K& key);
 
-    T* get(const Key& key);
+    T* get(const K& key);
 };
 
 
-template <typename Key, typename T>
-bool HashMap<Key, T>::contains(const Key& key) const
+template <typename K, typename T>
+bool HashMap<K, T>::contains(const K& key) const
 {
     return find(key) != HashMapBase::end();
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::put(const Key& key, const T& value)
+template <typename K, typename T>
+void HashMap<K, T>::put(const K& key, const T& value)
 {
     std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<Key, T>(key, value));
+        insert(std::pair<K, T>(key, value));
     if (!result.second)
         result.first->second = value;
 }
 
-template <typename Key, typename T>
-void HashMap<Key, T>::remove(const Key& key)
+template <typename K, typename T>
+void HashMap<K, T>::remove(const K& key)
 {
     HashMapBase::erase(key);
 }
 
-template <typename Key, typename T>
-T* HashMap<Key, T>::get(const Key& key)
+template <typename K, typename T>
+T* HashMap<K, T>::get(const K& key)
 {
     T* value = NULL;
     typename HashMapBase::iterator it = find(key);

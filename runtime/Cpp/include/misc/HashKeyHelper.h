@@ -47,19 +47,19 @@ namespace antlr4 {
 namespace misc {
 
 
-template <typename Key, bool isUsingHashKey>
+template <typename K, bool isUsingHashKey>
 class ANTLR_API HashKeyHelper;
 
 // This specialization is for HashKey subclasses
-template<typename Key>
-class ANTLR_API HashKeyHelper<Key, true>
+template<typename K>
+class ANTLR_API HashKeyHelper<K, true>
 {
 public:
     // Hash function
-    size_t operator()(const Key& key) const;
+    size_t operator()(const K& key) const;
 
     // Comparison function
-    bool operator()(const Key& left, const Key& right) const;
+    bool operator()(const K& left, const K& right) const;
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
     // Bucket size used by VC++ hash_map
@@ -69,15 +69,15 @@ public:
 
 // This specialization is for key types that don't derive
 // from HashKey such as primitive types
-template<typename Key>
-class ANTLR_API HashKeyHelper<Key, false>
+template<typename K>
+class ANTLR_API HashKeyHelper<K, false>
 {
 public:
     // Hash function
-    size_t operator()(const Key& key) const;
+    size_t operator()(const K& key) const;
 
     // Comparison function
-    bool operator()(const Key& left, const Key& right) const;
+    bool operator()(const K& left, const K& right) const;
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
     // Bucket size used by VC++ hash_map
@@ -85,43 +85,43 @@ public:
 #endif
 };
 
-template <typename Key>
-size_t HashKeyHelper<Key, true>::operator()(const Key& key) const
+template <typename K>
+size_t HashKeyHelper<K, true>::operator()(const K& key) const
 {
     return static_cast<size_t>(key.hashCode());
 }
 
-template <typename Key>
-size_t HashKeyHelper<Key, false>::operator()(const Key& key) const
+template <typename K>
+size_t HashKeyHelper<K, false>::operator()(const K& key) const
 {
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-        antlr_hash_map_ns::hash_compare<Key> hash;
+        antlr_hash_map_ns::hash_compare<K> hash;
         return hash(key);
 #else
-        antlr_hash_map_ns::hash<Key> hash;
+        antlr_hash_map_ns::hash<K> hash;
         return hash(key);
 #endif
 }
 
-template <typename Key>
-bool HashKeyHelper<Key, true>::operator()(const Key& left, const Key& right) const
+template <typename K>
+bool HashKeyHelper<K, true>::operator()(const K& left, const K& right) const
 {
 #if defined(ANTLR_USING_MSC_HASH_MAP)
         // when using MS hash_map, this function indicates if left < right
         return left.hashCode() < right.hashCode();
 #else
-        return left.hashCode() == right.hashCode();
+        return left.equals(right);
 #endif
 }
 
-template <typename Key>
-bool HashKeyHelper<Key, false>::operator()(const Key& left, const Key& right) const
+template <typename K>
+bool HashKeyHelper<K, false>::operator()(const K& left, const K& right) const
 {
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-        antlr_hash_map_ns::hash_compare<Key> cmp;
+        antlr_hash_map_ns::hash_compare<K> cmp;
         return cmp(left, right);
 #else
-        std::equal_to<Key> cmp;
+        std::equal_to<K> cmp;
         return cmp(left, right);
 #endif
 }
