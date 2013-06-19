@@ -46,7 +46,7 @@ namespace misc {
 #if defined(ANTLR_USING_MSC_HASH_MAP)
 #   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key> >
 #else
-#   define HashMapBase antlr_hash_map_base<Key, T>
+#   define HashMapBase antlr_hash_map_base<Key, T, HashKeyHelper<Key>, HashKeyHelper<Key> >
 #endif
 
 template <typename Key, typename T>

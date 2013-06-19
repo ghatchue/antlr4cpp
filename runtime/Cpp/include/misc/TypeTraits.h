@@ -42,19 +42,20 @@
 namespace antlr4 {
 namespace misc {
 
-template <typename B, typename D>
-struct Host
-{
-    operator B*() const;
-    operator D*();
-};
 
 template <typename B, typename D>
-struct is_base_of
+struct isBaseOf
 {
     typedef char (&yes)[1];
     typedef char (&no)[2];
 
+    template <typename B1, typename D1>
+    struct Host
+    {
+        operator B1*() const;
+        operator D1*();
+    };
+    
     template <typename T> 
     static yes check(D*, T);
     static no check(B*, int);
