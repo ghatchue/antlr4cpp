@@ -32,7 +32,7 @@ antlr4cpp_headers = \
     include/misc/EqualityComparator.h \
     include/misc/HashKey.h \
     include/misc/HashMap.h \
-    include/misc/HashMapHelper.h \
+    include/misc/HashKeyHelper.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \

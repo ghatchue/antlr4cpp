@@ -37,7 +37,7 @@
 #define HASH_MAP_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashMapHelper.h>
+#include <misc/HashKeyHelper.h>
 #include <misc/HashKey.h>
 
 
