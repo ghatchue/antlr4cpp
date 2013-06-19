@@ -37,7 +37,7 @@
 #define HASH_MAP_HELPER_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashKey.h>
+#include <misc/Key.h>
 #include <misc/StdHashMap.h>
 #include <misc/TypeTraits.h>
 #include <stdexcept>
@@ -50,7 +50,7 @@ namespace misc {
 template <typename K, bool isUsingHashKey>
 class ANTLR_API HashKeyHelper;
 
-// This specialization is for HashKey subclasses
+// This specialization is for Key subclasses
 template<typename K>
 class ANTLR_API HashKeyHelper<K, true>
 {
@@ -68,7 +68,7 @@ public:
 };
 
 // This specialization is for key types that don't derive
-// from HashKey such as primitive types
+// from Key such as primitive types
 template<typename K>
 class ANTLR_API HashKeyHelper<K, false>
 {

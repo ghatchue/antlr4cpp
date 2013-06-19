@@ -35,7 +35,7 @@
 
 #include <BaseTest.h>
 #include <misc/HashMap.h>
-#include <misc/HashKey.h>
+#include <misc/Key.h>
 #include <misc/MurmurHash.h>
 #include <string>
 
@@ -45,11 +45,11 @@ class TestHashMap : public BaseTest
 {
 };
 
-class IntKey : public virtual HashKey<IntKey>
+class IntKey : public virtual Key<IntKey>
 {
 public:
     
-    IntKey(const IntKey& v) : HashKey<IntKey>(), value(v.value) { }
+    IntKey(const IntKey& v) : Key<IntKey>(), value(v.value) { }
     IntKey(const antlr_int32_t& v) : value(v) { }
     
     ANTLR_OVERRIDE
@@ -68,12 +68,12 @@ public:
     antlr_int32_t value;
 };
 
-class StringKey : public virtual HashKey<StringKey>
+class StringKey : public virtual Key<StringKey>
 {
 public:
 
     StringKey() { }
-    StringKey(const StringKey& v) : HashKey<StringKey>(), value(v.value) { }
+    StringKey(const StringKey& v) : Key<StringKey>(), value(v.value) { }
     StringKey(const std::string& v) : value(v) { }
     StringKey(const char* v) : value(v) { }
 
@@ -98,11 +98,11 @@ public:
     std::string value;
 };
 
-class ZeroKey : public virtual HashKey<ZeroKey>
+class ZeroKey : public virtual Key<ZeroKey>
 {
 public:
     
-    ZeroKey(const ZeroKey&) : HashKey<ZeroKey>() { }
+    ZeroKey(const ZeroKey&) : Key<ZeroKey>() { }
     ZeroKey(const antlr_int32_t&) { }
     
     ANTLR_OVERRIDE

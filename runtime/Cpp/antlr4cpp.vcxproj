@@ -42,7 +42,7 @@
     <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
     <ClInclude Include="include\misc\DoubleKeyMap.h" />
     <ClInclude Include="include\misc\EqualityComparator.h" />
-    <ClInclude Include="include\misc\HashKey.h" />
+    <ClInclude Include="include\misc\Key.h" />
     <ClInclude Include="include\misc\HashMap.h" />
     <ClInclude Include="include\misc\HashKeyHelper.h" />
     <ClInclude Include="include\misc\Interval.h" />

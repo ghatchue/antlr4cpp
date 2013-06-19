@@ -44,11 +44,11 @@ namespace misc {
 
 
 template <typename K>
-class ANTLR_API HashKey
+class ANTLR_API Key
 {
 public:
 
-    virtual ~HashKey();
+    virtual ~Key();
 
     virtual antlr_int32_t hashCode() const = 0;
     
@@ -58,18 +58,18 @@ public:
 };
 
 template <typename K>
-HashKey<K>::~HashKey()
+Key<K>::~Key()
 {
 }
 
 template <typename K>
-bool HashKey<K>::equals(const K& other) const
+bool Key<K>::equals(const K& other) const
 {
     return hashCode() == other.hashCode();
 }
 
 template <typename K>
-HashKey<K>::operator size_t() const
+Key<K>::operator size_t() const
 {
     return static_cast<size_t>(hashCode());
 }

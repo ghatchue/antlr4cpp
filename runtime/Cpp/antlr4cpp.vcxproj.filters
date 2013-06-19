@@ -72,13 +72,13 @@
     <ClInclude Include="include\misc\StdHashMap.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
-    <ClInclude Include="include\misc\HashKey.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
     <ClInclude Include="include\misc\TypeTraits.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
     <ClInclude Include="include\misc\HashKeyHelper.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\Key.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
   </ItemGroup>

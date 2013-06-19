@@ -38,16 +38,16 @@
 
 #include <Antlr4Definitions.h>
 #include <misc/HashKeyHelper.h>
-#include <misc/HashKey.h>
+#include <misc/Key.h>
 
 
 namespace antlr4 {
 namespace misc {
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<Key<K>, K>::value> >
 #else
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value>, HashKeyHelper<K, isBaseOf<HashKey<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<Key<K>, K>::value>, HashKeyHelper<K, isBaseOf<Key<K>, K>::value> >
 #endif
 
 template <typename K, typename T>
