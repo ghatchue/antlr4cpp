@@ -37,22 +37,62 @@
 #define DOUBLE_KEY_MAP_H
 
 #include <Antlr4Definitions.h>
-#include <map>
+#include <misc/HashMap.h>
 
 namespace antlr4 {
 namespace misc {
 
+#define DoubleKeyMapBase HashMap<Key1, HashMap<Key2, Value> >
+    
 /** Sometimes we need to map a key to a value but key is two pieces of data.
  *  This nested hash table saves creating a single key each time we access
  *  map; avoids mem creation.
  */
 template <typename Key1, typename Key2, typename Value>
-class ANTLR_API DoubleKeyMap
+class ANTLR_API DoubleKeyMap : public DoubleKeyMapBase
 {
 public:
     
+    // Insert an element, and return a pointer to the inserted value
+    // (Unlike the Java equivalent which returns the old value))
+    Value* put(const Key1& k1, const Key2& k2, const Value& v);
+
+    Value* get(const Key1& k1, const Key2& k2);
+    
+    antlr_uint32_t size() const;
+    
 };
 
+
+template <typename Key1, typename Key2, typename Value>
+Value* DoubleKeyMap<Key1, Key2, Value>::put(const Key1& k1, const Key2& k2, const Value& v)
+{
+    HashMap<Key2, Value>* data2 = DoubleKeyMapBase::get(k1);
+    if (data2 == NULL) {
+        data2 = DoubleKeyMapBase::put(k1, HashMap<Key2, Value>());
+    }
+    return data2->put(k2, v);
+}
+
+template <typename Key1, typename Key2, typename Value>
+Value* DoubleKeyMap<Key1, Key2, Value>::get(const Key1& k1, const Key2& k2)
+{
+    HashMap<Key2, Value>* data2 = DoubleKeyMapBase::get(k1);
+    if ( data2==NULL ) return NULL;
+    return data2->get(k2);
+}
+
+template <typename Key1, typename Key2, typename Value>
+antlr_uint32_t DoubleKeyMap<Key1, Key2, Value>::size() const
+{
+    antlr_uint32_t size = 0;
+    for (typename DoubleKeyMapBase::const_iterator it = DoubleKeyMapBase::begin();
+            it != DoubleKeyMapBase::end(); it++)
+    {
+        size += it->second.size();
+    }
+    return size;
+}
 
 } /* namespace misc */
 } /* namespace antlr4 */

@@ -61,6 +61,7 @@ antlr4cpp_unit_test_sources = \
     test/gmock_main.cc \
     test/BaseTest.h \
     test/BaseTest.cpp \
+    test/misc/TestDoubleKeyMap.cpp \
     test/misc/TestHashMap.cpp \
     test/misc/TestIntervalSet.cpp \
     test/misc/TestPair.cpp \

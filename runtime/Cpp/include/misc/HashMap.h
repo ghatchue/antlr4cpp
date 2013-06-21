@@ -57,7 +57,9 @@ public:
 
     bool contains(const K& key) const;
 
-    void put(const K& key, const T& value);
+    // Insert an element, and return a pointer to the inserted value
+    // (Unlike the Java equivalent which returns the old value))
+    T* put(const K& key, const T& value);
 
     void remove(const K& key);
 
@@ -72,12 +74,13 @@ bool HashMap<K, T>::contains(const K& key) const
 }
 
 template <typename K, typename T>
-void HashMap<K, T>::put(const K& key, const T& value)
+T* HashMap<K, T>::put(const K& key, const T& value)
 {
     std::pair<typename HashMapBase::iterator, bool> result =
         insert(std::pair<K, T>(key, value));
     if (!result.second)
         result.first->second = value;
+    return &result.first->second;
 }
 
 template <typename K, typename T>

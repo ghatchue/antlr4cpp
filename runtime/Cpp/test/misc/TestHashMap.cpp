@@ -141,8 +141,10 @@ TEST_F(TestHashMap, testContains)
 TEST_F(TestHashMap, testPut)
 {
     HashMap<IntKey, std::string> map;
-    map.put(1, "one");
-    map.put(3, "three");
+    std::string* p1 = map.put(1, "one");
+    std::string* p3 = map.put(3, "three");
+    EXPECT_EQ("one", *p1);
+    EXPECT_EQ("three", *p3);
     EXPECT_EQ("one", *map.get(1));
     EXPECT_EQ("three", *map.get(3));
     map.put(1, "two");
