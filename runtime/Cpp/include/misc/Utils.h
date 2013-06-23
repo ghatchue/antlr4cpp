@@ -37,9 +37,11 @@
 #define UTILS_H
 
 #include <Antlr4Definitions.h>
+#include <algorithm>
 #include <list>
-#include <string.h>
 #include <sstream>
+#include <string.h>
+#include <vector>
 
 namespace antlr4 {
 namespace misc {
@@ -48,23 +50,33 @@ class ANTLR_API Utils
 {
 public:
 
+    template <typename T>
+    static std::string stringValueOfList(const T& list);
+
     // An implementation of the Java method String.valueOf(List)
     template <typename T>
     static std::string stringValueOf(const std::list<T>& list);
 
+    // An implementation of the Java method String.valueOf(List)
+    template <typename T>
+    static std::string stringValueOf(const std::vector<T>& list);
+
     // An implementation of the Java method String.valueOf(primitive type)
     template <typename T>
     static std::string stringValueOf(T value);
-
+    
+    // An implementation of Arrays.binarySearch
+    template <typename Iter, typename T>
+    static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value);
 };
 
 
 template<typename T>
-std::string Utils::stringValueOf(const std::list<T>& list)
+std::string Utils::stringValueOfList(const T& list)
 {
     std::stringstream stream;
     stream << "[";
-    for (typename std::list<T>::const_iterator it = list.begin(); it != list.end();)
+    for (typename T::const_iterator it = list.begin(); it != list.end();)
     {
         stream << *it;
         if (++it != list.end())
@@ -75,11 +87,42 @@ std::string Utils::stringValueOf(const std::list<T>& list)
 }
 
 template<typename T>
+std::string Utils::stringValueOf(const std::list<T>& list)
+{
+    return stringValueOfList(list);
+}
+
+template<typename T>
+std::string Utils::stringValueOf(const std::vector<T>& list)
+{
+    return stringValueOfList(list);
+}
+
+template<typename T>
 std::string Utils::stringValueOf(T value)
 {
     std::stringstream stream;
     stream << value;
     return stream.str();
+}
+
+template <typename Iter, typename T>
+antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
+{
+    antlr_int32_t result;
+    Iter it = std::upper_bound(begin, end, value);
+    if (it == begin) {
+        result = -1;
+    } else {
+        if (*(it-1) == value) {
+            // value was found
+            result = it-1 - begin;
+        } else {
+            // value was not found
+            result = -(static_cast<antlr_int32_t>(it - begin)) - 1;
+        }
+    }
+    return result;
 }
 
 

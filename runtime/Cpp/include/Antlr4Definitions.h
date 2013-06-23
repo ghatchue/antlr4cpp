@@ -73,6 +73,9 @@
     typedef unsigned int antlr_uint32_t;
 #endif /* HAVE_INTTYPES_H */
 
+/* Limits */
+#define ANTLR_INT32_MAX 0x7FFFFFFF
+
 /* Attributes */
 #define ANTLR_OVERRIDE
 #define ANTLR_NOTNULL

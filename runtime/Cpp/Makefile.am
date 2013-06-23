@@ -32,6 +32,7 @@ antlr4cpp_headers = \
     include/misc/EqualityComparator.h \
     include/misc/HashMap.h \
     include/misc/HashKeyHelper.h \
+    include/misc/IntegerList.h \
     include/misc/Interval.h \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
@@ -48,6 +49,7 @@ antlr4cpp_sources = \
     src/IntStream.cpp \
     src/Lexer.cpp \
     src/Token.cpp \
+    src/misc/IntegerList.cpp \
     src/misc/IntervalSet.cpp \
     src/misc/Interval.cpp \
     src/misc/IntSet.cpp \
@@ -63,9 +65,11 @@ antlr4cpp_unit_test_sources = \
     test/BaseTest.cpp \
     test/misc/TestDoubleKeyMap.cpp \
     test/misc/TestHashMap.cpp \
+    test/misc/TestIntegerList.cpp \
     test/misc/TestIntervalSet.cpp \
     test/misc/TestPair.cpp \
-    test/misc/TestTriple.cpp
+    test/misc/TestTriple.cpp \
+    test/misc/TestUtils.cpp
 
 
 ## Main library: libantlr4cpp

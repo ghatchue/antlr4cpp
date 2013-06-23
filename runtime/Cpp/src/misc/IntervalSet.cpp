@@ -202,7 +202,7 @@ IntervalSet* IntervalSet::addAll(const IntSet* set)
     // walk set and add each interval
     antlr_uint32_t n = other->intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        const Interval& I = other->intervals.at(i);
+        const Interval& I = other->intervals[i];
         this->add(I.a,I.b);
     }
     return this;
@@ -238,7 +238,7 @@ IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
     if ( n ==0 ) {
         return comp.release();
     }
-    const Interval& first = intervals.at(0);
+    const Interval& first = intervals[0];
     // add a range from 0 to first.a constrained to vocab
     if ( first.a > 0 ) {
         IntervalSet s = IntervalSet::of(0, first.a-1);
@@ -246,13 +246,13 @@ IntervalSet* IntervalSet::complement(const IntSet* vocabulary) const
         comp->addAll(a.get());
     }
     for (antlr_uint32_t i=1; i<n; i++) { // from 2nd interval .. nth
-        const Interval& previous = intervals.at(i-1);
-        const Interval& current = intervals.at(i);
+        const Interval& previous = intervals[i-1];
+        const Interval& current = intervals[i];
         IntervalSet s = IntervalSet::of(previous.b+1, current.a-1);
         antlr_auto_ptr<IntervalSet> a(s.and_(vocabularyIS));
         comp->addAll(a.get());
     }
-    const Interval& last = intervals.at(n -1);
+    const Interval& last = intervals[n -1];
     // add a range from last.b to maxElement constrained to vocab
     if ( last.b < maxElement ) {
         IntervalSet s = IntervalSet::of(last.b+1, maxElement);
@@ -308,8 +308,8 @@ IntervalSet* IntervalSet::and_(const IntSet* other) const
     antlr_uint32_t j = 0;
     // iterate down both interval lists looking for nondisjoint intervals
     while ( i<mySize && j<theirSize ) {
-        const Interval& mine = myIntervals.at(i);
-        const Interval& theirs = theirIntervals.at(j);
+        const Interval& mine = myIntervals[i];
+        const Interval& theirs = theirIntervals[j];
         //System.out.println("mine="+mine+" and theirs="+theirs);
         if ( mine.startsBeforeDisjoint(theirs) ) {
             // move this iterator looking for interval that might overlap
@@ -367,7 +367,7 @@ bool IntervalSet::contains(antlr_int32_t el) const
 {
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        const Interval& I = intervals.at(i);
+        const Interval& I = intervals[i];
         int a = I.a;
         int b = I.b;
         if ( el<a ) {
@@ -402,7 +402,7 @@ bool IntervalSet::isNil() const
 antlr_int32_t IntervalSet::getSingleElement() const
 {
     if ( intervals.size()==1 ) {
-        const Interval& I = intervals.at(0);
+        const Interval& I = intervals[0];
         if ( I.a == I.b ) {
             return I.a;
         }
@@ -415,7 +415,7 @@ antlr_int32_t IntervalSet::getMaxElement() const
     if ( isNil() ) {
         return Token::INVALID_TYPE;
     }
-    const Interval& last = intervals.at(intervals.size()-1);
+    const Interval& last = intervals[intervals.size()-1];
     return last.b;
 }
 
@@ -427,7 +427,7 @@ antlr_int32_t IntervalSet::getMinElement() const
     }
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        const Interval& I = intervals.at(i);
+        const Interval& I = intervals[i];
         int a = I.a;
         int b = I.b;
         for (int v=a; v<=b; v++) {
@@ -469,7 +469,7 @@ bool IntervalSet::operator==(const IntSet& other) const
         return false;
     }
     for (antlr_uint32_t i = 0; i < n; i++)
-        if ( !(intervals.at(i) == otherI->intervals.at(i)) )
+        if ( !(intervals[i] == otherI->intervals[i]) )
             return false;
     return true;
 }
@@ -555,14 +555,29 @@ antlr_uint32_t IntervalSet::size() const
     antlr_uint32_t n = 0;
     antlr_uint32_t numIntervals = intervals.size();
     if ( numIntervals==1 ) {
-        const Interval& firstInterval = this->intervals.at(0);
+        const Interval& firstInterval = this->intervals[0];
         return firstInterval.b-firstInterval.a+1;
     }
     for (antlr_uint32_t i = 0; i < numIntervals; i++) {
-        const Interval& I = intervals.at(i);
+        const Interval& I = intervals[i];
         n += (I.b-I.a+1);
     }
     return n;
+}
+
+IntegerList IntervalSet::toIntegerList() const
+{
+    IntegerList values(size());
+    antlr_uint32_t n = intervals.size();
+    for (antlr_uint32_t i = 0; i < n; i++) {
+        const Interval& I = intervals[i];
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        for (antlr_int32_t v=a; v<=b; v++) {
+            values.add(v);
+        }
+    }
+    return values;
 }
 
 std::list<antlr_int32_t> IntervalSet::toList() const
@@ -570,7 +585,7 @@ std::list<antlr_int32_t> IntervalSet::toList() const
     std::list<antlr_int32_t> values;
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        const Interval& I = intervals.at(i);
+        const Interval& I = intervals[i];
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         for (antlr_int32_t v=a; v<=b; v++) {
@@ -603,7 +618,7 @@ antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
     antlr_uint32_t n = intervals.size();
     antlr_uint32_t index = 0;
     for (antlr_uint32_t j = 0; j < n; j++) {
-        const Interval& I = intervals.at(j);
+        const Interval& I = intervals[j];
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         for (antlr_int32_t v=a; v<=b; v++) {
@@ -616,9 +631,9 @@ antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
     return -1;
 }
 
-std::vector<antlr_int32_t> IntervalSet::toArray()
+std::vector<antlr_int32_t> IntervalSet::toArray() const
 {
-    return std::vector<antlr_int32_t>();
+    return toIntegerList().toArray();
 }
     
 void IntervalSet::remove(antlr_int32_t el)
@@ -626,7 +641,7 @@ void IntervalSet::remove(antlr_int32_t el)
     if ( readonly ) throw std::logic_error("can't alter readonly IntervalSet");
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
-        Interval& I = intervals.at(i);
+        Interval& I = intervals[i];
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         if ( el<a ) {

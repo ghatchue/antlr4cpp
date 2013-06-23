@@ -37,6 +37,7 @@
 #define INTERVAL_SET_H
 
 #include <Antlr4Definitions.h>
+#include <misc/IntegerList.h>
 #include <misc/Interval.h>
 #include <misc/IntSet.h>
 #include <set>
@@ -178,6 +179,8 @@ public:
 
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
+    
+    IntegerList toIntegerList() const;
 
     ANTLR_OVERRIDE
     std::list<antlr_int32_t> toList() const;
@@ -190,7 +193,7 @@ public:
      */
     antlr_int32_t get(antlr_uint32_t i) const;
 
-    std::vector<antlr_int32_t> toArray();
+    std::vector<antlr_int32_t> toArray() const;
     
     ANTLR_OVERRIDE
     void remove(antlr_int32_t el);
