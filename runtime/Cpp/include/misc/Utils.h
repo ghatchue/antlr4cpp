@@ -119,7 +119,7 @@ antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
             result = it-1 - begin;
         } else {
             // value was not found
-            result = -(static_cast<antlr_int32_t>(it - begin)) - 1;
+            result = -(it - begin) - 1;
         }
     }
     return result;

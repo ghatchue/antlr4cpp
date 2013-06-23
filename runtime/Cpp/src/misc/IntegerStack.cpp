@@ -48,7 +48,8 @@ IntegerStack::IntegerStack(antlr_int32_t capacity)
 }
 
 IntegerStack::IntegerStack(ANTLR_NOTNULL const IntegerStack& list)
-    : IntegerList(list)
+    : Key<IntegerList>(),
+      IntegerList(list)
 {
 }
 

@@ -160,7 +160,7 @@ void IntegerList::trimToSize()
 #if defined(HAVE_CXX11)
     _data.shrink_to_fit();
 #else
-    std::vector<int> tmp(_data.begin(), _data.end());
+    std::vector<antlr_int32_t> tmp(_data.begin(), _data.end());
     _data.swap(tmp);
 #endif
 }

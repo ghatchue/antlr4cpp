@@ -39,7 +39,6 @@
 #include <Antlr4Definitions.h>
 #include <misc/Key.h>
 #include <misc/StdHashMap.h>
-#include <misc/TypeTraits.h>
 #include <stdexcept>
 
 

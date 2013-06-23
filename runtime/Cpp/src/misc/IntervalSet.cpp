@@ -369,8 +369,8 @@ bool IntervalSet::contains(antlr_int32_t el) const
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
         const Interval& I = intervals[i];
-        int a = I.a;
-        int b = I.b;
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
         if ( el<a ) {
             break; // list is sorted and el is before this interval; not here
         }
@@ -429,9 +429,9 @@ antlr_int32_t IntervalSet::getMinElement() const
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
         const Interval& I = intervals[i];
-        int a = I.a;
-        int b = I.b;
-        for (int v=a; v<=b; v++) {
+        antlr_int32_t a = I.a;
+        antlr_int32_t b = I.b;
+        for (antlr_int32_t v=a; v<=b; v++) {
             if ( v>=0 ) return v;
         }
     }
@@ -446,7 +446,7 @@ const std::vector<Interval>& IntervalSet::getIntervals() const
 
 antlr_int32_t IntervalSet::hashCode() const
 {
-    int hash = MurmurHash::initialize();
+    antlr_int32_t hash = MurmurHash::initialize();
     for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
         const Interval& I = *it;
         hash = MurmurHash::update(hash, I.a);

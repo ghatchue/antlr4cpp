@@ -39,6 +39,7 @@
 #include <Antlr4Definitions.h>
 #include <misc/HashKeyHelper.h>
 #include <misc/Key.h>
+#include <misc/TypeTraits.h>
 
 
 namespace antlr4 {

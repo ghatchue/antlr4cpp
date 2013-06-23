@@ -148,7 +148,6 @@ private:
 private:
     
     static const antlr_uint32_t INITIAL_SIZE;
-    static const antlr_uint32_t MAX_ARRAY_SIZE;
     
     ANTLR_NOTNULL
     std::vector<antlr_int32_t> _data;
