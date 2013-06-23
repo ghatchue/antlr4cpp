@@ -53,7 +53,8 @@ IntegerList::IntegerList(antlr_uint32_t capacity)
 }
 
 IntegerList::IntegerList(ANTLR_NOTNULL const IntegerList& list)
-    : _data(list._data)
+    : Key<IntegerList>(),
+      _data(list._data)
 {
 }
 
