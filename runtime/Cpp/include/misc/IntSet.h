@@ -37,6 +37,7 @@
 #define INTSET_H
 
 #include <Antlr4Definitions.h>
+#include <misc/Key.h>
 #include <string.h>
 #include <list>
 
@@ -47,7 +48,7 @@ namespace misc {
  *
  *  @see IntervalSet
  */
-class ANTLR_API IntSet
+class ANTLR_API IntSet : public virtual Key<IntSet>
 {
 public:
     

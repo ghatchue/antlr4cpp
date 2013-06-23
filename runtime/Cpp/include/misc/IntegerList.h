@@ -37,6 +37,7 @@
 #define INTEGER_LIST_H
 
 #include <Antlr4Definitions.h>
+#include <misc/Key.h>
 #include <list>
 #include <string>
 #include <vector>
@@ -49,7 +50,7 @@ namespace misc {
  *
  * @author Sam Harwell
  */
-class ANTLR_API IntegerList
+class ANTLR_API IntegerList : public virtual Key<IntegerList>
 {
 public:
 

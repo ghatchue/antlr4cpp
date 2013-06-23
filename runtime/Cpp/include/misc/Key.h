@@ -37,7 +37,7 @@
 #define HASH_KEY_H
 
 #include <Antlr4Definitions.h>
-
+#include <cstring>
 
 namespace antlr4 {
 namespace misc {
@@ -53,6 +53,8 @@ public:
     virtual antlr_int32_t hashCode() const = 0;
     
     virtual bool equals(const K& other) const;
+    
+    virtual bool operator==(const K& other) const;
 
     virtual operator size_t() const;
 };
@@ -66,6 +68,12 @@ template <typename K>
 bool Key<K>::equals(const K& other) const
 {
     return hashCode() == other.hashCode();
+}
+
+template <typename K>
+bool Key<K>::operator==(const K& other) const
+{
+    return equals(other);
 }
 
 template <typename K>

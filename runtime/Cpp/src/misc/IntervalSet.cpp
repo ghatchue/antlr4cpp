@@ -55,7 +55,8 @@ IntervalSet::IntervalSet(const std::list<Interval> intervals)
 }
 
 IntervalSet::IntervalSet(const IntervalSet& set)
-    : IntSet(),
+    : Key<IntSet>(),
+      IntSet(),
       intervals(set.intervals),
       readonly(set.readonly)
 {
