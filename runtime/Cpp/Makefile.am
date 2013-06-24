@@ -40,6 +40,7 @@ antlr4cpp_headers = \
     include/misc/Key.h \
     include/misc/MurmurHash.h \
     include/misc/Pair.h \
+    include/misc/RuntimeException.h \
     include/misc/StdHashMap.h \
     include/misc/Triple.h \
     include/misc/TypeTraits.h \
@@ -56,6 +57,7 @@ antlr4cpp_sources = \
     src/misc/Interval.cpp \
     src/misc/IntSet.cpp \
     src/misc/MurmurHash.cpp \
+    src/misc/RuntimeException.cpp \
     src/misc/Utils.cpp
 
 antlr4cpp_unit_test_sources = \
