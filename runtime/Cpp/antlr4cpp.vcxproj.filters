@@ -81,6 +81,18 @@
     <ClInclude Include="include\misc\Key.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\IntegerList.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\IntegerStack.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\ParseCancellationException.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\RuntimeException.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\misc\Interval.cpp">
@@ -105,6 +117,18 @@
       <Filter>Source Files\misc</Filter>
     </ClCompile>
     <ClCompile Include="src\misc\MurmurHash.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\IntegerList.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\IntegerStack.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\ParseCancellationException.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc\RuntimeException.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
   </ItemGroup>

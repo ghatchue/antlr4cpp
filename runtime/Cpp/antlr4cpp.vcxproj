@@ -42,6 +42,8 @@
     <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
     <ClInclude Include="include\misc\DoubleKeyMap.h" />
     <ClInclude Include="include\misc\EqualityComparator.h" />
+    <ClInclude Include="include\misc\IntegerList.h" />
+    <ClInclude Include="include\misc\IntegerStack.h" />
     <ClInclude Include="include\misc\Key.h" />
     <ClInclude Include="include\misc\HashMap.h" />
     <ClInclude Include="include\misc\HashKeyHelper.h" />
@@ -50,6 +52,8 @@
     <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\MurmurHash.h" />
     <ClInclude Include="include\misc\Pair.h" />
+    <ClInclude Include="include\misc\ParseCancellationException.h" />
+    <ClInclude Include="include\misc\RuntimeException.h" />
     <ClInclude Include="include\misc\StdHashMap.h" />
     <ClInclude Include="include\misc\Triple.h" />
     <ClInclude Include="include\misc\TypeTraits.h" />
@@ -59,10 +63,14 @@
   <ItemGroup>
     <ClCompile Include="src\IntStream.cpp" />
     <ClCompile Include="src\Lexer.cpp" />
+    <ClCompile Include="src\misc\IntegerList.cpp" />
+    <ClCompile Include="src\misc\IntegerStack.cpp" />
     <ClCompile Include="src\misc\Interval.cpp" />
     <ClCompile Include="src\misc\IntervalSet.cpp" />
     <ClCompile Include="src\misc\IntSet.cpp" />
     <ClCompile Include="src\misc\MurmurHash.cpp" />
+    <ClCompile Include="src\misc\ParseCancellationException.cpp" />
+    <ClCompile Include="src\misc\RuntimeException.cpp" />
     <ClCompile Include="src\misc\Utils.cpp" />
     <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
