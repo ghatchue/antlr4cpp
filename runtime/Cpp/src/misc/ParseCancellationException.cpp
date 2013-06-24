@@ -61,6 +61,11 @@ ParseCancellationException::ParseCancellationException(RuntimeException* cause)
 {
 }
 
+RuntimeException* ParseCancellationException::clone() const
+{
+    return new ParseCancellationException(*this);
+}
+
 
 } /* namespace misc */
 } /* namespace antlr4 */

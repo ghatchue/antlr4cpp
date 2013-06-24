@@ -68,8 +68,8 @@ public:
     
 protected:
     
-    ANTLR_OVERRIDE
-    RuntimeException* clone() const = 0;
+        ANTLR_OVERRIDE
+        RuntimeException* clone() const;
 };
 
 } /* namespace misc */
