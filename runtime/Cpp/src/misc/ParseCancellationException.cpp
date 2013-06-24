@@ -33,48 +33,36 @@
  * Gael Hatchue
  */
 
-#ifndef RUNTIME_EXCEPTION_H
-#define RUNTIME_EXCEPTION_H
-
-#include <Antlr4Definitions.h>
-#include <stdexcept>
-#include <string>
+#include <misc/ParseCancellationException.h>
 
 namespace antlr4 {
 namespace misc {
 
-
-class ANTLR_API RuntimeException : public std::runtime_error
+ParseCancellationException::~ParseCancellationException() throw()
 {
-public:
-    
-    ANTLR_OVERRIDE
-    ~RuntimeException() throw();
+}
 
-    RuntimeException();
-            
-    RuntimeException(const std::string& message, RuntimeException* cause = NULL);
-    
-    RuntimeException(const RuntimeException& other);
+ParseCancellationException::ParseCancellationException()
+{
+}
 
-    RuntimeException(RuntimeException* cause);
+ParseCancellationException::ParseCancellationException(const std::string& message, RuntimeException* cause /* = NULL */)
+    : RuntimeException(message, cause)
+{
+}
 
-    const RuntimeException* getCause() const;
-    
-    RuntimeException* releaseCause();
-    
-    void resetCause(RuntimeException* cause = NULL);
-    
-protected:
-    
-    virtual RuntimeException* clone() const = 0;
-    
-private:
-    
-    antlr_auto_ptr<RuntimeException> cause;
-};
+ParseCancellationException::ParseCancellationException(const ParseCancellationException& other)
+    : RuntimeException(other)
+{
+}
+
+ParseCancellationException::ParseCancellationException(RuntimeException* cause)
+    : RuntimeException(cause)
+{
+}
+
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef RUNTIME_EXCEPTION_H */
+

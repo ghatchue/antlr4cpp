@@ -33,48 +33,46 @@
  * Gael Hatchue
  */
 
-#ifndef RUNTIME_EXCEPTION_H
-#define RUNTIME_EXCEPTION_H
+#ifndef PARSE_CANCELLATION_EXCEPTION_H
+#define PARSE_CANCELLATION_EXCEPTION_H
 
 #include <Antlr4Definitions.h>
-#include <stdexcept>
-#include <string>
+#include <misc/RuntimeException.h>
 
 namespace antlr4 {
 namespace misc {
 
 
-class ANTLR_API RuntimeException : public std::runtime_error
+/**
+ * This exception is thrown to cancel a parsing operation. This exception does
+ * not extend {@link RecognitionException}, allowing it to bypass the standard
+ * error recovery mechanisms. {@link BailErrorStrategy} throws this exception in
+ * response to a parse error.
+ *
+ * @author Sam Harwell
+ */
+class ANTLR_API ParseCancellationException : public RuntimeException
 {
 public:
     
     ANTLR_OVERRIDE
-    ~RuntimeException() throw();
+    ~ParseCancellationException() throw();
 
-    RuntimeException();
+    ParseCancellationException();
             
-    RuntimeException(const std::string& message, RuntimeException* cause = NULL);
+    ParseCancellationException(const std::string& message, RuntimeException* cause = NULL);
     
-    RuntimeException(const RuntimeException& other);
+    ParseCancellationException(const ParseCancellationException& other);
 
-    RuntimeException(RuntimeException* cause);
-
-    const RuntimeException* getCause() const;
-    
-    RuntimeException* releaseCause();
-    
-    void resetCause(RuntimeException* cause = NULL);
+    ParseCancellationException(RuntimeException* cause);
     
 protected:
     
-    virtual RuntimeException* clone() const = 0;
-    
-private:
-    
-    antlr_auto_ptr<RuntimeException> cause;
+    ANTLR_OVERRIDE
+    RuntimeException* clone() const = 0;
 };
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef RUNTIME_EXCEPTION_H */
+#endif /* ifndef PARSE_CANCELLATION_EXCEPTION_H */
