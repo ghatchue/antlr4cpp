@@ -40,7 +40,7 @@
 #include <algorithm>
 #include <list>
 #include <sstream>
-#include <string.h>
+#include <string>
 #include <vector>
 
 namespace antlr4 {

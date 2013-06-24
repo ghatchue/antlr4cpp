@@ -24,13 +24,23 @@ AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([ext], [optional])
 AC_CXX_HAVE_HASH_MAP
 AC_HEADER_TR1_UNORDERED_MAP
+AC_CXX_HAVE_HASH_SET
+AC_HEADER_TR1_UNORDERED_SET
 
 # Checks for header files.
 AC_HEADER_STDC
+AC_CHECK_HEADERS([algorithm])
+AC_CHECK_HEADERS([cstring])
 AC_CHECK_HEADERS([inttypes.h])
-AC_CHECK_HEADERS([string])
 AC_CHECK_HEADERS([iostream])
+AC_CHECK_HEADERS([list])
+AC_CHECK_HEADERS([memory])
 AC_CHECK_HEADERS([sstream])
+AC_CHECK_HEADERS([stdexcept])
+AC_CHECK_HEADERS([string])
+AC_CHECK_HEADERS([typeinfo])
+AC_CHECK_HEADERS([vector])
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T

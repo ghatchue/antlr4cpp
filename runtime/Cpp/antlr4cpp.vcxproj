@@ -42,6 +42,7 @@
     <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
     <ClInclude Include="include\misc\DoubleKeyMap.h" />
     <ClInclude Include="include\misc\EqualityComparator.h" />
+    <ClInclude Include="include\misc\HashSet.h" />
     <ClInclude Include="include\misc\IntegerList.h" />
     <ClInclude Include="include\misc\IntegerStack.h" />
     <ClInclude Include="include\misc\Key.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="include\misc\ParseCancellationException.h" />
     <ClInclude Include="include\misc\RuntimeException.h" />
     <ClInclude Include="include\misc\StdHashMap.h" />
+    <ClInclude Include="include\misc\StdHashSet.h" />
     <ClInclude Include="include\misc\Triple.h" />
     <ClInclude Include="include\misc\TypeTraits.h" />
     <ClInclude Include="include\misc\Utils.h" />

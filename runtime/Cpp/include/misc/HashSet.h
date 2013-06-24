@@ -33,42 +33,58 @@
  * Gael Hatchue
  */
 
-#ifndef TYPE_TRAITS_H
-#define TYPE_TRAITS_H
+#ifndef HASH_SET_H
+#define HASH_SET_H
 
 #include <Antlr4Definitions.h>
+#include <misc/HashKeyHelper.h>
+#include <misc/Key.h>
+#include <misc/StdHashSet.h>
+#include <misc/TypeTraits.h>
 
 
 namespace antlr4 {
 namespace misc {
 
+#if defined(ANTLR_USING_MSC_HASH_SET)
+#   define HashSetBase antlr_hash_set_base<K, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
+#else
+#   define HashSetBase antlr_hash_set_base<K, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value>, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
+#endif
 
-struct Traits
+template <typename K>
+class ANTLR_API HashSet : public HashSetBase
 {
-    // Check if B is a base class of D
-    template <typename B, typename D>
-    struct isBaseOf
-    {
-        typedef char (&yes)[1];
-        typedef char (&no)[2];
+public:
 
-        template <typename B1, typename D1>
-        struct Host
-        {
-            operator B1*() const;
-            operator D1*();
-        };
-    
-        template <typename T> 
-        static yes check(D*, T);
-        static no check(B*, int);
+    bool contains(const K& key) const;
 
-        static const bool value = sizeof(check(Host<B,D>(), int())) == sizeof(yes);
-    };
+    bool add(const K& key);
+
+    bool remove(const K& key);
 };
 
+
+template <typename K>
+bool HashSet<K>::contains(const K& key) const
+{
+    return HashSetBase::find(key) != HashSetBase::end();
+}
+
+template <typename K>
+bool HashSet<K>::add(const K& key)
+{
+    std::pair<typename HashSetBase::iterator, bool> result = insert(key);
+    return result.second;
+}
+
+template <typename K>
+bool HashSet<K>::remove(const K& key)
+{
+    return HashSetBase::erase(key) > 0;
+}
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef TYPE_TRAITS_H */
+#endif /* ifndef HASH_SET_H */

@@ -33,42 +33,47 @@
  * Gael Hatchue
  */
 
-#ifndef TYPE_TRAITS_H
-#define TYPE_TRAITS_H
+#ifndef STD_HASH_SET_H
+#define STD_HASH_SET_H
 
 #include <Antlr4Definitions.h>
 
 
-namespace antlr4 {
-namespace misc {
+#if defined(HAVE_CXX11)
+#   include <unordered_set>
+#   define antlr_hash_set_ns std
+#   define antlr_hash_set_base antlr_hash_set_ns::unordered_set
+#elif defined(HAVE_TR1_UNORDERED_SET)
+#   include <tr1/unordered_set>
+#   define antlr_hash_set_ns std::tr1
+#   define antlr_hash_set_base antlr_hash_set_ns::unordered_set
+#elif defined (HAVE_STD_EXT_HASH_SET)
+#   include <ext/hash_set>
+#   define antlr_hash_set_ns std
+#   define antlr_hash_set_base antlr_hash_set_ns::hash_set
+#elif defined (HAVE_GNU_EXT_HASH_SET)
+#   include <ext/hash_set>
+#   define antlr_hash_set_ns __gnu_cxx
+#   define antlr_hash_set_base antlr_hash_set_ns::hash_set
+#elif defined (HAVE_GLOBAL_HASH_SET)
+#   include <hash_set>
+#   define antlr_hash_set_ns
+#   define antlr_hash_set_base antlr_hash_set_ns::hash_set
+#elif _MSC_VER >= 1600
+#   include <unordered_set>
+#   define antlr_hash_set_ns std
+#   define antlr_hash_set_base antlr_hash_set_ns::unordered_set
+#elif _MSC_VER >= 1500
+#   include <unordered_set>
+#   define antlr_hash_set_ns std::tr1
+#   define antlr_hash_set_base antlr_hash_set_ns::unordered_set
+#elif _MSC_VER >= 1300
+#   include <hash_set>
+#   define antlr_hash_set_ns stdext
+#   define antlr_hash_set_base antlr_hash_set_ns::hash_set
+#   define ANTLR_USING_MSC_HASH_SET
+#else
+#   error "hash_set not found"
+#endif
 
-
-struct Traits
-{
-    // Check if B is a base class of D
-    template <typename B, typename D>
-    struct isBaseOf
-    {
-        typedef char (&yes)[1];
-        typedef char (&no)[2];
-
-        template <typename B1, typename D1>
-        struct Host
-        {
-            operator B1*() const;
-            operator D1*();
-        };
-    
-        template <typename T> 
-        static yes check(D*, T);
-        static no check(B*, int);
-
-        static const bool value = sizeof(check(Host<B,D>(), int())) == sizeof(yes);
-    };
-};
-
-
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef TYPE_TRAITS_H */
+#endif /* ifndef STD_HASH_SET_H */

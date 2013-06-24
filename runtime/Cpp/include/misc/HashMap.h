@@ -39,6 +39,7 @@
 #include <Antlr4Definitions.h>
 #include <misc/HashKeyHelper.h>
 #include <misc/Key.h>
+#include <misc/StdHashMap.h>
 #include <misc/TypeTraits.h>
 
 
@@ -46,9 +47,9 @@ namespace antlr4 {
 namespace misc {
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<Key<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
 #else
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, isBaseOf<Key<K>, K>::value>, HashKeyHelper<K, isBaseOf<Key<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value>, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
 #endif
 
 template <typename K, typename T>
@@ -71,7 +72,7 @@ public:
 template <typename K, typename T>
 bool HashMap<K, T>::contains(const K& key) const
 {
-    return find(key) != HashMapBase::end();
+    return HashMapBase::find(key) != HashMapBase::end();
 }
 
 template <typename K, typename T>
@@ -94,7 +95,7 @@ template <typename K, typename T>
 T* HashMap<K, T>::get(const K& key)
 {
     T* value = NULL;
-    typename HashMapBase::iterator it = find(key);
+    typename HashMapBase::iterator it = HashMapBase::find(key);
     if (it != HashMapBase::end())
         value = &it->second;
     return value;

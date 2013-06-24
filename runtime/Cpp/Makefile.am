@@ -32,6 +32,7 @@ antlr4cpp_headers = \
     include/misc/EqualityComparator.h \
     include/misc/HashMap.h \
     include/misc/HashKeyHelper.h \
+    include/misc/HashSet.h \
     include/misc/IntegerList.h \
     include/misc/IntegerStack.h \
     include/misc/Interval.h \
@@ -43,6 +44,7 @@ antlr4cpp_headers = \
     include/misc/ParseCancellationException.h \
     include/misc/RuntimeException.h \
     include/misc/StdHashMap.h \
+    include/misc/StdHashSet.h \
     include/misc/Triple.h \
     include/misc/TypeTraits.h \
     include/misc/Utils.h
@@ -71,6 +73,7 @@ antlr4cpp_unit_test_sources = \
     test/BaseTest.cpp \
     test/misc/TestDoubleKeyMap.cpp \
     test/misc/TestHashMap.cpp \
+    test/misc/TestHashSet.cpp \
     test/misc/TestIntegerList.cpp \
     test/misc/TestIntegerStack.cpp \
     test/misc/TestIntervalSet.cpp \

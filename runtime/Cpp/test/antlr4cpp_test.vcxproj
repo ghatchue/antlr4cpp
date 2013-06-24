@@ -366,6 +366,7 @@
     <ClCompile Include="gmock_main.cc" />
     <ClCompile Include="misc\TestDoubleKeyMap.cpp" />
     <ClCompile Include="misc\TestHashMap.cpp" />
+    <ClCompile Include="misc\TestHashSet.cpp" />
     <ClCompile Include="misc\TestIntegerList.cpp" />
     <ClCompile Include="misc\TestIntegerStack.cpp" />
     <ClCompile Include="misc\TestIntervalSet.cpp" />
