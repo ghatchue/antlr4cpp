@@ -107,7 +107,7 @@ TEST_F(TestOrderedHashSet, testRemoveByIndex)
 
 TEST_F(TestOrderedHashSet, testAdd)
 {
-    OrderedHashSet<std::string> set;
+    OrderedHashSet<const char*> set;
     EXPECT_TRUE(set.add("one"));
     EXPECT_FALSE(set.add("one"));
     EXPECT_TRUE(set.add("two"));

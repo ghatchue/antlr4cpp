@@ -57,6 +57,8 @@ class ANTLR_API HashMap : public HashMapBase
 {
 public:
 
+    virtual ~HashMap();
+
     virtual bool contains(const K& key) const;
 
     // Insert an element, and return a pointer to the inserted value
@@ -68,6 +70,10 @@ public:
     virtual T* get(const K& key);
 };
 
+template <typename K, typename T>
+HashMap<K, T>::~HashMap()
+{
+}
 
 template <typename K, typename T>
 bool HashMap<K, T>::contains(const K& key) const

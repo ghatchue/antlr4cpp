@@ -57,6 +57,8 @@ class ANTLR_API HashSet : public HashSetBase
 {
 public:
 
+    virtual ~HashSet();
+
     virtual bool contains(const T& value) const;
 
     virtual bool add(const T& value);
@@ -64,6 +66,10 @@ public:
     virtual bool remove(const T& value);
 };
 
+template <typename T>
+HashSet<T>::~HashSet()
+{
+}
 
 template <typename T>
 bool HashSet<T>::contains(const T& value) const
