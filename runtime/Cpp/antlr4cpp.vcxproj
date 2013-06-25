@@ -52,6 +52,7 @@
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\MurmurHash.h" />
+    <ClInclude Include="include\misc\ObjectEqualityComparator.h" />
     <ClInclude Include="include\misc\OrderedHashSet.h" />
     <ClInclude Include="include\misc\Pair.h" />
     <ClInclude Include="include\misc\ParseCancellationException.h" />

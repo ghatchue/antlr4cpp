@@ -40,6 +40,7 @@ antlr4cpp_headers = \
     include/misc/IntSet.h \
     include/misc/Key.h \
     include/misc/MurmurHash.h \
+    include/misc/ObjectEqualityComparator.h \
     include/misc/OrderedHashSet.h \
     include/misc/Pair.h \
     include/misc/ParseCancellationException.h \

@@ -33,8 +33,8 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_KEY_H
-#define HASH_KEY_H
+#ifndef KEY_H
+#define KEY_H
 
 #include <Antlr4Definitions.h>
 #include <cstring>      // size_t
@@ -86,4 +86,4 @@ Key<T>::operator size_t() const
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef HASH_KEY_H */
+#endif /* ifndef KEY_H */
