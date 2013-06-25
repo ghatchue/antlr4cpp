@@ -154,13 +154,13 @@ template<typename T>
 T* OrderedHashSet<T>::set(antlr_uint32_t i, const T& value)
 {
     HashSet<T>::remove(_elements[i]); // update the set: remove/add
-    super.add(value);
+    HashSet<T>::add(value);
     _elements[i] = value; // update list
     return &_elements[i];
 }
 
 template<typename T>
-bool remove(antlr_uint32_t i)
+bool OrderedHashSet<T>::remove(antlr_uint32_t i)
 {
     bool result = HashSet<T>::remove(_elements[i]);
     _elements.erase(_elements.begin() + i);
@@ -182,7 +182,7 @@ bool OrderedHashSet<T>::add(const T& value)
 }
 
 template<typename T>
-bool OrderedHashSet<T>::remove(const T& value)
+bool OrderedHashSet<T>::remove(const T&)
 {
     throw std::logic_error("not supported");
 }

@@ -129,9 +129,6 @@ bool HashKeyHelper<K, false>::operator()(const K& left, const K& right) const
 #if defined(ANTLR_USING_MSC_HASH_MAP) != defined(ANTLR_USING_MSC_HASH_SET)
 #   error "MS hash_map/set inconsistency"
 #endif
-#if antlr_hash_map_ns != antlr_hash_set_ns
-#   error "hash_map/set namespace inconsistency"
-#endif
 
 } /* namespace misc */
 } /* namespace antlr4 */
