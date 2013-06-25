@@ -370,6 +370,7 @@
     <ClCompile Include="misc\TestIntegerList.cpp" />
     <ClCompile Include="misc\TestIntegerStack.cpp" />
     <ClCompile Include="misc\TestIntervalSet.cpp" />
+    <ClCompile Include="misc\TestOrderedHashSet.cpp" />
     <ClCompile Include="misc\TestPair.cpp" />
     <ClCompile Include="misc\TestTriple.cpp" />
     <ClCompile Include="misc\TestUtils.cpp" />

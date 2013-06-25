@@ -33,42 +33,21 @@
  * Gael Hatchue
  */
 
-#ifndef TYPE_TRAITS_H
-#define TYPE_TRAITS_H
+#include <BaseTest.h>
+#include <misc/OrderedHashSet.h>
 
-#include <Antlr4Definitions.h>
+using namespace antlr4::misc;
 
-
-namespace antlr4 {
-namespace misc {
-
-
-struct Traits
+class TestOrderedHashSet : public BaseTest
 {
-    // Check if B is a base class of D
-    template <typename B, typename D>
-    struct isBaseOf
-    {
-        typedef char (&yes)[1];
-        typedef char (&no)[2];
-
-        template <typename B1, typename D1>
-        struct Host
-        {
-            operator B1*() const;
-            operator D1*();
-        };
-    
-        template <typename T> 
-        static yes check(D*, T);
-        static no check(B*, int);
-
-        static const bool value = sizeof(check(Host<B,D>(), int())) == sizeof(yes);
-    };
 };
 
-
-} /* namespace misc */
-} /* namespace antlr4 */
-
-#endif /* ifndef TYPE_TRAITS_H */
+TEST_F(TestOrderedHashSet, testSize)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(15);
+    EXPECT_EQ(3u, set.size());
+}

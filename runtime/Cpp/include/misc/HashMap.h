@@ -40,7 +40,7 @@
 #include <misc/HashKeyHelper.h>
 #include <misc/Key.h>
 #include <misc/StdHashMap.h>
-#include <misc/TypeTraits.h>
+#include <misc/Traits.h>
 
 
 namespace antlr4 {
@@ -57,15 +57,15 @@ class ANTLR_API HashMap : public HashMapBase
 {
 public:
 
-    bool contains(const K& key) const;
+    virtual bool contains(const K& key) const;
 
     // Insert an element, and return a pointer to the inserted value
     // (Unlike the Java equivalent which returns the old value))
-    T* put(const K& key, const T& value);
+    virtual T* put(const K& key, const T& value);
 
-    void remove(const K& key);
+    virtual void remove(const K& key);
 
-    T* get(const K& key);
+    virtual T* get(const K& key);
 };
 
 

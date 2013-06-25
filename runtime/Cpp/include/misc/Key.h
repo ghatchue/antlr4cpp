@@ -37,7 +37,7 @@
 #define HASH_KEY_H
 
 #include <Antlr4Definitions.h>
-#include <cstring>
+#include <cstring>      // size_t
 
 namespace antlr4 {
 namespace misc {
@@ -67,13 +67,13 @@ Key<K>::~Key()
 template <typename K>
 bool Key<K>::equals(const K& other) const
 {
-    return hashCode() == other.hashCode();
+    return this->operator==(other);
 }
 
 template <typename K>
 bool Key<K>::operator==(const K& other) const
 {
-    return equals(other);
+    return hashCode() == other.hashCode();
 }
 
 template <typename K>

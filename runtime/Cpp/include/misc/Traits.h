@@ -33,58 +33,42 @@
  * Gael Hatchue
  */
 
-#ifndef HASH_SET_H
-#define HASH_SET_H
+#ifndef TYPE_TRAITS_H
+#define TYPE_TRAITS_H
 
 #include <Antlr4Definitions.h>
-#include <misc/HashKeyHelper.h>
-#include <misc/Key.h>
-#include <misc/StdHashSet.h>
-#include <misc/Traits.h>
 
 
 namespace antlr4 {
 namespace misc {
 
-#if defined(ANTLR_USING_MSC_HASH_SET)
-#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value> >
-#else
-#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value>, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value> >
-#endif
 
-template <typename T>
-class ANTLR_API HashSet : public HashSetBase
+struct Traits
 {
-public:
+    // Check if B is a base class of D
+    template <typename B, typename D>
+    struct isBaseOf
+    {
+        typedef char (&yes)[1];
+        typedef char (&no)[2];
 
-    virtual bool contains(const T& value) const;
+        template <typename B1, typename D1>
+        struct Host
+        {
+            operator B1*() const;
+            operator D1*();
+        };
+    
+        template <typename T> 
+        static yes check(D*, T);
+        static no check(B*, antlr_int32_t);
 
-    virtual bool add(const T& value);
-
-    virtual bool remove(const T& value);
+        static const bool value = sizeof(check(Host<B,D>(), antlr_int32_t())) == sizeof(yes);
+    };
 };
 
-
-template <typename T>
-bool HashSet<T>::contains(const T& value) const
-{
-    return HashSetBase::find(value) != HashSetBase::end();
-}
-
-template <typename T>
-bool HashSet<T>::add(const T& value)
-{
-    std::pair<typename HashSetBase::iterator, bool> result = insert(value);
-    return result.second;
-}
-
-template <typename T>
-bool HashSet<T>::remove(const T& value)
-{
-    return HashSetBase::erase(value) > 0;
-}
 
 } /* namespace misc */
 } /* namespace antlr4 */
 
-#endif /* ifndef HASH_SET_H */
+#endif /* ifndef TYPE_TRAITS_H */

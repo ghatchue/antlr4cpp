@@ -72,9 +72,6 @@
     <ClInclude Include="include\misc\StdHashMap.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
-    <ClInclude Include="include\misc\TypeTraits.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
     <ClInclude Include="include\misc\HashKeyHelper.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
@@ -97,6 +94,12 @@
       <Filter>Header Files\misc</Filter>
     </ClInclude>
     <ClInclude Include="include\misc\HashSet.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\OrderedHashSet.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\misc\Traits.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
   </ItemGroup>

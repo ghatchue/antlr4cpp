@@ -40,13 +40,14 @@ antlr4cpp_headers = \
     include/misc/IntSet.h \
     include/misc/Key.h \
     include/misc/MurmurHash.h \
+    include/misc/OrderedHashSet.h \
     include/misc/Pair.h \
     include/misc/ParseCancellationException.h \
     include/misc/RuntimeException.h \
     include/misc/StdHashMap.h \
     include/misc/StdHashSet.h \
+    include/misc/Traits.h \
     include/misc/Triple.h \
-    include/misc/TypeTraits.h \
     include/misc/Utils.h
 
 antlr4cpp_sources = \
@@ -77,6 +78,7 @@ antlr4cpp_unit_test_sources = \
     test/misc/TestIntegerList.cpp \
     test/misc/TestIntegerStack.cpp \
     test/misc/TestIntervalSet.cpp \
+    test/misc/TestOrderedHashSet.cpp \
     test/misc/TestPair.cpp \
     test/misc/TestTriple.cpp \
     test/misc/TestUtils.cpp

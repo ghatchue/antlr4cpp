@@ -52,13 +52,14 @@
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
     <ClInclude Include="include\misc\MurmurHash.h" />
+    <ClInclude Include="include\misc\OrderedHashSet.h" />
     <ClInclude Include="include\misc\Pair.h" />
     <ClInclude Include="include\misc\ParseCancellationException.h" />
     <ClInclude Include="include\misc\RuntimeException.h" />
     <ClInclude Include="include\misc\StdHashMap.h" />
     <ClInclude Include="include\misc\StdHashSet.h" />
     <ClInclude Include="include\misc\Triple.h" />
-    <ClInclude Include="include\misc\TypeTraits.h" />
+    <ClInclude Include="include\misc\Traits.h" />
     <ClInclude Include="include\misc\Utils.h" />
     <ClInclude Include="include\Token.h" />
   </ItemGroup>
