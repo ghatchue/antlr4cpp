@@ -35,6 +35,7 @@
 
 #include <BaseTest.h>
 #include <misc/OrderedHashSet.h>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
@@ -144,6 +145,29 @@ TEST_F(TestOrderedHashSet, testEqualOperator)
     a.add(15); b.add(15);
     a.add(16); b.add(16);
     EXPECT_TRUE(a == b);
+}
+
+TEST_F(TestOrderedHashSet, testClone)
+{
+    OrderedHashSet<antlr_int32_t> a;
+    antlr_auto_ptr<OrderedHashSet<antlr_int32_t> > b;
+    a.add(-5);
+    a.add(10);
+    a.add(15);
+    a.add(16);
+    b.reset(a.clone());
+    EXPECT_EQ(a.toString(), b->toString());
+}
+
+TEST_F(TestOrderedHashSet, testCopyConstructor)
+{
+    OrderedHashSet<antlr_int32_t> a;
+    a.add(-5);
+    a.add(10);
+    a.add(15);
+    a.add(16);
+    OrderedHashSet<antlr_int32_t> b(a);
+    EXPECT_EQ(a.toString(), b.toString());
 }
 
 TEST_F(TestOrderedHashSet, testConstIterator)

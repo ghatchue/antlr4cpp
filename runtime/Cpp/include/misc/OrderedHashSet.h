@@ -128,9 +128,9 @@ OrderedHashSet<T>::OrderedHashSet()
 
 template<typename T>
 OrderedHashSet<T>::OrderedHashSet(const OrderedHashSet& other)
-    : HashSet<T>(other),
-      Key<OrderedHashSet<T> >(),
-      _elements(other)
+    : Key<OrderedHashSet<T> >(),
+      HashSet<T>(other),
+      _elements(other._elements)
 {
 }
 
