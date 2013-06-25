@@ -96,13 +96,7 @@ public:
     bool operator==(const OrderedHashSet& other);
 
     ANTLR_OVERRIDE
-    iterator begin();
-
-    ANTLR_OVERRIDE
     const_iterator begin() const;
-
-    ANTLR_OVERRIDE
-    iterator end();
 
     ANTLR_OVERRIDE
     const_iterator end() const;
@@ -143,6 +137,9 @@ OrderedHashSet<T>::OrderedHashSet(const OrderedHashSet& other)
 template<typename T>
 T* OrderedHashSet<T>::get(antlr_uint32_t i)
 {
+    if (i >= _elements.size()) {
+        throw std::out_of_range("OrderedHashSet<T>::get index out of range");
+    }    
     return &_elements[i];
 }
 
@@ -153,6 +150,9 @@ T* OrderedHashSet<T>::get(antlr_uint32_t i)
 template<typename T>
 T* OrderedHashSet<T>::set(antlr_uint32_t i, const T& value)
 {
+    if (i >= _elements.size()) {
+        throw std::out_of_range("OrderedHashSet<T>::set index out of range");
+    }    
     HashSet<T>::remove(_elements[i]); // update the set: remove/add
     HashSet<T>::add(value);
     _elements[i] = value; // update list
@@ -162,6 +162,9 @@ T* OrderedHashSet<T>::set(antlr_uint32_t i, const T& value)
 template<typename T>
 bool OrderedHashSet<T>::remove(antlr_uint32_t i)
 {
+    if (i >= _elements.size()) {
+        throw std::out_of_range("OrderedHashSet<T>::remove index out of range");
+    }    
     bool result = HashSet<T>::remove(_elements[i]);
     _elements.erase(_elements.begin() + i);
     return result;
@@ -184,7 +187,7 @@ bool OrderedHashSet<T>::add(const T& value)
 template<typename T>
 bool OrderedHashSet<T>::remove(const T&)
 {
-    throw std::logic_error("not supported");
+    throw std::logic_error("OrderedHashSet<T>::remove not supported");
 }
 
 template<typename T>
@@ -212,21 +215,9 @@ bool OrderedHashSet<T>::operator==(const OrderedHashSet& other)
 }
 
 template<typename T>
-typename OrderedHashSet<T>::iterator OrderedHashSet<T>::begin()
-{
-    return _elements.begin();
-}
-
-template<typename T>
 typename OrderedHashSet<T>::const_iterator OrderedHashSet<T>::begin() const
 {
     return _elements.begin();
-}
-
-template<typename T>
-typename OrderedHashSet<T>::iterator OrderedHashSet<T>::end()
-{
-    return _elements.end();
 }
 
 template<typename T>

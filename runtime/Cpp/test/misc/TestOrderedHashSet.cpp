@@ -35,6 +35,8 @@
 
 #include <BaseTest.h>
 #include <misc/OrderedHashSet.h>
+#include <stdexcept>
+#include <string>
 
 using namespace antlr4::misc;
 
@@ -50,4 +52,109 @@ TEST_F(TestOrderedHashSet, testSize)
     set.add(15);
     set.add(15);
     EXPECT_EQ(3u, set.size());
+}
+
+TEST_F(TestOrderedHashSet, testGet)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(15);
+    EXPECT_EQ(-5, *set.get(0));
+    EXPECT_EQ(10, *set.get(1));
+    EXPECT_EQ(15, *set.get(2));
+}
+
+TEST_F(TestOrderedHashSet, testOutOfRangeException)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    EXPECT_THROW(set.get(0), std::out_of_range);
+    EXPECT_THROW(set.set(0, 1), std::out_of_range);
+    EXPECT_THROW(set.remove(0u), std::out_of_range);
+}
+
+TEST_F(TestOrderedHashSet, testRemoveByValueNotImplemented)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    EXPECT_THROW(set.remove(0), std::logic_error);
+}
+
+TEST_F(TestOrderedHashSet, testSet)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    EXPECT_EQ(37, *set.set(1, 37));
+    EXPECT_EQ(-54, *set.set(3, -54));
+    EXPECT_EQ("[-5, 37, 15, -54]", set.toString());
+}
+
+TEST_F(TestOrderedHashSet, testRemoveByIndex)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    EXPECT_TRUE(set.remove(0u));
+    EXPECT_TRUE(set.remove(2u));
+    EXPECT_EQ("[10, 15]", set.toString());
+}
+
+TEST_F(TestOrderedHashSet, testAdd)
+{
+    OrderedHashSet<std::string> set;
+    EXPECT_TRUE(set.add("one"));
+    EXPECT_FALSE(set.add("one"));
+    EXPECT_TRUE(set.add("two"));
+    EXPECT_TRUE(set.add("three"));
+    EXPECT_EQ("[one, two, three]", set.toString());
+}
+
+TEST_F(TestOrderedHashSet, testClear)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    set.clear();
+    EXPECT_EQ(0u, set.size());
+    EXPECT_EQ("[]", set.toString());
+}
+
+TEST_F(TestOrderedHashSet, testHashCode)
+{
+    OrderedHashSet<antlr_int32_t> a, b;
+    a.add(-5); b.add(-5);
+    a.add(10); b.add(10);
+    a.add(15); b.add(15);
+    a.add(16); b.add(16);
+    EXPECT_EQ(a.hashCode(), b.hashCode());
+}
+
+TEST_F(TestOrderedHashSet, testEqualOperator)
+{
+    OrderedHashSet<antlr_int32_t> a, b;
+    a.add(-5); b.add(-5);
+    a.add(10); b.add(10);
+    a.add(15); b.add(15);
+    a.add(16); b.add(16);
+    EXPECT_TRUE(a == b);
+}
+
+TEST_F(TestOrderedHashSet, testConstIterator)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    antlr_int32_t exp[] = {-5, 10, 15, 16};
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    antlr_uint32_t i = 0;
+    for (OrderedHashSet<antlr_int32_t>::const_iterator it = set.begin(); it != set.end(); it++, i++)
+        EXPECT_EQ(exp[i], *it);
 }
