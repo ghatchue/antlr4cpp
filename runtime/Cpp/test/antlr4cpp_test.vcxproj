@@ -364,6 +364,7 @@
     <ClCompile Include="BaseTest.cpp" />
     <ClCompile Include="gmock-gtest-all.cc" />
     <ClCompile Include="gmock_main.cc" />
+    <ClCompile Include="misc\TestArray2DHashSet.cpp" />
     <ClCompile Include="misc\TestDoubleKeyMap.cpp" />
     <ClCompile Include="misc\TestHashMap.cpp" />
     <ClCompile Include="misc\TestHashSet.cpp" />

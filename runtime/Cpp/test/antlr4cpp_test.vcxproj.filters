@@ -57,6 +57,9 @@
     <ClCompile Include="misc\TestOrderedHashSet.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
+    <ClCompile Include="misc\TestArray2DHashSet.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gmock\gmock.h">
