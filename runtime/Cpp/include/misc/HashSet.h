@@ -40,16 +40,15 @@
 #include <misc/HashKeyHelper.h>
 #include <misc/Key.h>
 #include <misc/StdHashSet.h>
-#include <misc/Traits.h>
 
 
 namespace antlr4 {
 namespace misc {
 
 #if defined(ANTLR_USING_MSC_HASH_SET)
-#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value> >
+#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T> >
 #else
-#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value>, HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value> >
+#   define HashSetBase antlr_hash_set_base<T, HashKeyHelper<T>, HashKeyHelper<T> >
 #endif
 
 template <typename T>

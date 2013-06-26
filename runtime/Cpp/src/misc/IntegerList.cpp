@@ -203,7 +203,6 @@ void IntegerList::sort()
  * @param o the object to be compared for equality with this list
  * @return {@code true} if the specified object is equal to this list
  */
-ANTLR_OVERRIDE
 bool IntegerList::operator==(const IntegerList& other) const
 {
     return _data == other._data;
@@ -218,7 +217,6 @@ bool IntegerList::operator==(const IntegerList& other) const
  *
  * @return the hash code value for this list
  */
-ANTLR_OVERRIDE
 antlr_int32_t IntegerList::hashCode() const
 {
     antlr_int32_t hashCode = 1;
@@ -232,7 +230,6 @@ antlr_int32_t IntegerList::hashCode() const
 /**
  * Returns a string representation of this list.
  */
-ANTLR_OVERRIDE
 std::string IntegerList::toString() const
 {
     return Utils::stringValueOf(_data);

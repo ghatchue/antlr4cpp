@@ -65,6 +65,13 @@ struct Traits
 
         static const bool value = sizeof(check(Host<B,D>(), antlr_int32_t())) == sizeof(yes);
     };
+    
+    // Check if T1 and T2 are the same type
+    template< typename T1, typename T2 >
+    struct isSame { static const bool value = false; };
+    template< typename T>
+    struct isSame<T,T> { static const bool value = true; };
+    
 };
 
 

@@ -33,59 +33,17 @@
  * Gael Hatchue
  */
 
-#ifndef ANTLR4_DEFINITIONS_H
-#define ANTLR4_DEFINITIONS_H
+#include <BaseTest.h>
+#include <misc/Array2DHashSet.h>
 
-/* config.h */
-#ifdef HAVE_CONFIG_H
-#    include "config.h"
-#endif
+using namespace antlr4::misc;
 
-/* C++11 support for VS2012 C++ compiler */
-#if _MSC_VER >= 1700
-#    define HAVE_CXX11
-#endif
+class TestArray2DHashSet : public BaseTest
+{
+};
 
+TEST_F(TestArray2DHashSet, testConstructor)
+{
+//    Array2DHashSet<antlr_int32_t> set;
+}
 
-/* ANTLR_API */
-#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_SHARED
-#        if defined ANTLR4_EXPORTS
-#            define ANTLR_API __declspec(dllexport)
-#        else
-#            define ANTLR_API __declspec(dllimport)
-#        endif
-#    else
-#        define ANTLR_API
-#    endif
-#else
-#    define ANTLR_API
-#endif
-
-
-/* Integer data types */
-#ifdef HAVE_INTTYPES_H
-#   include <inttypes.h>
-    typedef int32_t antlr_int32_t;
-    typedef uint32_t antlr_uint32_t;
-#else /* HAVE_INTTYPES_H */
-    typedef int antlr_int32_t;
-    typedef unsigned int antlr_uint32_t;
-#endif /* HAVE_INTTYPES_H */
-
-/* Limits */
-#define ANTLR_INT32_MAX 0x7FFFFFFF
-
-/* Attributes */
-#define ANTLR_OVERRIDE virtual
-#define ANTLR_NOTNULL
-#define ANTLR_NULLABLE
-
-/* Auto ptr */
-#ifdef HAVE_CXX11
-#   define antlr_auto_ptr std::unique_ptr
-#else
-#   define antlr_auto_ptr std::auto_ptr
-#endif
-    
-#endif /* ANTLR4_DEFINITIONS_H */

@@ -56,8 +56,8 @@ TEST_F(TestDoubleKeyMap, testSize)
 TEST_F(TestDoubleKeyMap, testPut)
 {
     DoubleKeyMap<antlr_int32_t, antlr_int32_t, std::string> map;
-    std::string* p1 = map.put(1, 1, "one");
-    std::string* p3 = map.put(3, 3, "three");
+    const std::string* p1 = map.put(1, 1, "one");
+    const std::string* p3 = map.put(3, 3, "three");
     EXPECT_EQ("one", *p1);
     EXPECT_EQ("three", *p3);
     EXPECT_EQ("one", *map.get(1, 1));

@@ -40,16 +40,15 @@
 #include <misc/HashKeyHelper.h>
 #include <misc/Key.h>
 #include <misc/StdHashMap.h>
-#include <misc/Traits.h>
 
 
 namespace antlr4 {
 namespace misc {
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K> >
 #else
-#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value>, HashKeyHelper<K, Traits::isBaseOf<Key<K>, K>::value> >
+#   define HashMapBase antlr_hash_map_base<K, T, HashKeyHelper<K>, HashKeyHelper<K> >
 #endif
 
 template <typename K, typename T>
@@ -63,11 +62,11 @@ public:
 
     // Insert an element, and return a pointer to the inserted value
     // (Unlike the Java equivalent which returns the old value))
-    virtual T* put(const K& key, const T& value);
+    virtual const T* put(const K& key, const T& value);
 
     virtual void remove(const K& key);
 
-    virtual T* get(const K& key);
+    virtual const T* get(const K& key) const;
 };
 
 template <typename K, typename T>
@@ -82,7 +81,7 @@ bool HashMap<K, T>::contains(const K& key) const
 }
 
 template <typename K, typename T>
-T* HashMap<K, T>::put(const K& key, const T& value)
+const T* HashMap<K, T>::put(const K& key, const T& value)
 {
     std::pair<typename HashMapBase::iterator, bool> result =
         insert(std::pair<K, T>(key, value));
@@ -98,10 +97,10 @@ void HashMap<K, T>::remove(const K& key)
 }
 
 template <typename K, typename T>
-T* HashMap<K, T>::get(const K& key)
+const T* HashMap<K, T>::get(const K& key) const
 {
-    T* value = NULL;
-    typename HashMapBase::iterator it = HashMapBase::find(key);
+    const T* value = NULL;
+    typename HashMapBase::const_iterator it = HashMapBase::find(key);
     if (it != HashMapBase::end())
         value = &it->second;
     return value;

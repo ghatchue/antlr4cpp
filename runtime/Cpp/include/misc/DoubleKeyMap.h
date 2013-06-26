@@ -55,9 +55,9 @@ public:
     
     // Insert an element, and return a pointer to the inserted value
     // (Unlike the Java equivalent which returns the old value))
-    Value* put(const Key1& k1, const Key2& k2, const Value& v);
+    const Value* put(const Key1& k1, const Key2& k2, const Value& v);
 
-    Value* get(const Key1& k1, const Key2& k2);
+    const Value* get(const Key1& k1, const Key2& k2) const;
     
     antlr_uint32_t size() const;
     
@@ -65,19 +65,20 @@ public:
 
 
 template <typename Key1, typename Key2, typename Value>
-Value* DoubleKeyMap<Key1, Key2, Value>::put(const Key1& k1, const Key2& k2, const Value& v)
+const Value* DoubleKeyMap<Key1, Key2, Value>::put(const Key1& k1, const Key2& k2, const Value& v)
 {
-    HashMap<Key2, Value>* data2 = DoubleKeyMapBase::get(k1);
-    if (data2 == NULL) {
-        data2 = DoubleKeyMapBase::put(k1, HashMap<Key2, Value>());
+    const HashMap<Key2, Value>* cdata2 = DoubleKeyMapBase::get(k1);
+    if (cdata2 == NULL) {
+        cdata2 = DoubleKeyMapBase::put(k1, HashMap<Key2, Value>());
     }
+    HashMap<Key2, Value>* data2 = const_cast<HashMap<Key2, Value>*>(cdata2);
     return data2->put(k2, v);
 }
 
 template <typename Key1, typename Key2, typename Value>
-Value* DoubleKeyMap<Key1, Key2, Value>::get(const Key1& k1, const Key2& k2)
+const Value* DoubleKeyMap<Key1, Key2, Value>::get(const Key1& k1, const Key2& k2) const
 {
-    HashMap<Key2, Value>* data2 = DoubleKeyMapBase::get(k1);
+    const HashMap<Key2, Value>* data2 = DoubleKeyMapBase::get(k1);
     if ( data2==NULL ) return NULL;
     return data2->get(k2);
 }

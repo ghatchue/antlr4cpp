@@ -39,6 +39,7 @@
 #include <Antlr4Definitions.h>
 #include <misc/Key.h>
 #include <misc/StdHashMap.h>
+#include <misc/Traits.h>
 #include <stdexcept>
 
 
@@ -46,7 +47,7 @@ namespace antlr4 {
 namespace misc {
 
 
-template <typename K, bool isUsingHashKey>
+template <typename K, bool isUsingHashKey = Traits::isBaseOf<Key<K>, K>::value>
 class ANTLR_API HashKeyHelper;
 
 // This specialization is for Key subclasses

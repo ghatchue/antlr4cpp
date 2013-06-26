@@ -40,7 +40,6 @@
 #include <misc/HashKeyHelper.h>
 #include <misc/HashSet.h>
 #include <misc/Key.h>
-#include <misc/Traits.h>
 #include <misc/Utils.h>
 #include <stdexcept>
 #include <vector>
@@ -66,13 +65,13 @@ public:
 
     OrderedHashSet(const OrderedHashSet& other);
 
-    T* get(antlr_uint32_t i);
+    const T* get(antlr_uint32_t i) const;
 
     /** Replace an existing value with a new value; updates the element
      *  list and the hash table, but not the key as that has not changed.
      *  Returns a pointer to the new value unlike the Java counterpart
      */
-    T* set(antlr_uint32_t i, const T& value);
+    const T* set(antlr_uint32_t i, const T& value);
 
     bool remove(antlr_uint32_t i);
 
@@ -135,7 +134,7 @@ OrderedHashSet<T>::OrderedHashSet(const OrderedHashSet& other)
 }
 
 template<typename T>
-T* OrderedHashSet<T>::get(antlr_uint32_t i)
+const T* OrderedHashSet<T>::get(antlr_uint32_t i) const
 {
     if (i >= _elements.size()) {
         throw std::out_of_range("OrderedHashSet<T>::get index out of range");
@@ -148,7 +147,7 @@ T* OrderedHashSet<T>::get(antlr_uint32_t i)
     *  Returns a pointer to the new value unlike the Java counterpart
     */
 template<typename T>
-T* OrderedHashSet<T>::set(antlr_uint32_t i, const T& value)
+const T* OrderedHashSet<T>::set(antlr_uint32_t i, const T& value)
 {
     if (i >= _elements.size()) {
         throw std::out_of_range("OrderedHashSet<T>::set index out of range");
@@ -200,7 +199,7 @@ void OrderedHashSet<T>::clear()
 template<typename T>
 antlr_int32_t OrderedHashSet<T>::hashCode() const
 {
-    HashKeyHelper<T, Traits::isBaseOf<Key<T>, T>::value> hash;
+    HashKeyHelper<T> hash;
     antlr_int32_t hashCode = 1;
     for (typename OrderedHashSet<T>::const_iterator it = _elements.begin(); it != _elements.end(); it++) {
         hashCode = 31*hashCode + hash(*it);
