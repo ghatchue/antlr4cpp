@@ -53,6 +53,10 @@ class ANTLR_API Array2DHashSet<T, K, true> : Key< Array2DHashSet<T, K, true> >
 {
 public:
 
+    class SetIterator
+    {
+    };
+
     Array2DHashSet();
     
     Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator);
@@ -87,125 +91,73 @@ public:
     ANTLR_OVERRIDE
     bool contains(const T& o) const;
 
-    bool containsFast(ANTLR_NULLABLE const T* obj);
+    bool containsFast(ANTLR_NULLABLE const T* obj) const;
 
-//    ANTLR_OVERRIDE
-//    Iterator<T> iterator();
-//
-//    ANTLR_OVERRIDE
-//    T[] toArray();
-//
-//    ANTLR_OVERRIDE
-//    <U> U[] toArray(U[] a);
-//
-//    ANTLR_OVERRIDE
-//    final boolean remove(Object o);
-//
-//    boolean removeFast(ANTLR_NULLABLE T obj);
-//
-//    ANTLR_OVERRIDE
-//    boolean containsAll(Collection<?> collection);
-//
-//    ANTLR_OVERRIDE
-//    boolean addAll(Collection<? extends T> c);
-//
-//    ANTLR_OVERRIDE
-//    boolean retainAll(Collection<?> c);
-//
-//    ANTLR_OVERRIDE
-//    boolean removeAll(Collection<?> c);
-//
-//    ANTLR_OVERRIDE
-//    void clear();
-//
-//    ANTLR_OVERRIDE
-//    String toString();
-//
-//    String toTableString();
-//
-//
-//protected:
-//        
-//    protected T getOrAddImpl(T o);
-//
-//    protected final int getBucket(T o);
-//   
-//    protected void expand()
-//        
-//    /**
-//     * Return {@code o} as an instance of the element type {@code T}. If
-//     * {@code o} is non-null but known to not be an instance of {@code T}, this
-//     * method returns {@code null}. The base implementation does not perform any
-//     * type checks; override this method to provide strong type checks for the
-//     * {@link #contains} and {@link #remove} methods to ensure the arguments to
-//     * the {@link EqualityComparator} for the set always have the expected
-//     * types.
-//     *
-//     * @param o the object to try and cast to the element type of the set
-//     * @return {@code o} if it could be an instance of {@code T}, otherwise
-//     * {@code null}.
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected T asElementType(Object o);
-//
-//    /**
-//     * Return an array of {@code T[]} with length {@code capacity}.
-//     *
-//     * @param capacity the length of the array to return
-//     * @return the newly constructed array
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected T[][] createBuckets(int capacity);
-//
-//    /**
-//     * Return an array of {@code T} with length {@code capacity}.
-//     *
-//     * @param capacity the length of the array to return
-//     * @return the newly constructed array
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected T[] createBucket(int capacity);
-//
-//    protected class SetIterator implements Iterator<T> {
-//        final T[] data;
-//        int nextIndex = 0;
-//        boolean removed = true;
-//
-//        SetIterator(T[] data) {
-//            this.data = data;
-//        }
-//
-//        ANTLR_OVERRIDE
-//        boolean hasNext() {
-//            return nextIndex < data.length;
-//        }
-//
-//        ANTLR_OVERRIDE
-//        T next() {
-//            if (!hasNext()) {
-//                throw new NoSuchElementException();
-//            }
-//
-//            removed = false;
-//            return data[nextIndex++];
-//        }
-//
-//        ANTLR_OVERRIDE
-//        void remove() {
-//            if (removed) {
-//                throw new IllegalStateException();
-//            }
-//
-//            Array2DHashSet.this.remove(data[nextIndex - 1]);
-//            removed = true;
-//        }
-//    };
+    ANTLR_OVERRIDE
+    SetIterator iterator();
+
+    ANTLR_OVERRIDE
+    std::vector<T> toArray() const;
+
+    //ANTLR_OVERRIDE
+    template <typename U>
+    std::vector<U>& toArray(std::vector<U>& a) const;
+
+    ANTLR_OVERRIDE
+    bool remove(const T& o);
+
+    bool removeFast(ANTLR_NULLABLE const T* obj);
+
+    ANTLR_OVERRIDE
+    bool containsAll(Array2DHashSet<T, K, true>& other) const;
+
+    //ANTLR_OVERRIDE
+    //boolean addAll(Collection<? extends T> c);
+
+    //ANTLR_OVERRIDE
+    //boolean retainAll(Collection<?> c);
+
+    //ANTLR_OVERRIDE
+    //boolean removeAll(Collection<?> c);
+
+    ANTLR_OVERRIDE
+    void clear();
+
+    ANTLR_OVERRIDE
+    std::string toString();
+
+    std::string toTableString();
+
+protected:
+        
+    const T* getOrAddImpl(const T& o);
+
+    antlr_int32_t getBucket(const T& o) const;
+
+    void expand();
+
+    /**
+     * Return an array of {@code T[]} with length {@code capacity}.
+     *
+     * @param capacity the length of the array to return
+     * @return the newly constructed array
+     */
+    T** createBuckets(antlr_int32_t capacity) const;
+
+    /**
+     * Return an array of {@code T} with length {@code capacity}.
+     *
+     * @param capacity the length of the array to return
+     * @return the newly constructed array
+     */
+    T* createBucket(antlr_int32_t capacity) const;
+
 
 public:
         
-    static const antlr_int32_t INITAL_CAPACITY; // must be power of 2
-    static const antlr_int32_t INITAL_BUCKET_CAPACITY;
-    static const double LOAD_FACTOR;
+	static const antlr_int32_t INITAL_CAPACITY; // must be power of 2
+	static const antlr_int32_t INITAL_BUCKET_CAPACITY;
+	static const double LOAD_FACTOR;
 
 protected:
     
@@ -224,7 +176,184 @@ protected:
 };
 
 
+template <typename T, typename K>
+const antlr_int32_t Array2DHashSet<T, K, true>::INITAL_CAPACITY = 16; // must be power of 2
 
+template <typename T, typename K>
+const antlr_int32_t Array2DHashSet<T, K, true>::INITAL_BUCKET_CAPACITY = 8;
+
+template <typename T, typename K>
+const double Array2DHashSet<T, K, true>::LOAD_FACTOR = 0.75;
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::Array2DHashSet()
+{
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator)
+{
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE AbstractEqualityComparator<K>* comparator,
+        antlr_int32_t initialCapacity, antlr_int32_t initialBucketCapacity)
+{
+}
+
+/**
+    * Add {@code o} to set if not there; return existing value if already
+    * there. This method performs the same operation as {@link #add} aside from
+    * the return value.
+    */
+template <typename T, typename K>
+const T* Array2DHashSet<T, K, true>::getOrAdd(const T& o)
+{
+    return NULL;
+}
+        
+template <typename T, typename K>
+const T* Array2DHashSet<T, K, true>::get(const T& o) const
+{
+    return NULL;
+}
+
+template <typename T, typename K>
+antlr_int32_t Array2DHashSet<T, K, true>::hashCode() const
+{
+    return 0;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::operator==(Array2DHashSet<T, K, true>& other) const
+{
+    return false;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::add(const T& t)
+{
+    return false;
+}
+
+template <typename T, typename K>
+antlr_uint32_t Array2DHashSet<T, K, true>::size() const
+{
+    return 0;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::isEmpty() const
+{
+    return false;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::contains(const T& o) const
+{
+    return false;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::containsFast(ANTLR_NULLABLE const T* obj) const
+{
+    return false;
+}
+
+template <typename T, typename K>
+typename Array2DHashSet<T, K, true>::SetIterator Array2DHashSet<T, K, true>::iterator()
+{
+    return typename Array2DHashSet<T, K, true>::SetIterator();
+}
+
+template <typename T, typename K>
+std::vector<T> Array2DHashSet<T, K, true>::toArray() const
+{
+    return std::vector<T>();
+}
+
+template <typename T, typename K>
+template <typename U>
+std::vector<U>& Array2DHashSet<T, K, true>::toArray(std::vector<U>& a) const
+{
+    return a;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::remove(const T& o)
+{
+    return false;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::removeFast(ANTLR_NULLABLE const T* obj)
+{
+    return false;
+}
+
+template <typename T, typename K>
+bool Array2DHashSet<T, K, true>::containsAll(Array2DHashSet<T, K, true>& other) const
+{
+    return false;
+}
+
+template <typename T, typename K>
+void Array2DHashSet<T, K, true>::clear()
+{
+}
+
+template <typename T, typename K>
+std::string Array2DHashSet<T, K, true>::toString()
+{
+    return std::string();
+}
+
+template <typename T, typename K>
+std::string Array2DHashSet<T, K, true>::toTableString()
+{
+    return std::string();
+}
+
+template <typename T, typename K>
+const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o)
+{
+    return NULL;
+}
+
+template <typename T, typename K>
+antlr_int32_t Array2DHashSet<T, K, true>::getBucket(const T& o) const
+{
+    return 0;
+}
+
+template <typename T, typename K>
+void Array2DHashSet<T, K, true>::expand()
+{
+}
+
+/**
+    * Return an array of {@code T[]} with length {@code capacity}.
+    *
+    * @param capacity the length of the array to return
+    * @return the newly constructed array
+    */
+template <typename T, typename K>
+T** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity) const
+{
+    return NULL;
+}
+
+/**
+    * Return an array of {@code T} with length {@code capacity}.
+    *
+    * @param capacity the length of the array to return
+    * @return the newly constructed array
+    */
+template <typename T, typename K>
+T* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity) const
+{
+    return NULL;
+}
 
 } /* namespace misc */
 } /* namespace antlr4 */

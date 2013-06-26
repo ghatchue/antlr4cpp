@@ -40,6 +40,7 @@
     <ClInclude Include="include\IntStream.h" />
     <ClInclude Include="include\Lexer.h" />
     <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
+    <ClInclude Include="include\misc\Array2DHashSet.h" />
     <ClInclude Include="include\misc\DoubleKeyMap.h" />
     <ClInclude Include="include\misc\EqualityComparator.h" />
     <ClInclude Include="include\misc\HashSet.h" />

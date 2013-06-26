@@ -44,6 +44,6 @@ class TestArray2DHashSet : public BaseTest
 
 TEST_F(TestArray2DHashSet, testConstructor)
 {
-//    Array2DHashSet<antlr_int32_t> set;
+    Array2DHashSet<antlr_int32_t> set;
 }
 
