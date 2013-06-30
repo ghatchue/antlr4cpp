@@ -49,41 +49,41 @@ const IntervalSet IntervalSet::COMPLETE_CHAR_SET = IntervalSet::of(0, Lexer::MAX
 const IntervalSet IntervalSet::EMPTY_SET = IntervalSet();
 
 IntervalSet::IntervalSet(const std::list<Interval> intervals)
-    : intervals(intervals.begin(), intervals.end()),
-      readonly(false)
+    :   intervals(intervals.begin(), intervals.end()),
+        readonly(false)
 {
 }
 
 IntervalSet::IntervalSet(const IntervalSet& set)
-    : Key<IntSet>(),
-      IntSet(),
-      intervals(set.intervals),
-      readonly(set.readonly)
+    :   Key<IntSet>(),
+        IntSet(),
+        intervals(set.intervals),
+        readonly(set.readonly)
 {
 }
 
 IntervalSet::IntervalSet(const IntervalSet* set)
-    : readonly(false)
+    :   readonly(false)
 {
     intervals.reserve(2);
     addAll(set);
 }
 
 IntervalSet::IntervalSet()
-    : readonly(false)
+    :   readonly(false)
 {
     intervals.reserve(2);
 }
 
 IntervalSet::IntervalSet(antlr_int32_t el)
-    : readonly(false)
+    :   readonly(false)
 {
     intervals.reserve(1);
     add(el);
 }
 
 IntervalSet::IntervalSet(antlr_int32_t e1, antlr_int32_t e2)
-    : readonly(false)
+    :   readonly(false)
 {
     intervals.reserve(2);
     add(e1);

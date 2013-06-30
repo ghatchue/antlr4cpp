@@ -39,7 +39,13 @@
 #include <Antlr4Definitions.h>
 #include <misc/AbstractEqualityComparator.h>
 #include <misc/Key.h>
+#include <misc/MurmurHash.h>
+#include <misc/ObjectEqualityComparator.h>
 #include <misc/Traits.h>
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <sstream>
 
 namespace antlr4 {
 namespace misc {
@@ -57,11 +63,26 @@ public:
     {
     };
 
+protected:
+    
+    struct TVal
+    {
+        TVal();
+        TVal(const T& value);
+        TVal(const TVal& other);
+        bool hasValue;
+        T value;
+    };
+    
+public:
+
+    ~Array2DHashSet();
+    
     Array2DHashSet();
     
     Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator);
     
-    Array2DHashSet(ANTLR_NULLABLE AbstractEqualityComparator<K>* comparator,
+    Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator,
             antlr_int32_t initialCapacity, antlr_int32_t initialBucketCapacity);
 
     /**
@@ -80,7 +101,7 @@ public:
     bool operator==(Array2DHashSet<T, K, true>& other) const;
 
     ANTLR_OVERRIDE
-    bool add(const T& t);
+    const T* add(const T& t);
 
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
@@ -135,6 +156,9 @@ protected:
     antlr_int32_t getBucket(const T& o) const;
 
     void expand();
+    
+    void initialize(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator,
+        antlr_int32_t initialCapacity, antlr_int32_t initialBucketCapacity);
 
     /**
      * Return an array of {@code T[]} with length {@code capacity}.
@@ -142,7 +166,7 @@ protected:
      * @param capacity the length of the array to return
      * @return the newly constructed array
      */
-    T** createBuckets(antlr_int32_t capacity) const;
+    TVal** createBuckets(antlr_int32_t capacity, antlr_int32_t& numBuckets, antlr_int32_t*& sizes) const;
 
     /**
      * Return an array of {@code T} with length {@code capacity}.
@@ -150,7 +174,10 @@ protected:
      * @param capacity the length of the array to return
      * @return the newly constructed array
      */
-    T* createBucket(antlr_int32_t capacity) const;
+    TVal* createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const;
+    
+    /* De-allocate buckets */
+    void cleanup();
 
 
 public:
@@ -164,7 +191,11 @@ protected:
     ANTLR_NOTNULL
     const AbstractEqualityComparator<K>* comparator;
 
-    T** buckets;
+    TVal** buckets;
+    
+    antlr_int32_t* bucketSizes;
+    
+    antlr_int32_t numBuckets;
 
     /** How many elements in set */
     antlr_uint32_t n;
@@ -185,79 +216,173 @@ const antlr_int32_t Array2DHashSet<T, K, true>::INITAL_BUCKET_CAPACITY = 8;
 template <typename T, typename K>
 const double Array2DHashSet<T, K, true>::LOAD_FACTOR = 0.75;
 
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::TVal::TVal()
+    :   hasValue(false)
+{
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::TVal::TVal(const T& value)
+    :   hasValue(true),
+        value(value)
+{
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::TVal::TVal(const TVal& other)
+    :   hasValue(other.hasValue),
+        value(other.value)
+{
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>::~Array2DHashSet()
+{
+    cleanup();
+}
+
 template <typename T, typename K>
 Array2DHashSet<T, K, true>::Array2DHashSet()
+    :   comparator(NULL),
+        buckets(NULL),
+        bucketSizes(NULL),
+        numBuckets(0),
+        n(0),
+        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        currentPrime(1),
+        initialBucketCapacity(INITAL_BUCKET_CAPACITY)
 {
+    initialize(NULL, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
 }
 
 template <typename T, typename K>
 Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator)
+    :   comparator(NULL),
+        buckets(NULL),
+        bucketSizes(NULL),
+        numBuckets(0),
+        n(0),
+        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        currentPrime(1),
+        initialBucketCapacity(INITAL_BUCKET_CAPACITY)
 {
+    initialize(comparator, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
 }
 
 template <typename T, typename K>
-Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE AbstractEqualityComparator<K>* comparator,
+Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator,
+        antlr_int32_t initialCapacity, antlr_int32_t initialBucketCapacity)
+    :   comparator(NULL),
+        buckets(NULL),
+        bucketSizes(NULL),
+        numBuckets(0),
+        n(0),
+        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        currentPrime(1),
+        initialBucketCapacity(INITAL_BUCKET_CAPACITY)
+{
+    initialize(comparator, initialCapacity, initialBucketCapacity);
+}
+
+template <typename T, typename K>
+void Array2DHashSet<T, K, true>::initialize(ANTLR_NULLABLE const AbstractEqualityComparator<K>* comparator,
         antlr_int32_t initialCapacity, antlr_int32_t initialBucketCapacity)
 {
+    if (comparator == NULL) {
+        comparator = &ObjectEqualityComparator<T>::INSTANCE;
+    }
+
+    this->comparator = comparator;
+    this->buckets = createBuckets(initialCapacity, this->numBuckets, this->bucketSizes);
+    this->initialBucketCapacity = initialBucketCapacity;
 }
 
 /**
-    * Add {@code o} to set if not there; return existing value if already
-    * there. This method performs the same operation as {@link #add} aside from
-    * the return value.
-    */
+ * Add {@code o} to set if not there; return existing value if already
+ * there. This method performs the same operation as {@link #add} aside from
+ * the return value.
+ */
 template <typename T, typename K>
 const T* Array2DHashSet<T, K, true>::getOrAdd(const T& o)
 {
-    return NULL;
+    if ( n > threshold ) expand();
+    return getOrAddImpl(o);
 }
-        
+
 template <typename T, typename K>
 const T* Array2DHashSet<T, K, true>::get(const T& o) const
 {
+    antlr_int32_t b = getBucket(o);
+    TVal* bucket = buckets[b];
+    if ( bucket==NULL ) return NULL; // no bucket
+    for (antlr_int32_t i = 0; i < bucketSizes[b]; i++) {
+        const TVal& e = bucket[i];
+        if ( !e.hasValue ) return NULL; // empty slot; not there
+        if ( comparator->equals(e.value, o) ) return &e.value;
+    }
     return NULL;
 }
 
 template <typename T, typename K>
 antlr_int32_t Array2DHashSet<T, K, true>::hashCode() const
 {
-    return 0;
+    antlr_int32_t hash = MurmurHash::initialize();
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) continue;
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) break;
+            hash = MurmurHash::update(hash, comparator->hashCode(o.value));
+        }
+    }
+ 
+    hash = MurmurHash::finish(hash, size());
+    return hash;
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::operator==(Array2DHashSet<T, K, true>& other) const
 {
-    return false;
+    if ( other.size() != size() ) return false;
+    bool same = this->containsAll(other);
+    return same;
 }
 
 template <typename T, typename K>
-bool Array2DHashSet<T, K, true>::add(const T& t)
+const T* Array2DHashSet<T, K, true>::add(const T& t)
 {
-    return false;
+    return getOrAdd(t);
 }
 
 template <typename T, typename K>
 antlr_uint32_t Array2DHashSet<T, K, true>::size() const
 {
-    return 0;
+    return n;
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::isEmpty() const
 {
-    return false;
+    return n==0;
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::contains(const T& o) const
 {
-    return false;
+    return containsFast(&o);
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::containsFast(ANTLR_NULLABLE const T* obj) const
 {
-    return false;
+    if (obj == NULL) {
+        return false;
+    }
+
+    return get(*obj) != NULL;
 }
 
 template <typename T, typename K>
@@ -269,90 +394,315 @@ typename Array2DHashSet<T, K, true>::SetIterator Array2DHashSet<T, K, true>::ite
 template <typename T, typename K>
 std::vector<T> Array2DHashSet<T, K, true>::toArray() const
 {
-    return std::vector<T>();
+    std::vector<T> a;
+    a.reserve(size());
+    
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) {
+            continue;
+        }
+        
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) {
+                break;
+            }
+            
+            a.push_back(o.value);
+        }
+    }
+    
+    return a;
 }
 
 template <typename T, typename K>
 template <typename U>
 std::vector<U>& Array2DHashSet<T, K, true>::toArray(std::vector<U>& a) const
 {
+    a.reserve(size());
+    
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) {
+            continue;
+        }
+        
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) {
+                break;
+            }
+            
+            a.push_back(static_cast<U>(o.value));
+        }
+    }
+
     return a;
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::remove(const T& o)
 {
-    return false;
+    return removeFast(&o);
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::removeFast(ANTLR_NULLABLE const T* obj)
 {
+    if (obj == NULL) {
+        return false;
+    }
+
+    antlr_int32_t b = getBucket(*obj);
+    TVal* bucket = buckets[b];
+    if ( bucket==NULL ) {
+        // no bucket
+        return false;
+    }
+
+    antlr_int32_t bucketLength = bucketSizes[b];
+    for (antlr_int32_t i=0; i<bucketLength; i++) {
+        const TVal& e = bucket[i];
+        if ( !e.hasValue ) {
+            // empty slot; not there
+            return false;
+        }
+
+        if ( comparator->equals(e.value, *obj) ) {          // found it
+            // shift all elements to the right down one
+            std::rotate(bucket + i, bucket + i+1, bucket + bucketLength);
+            bucket[bucketLength - 1].hasValue = false;
+            n--;
+            return true;
+        }
+    }
+
     return false;
 }
 
 template <typename T, typename K>
 bool Array2DHashSet<T, K, true>::containsAll(Array2DHashSet<T, K, true>& other) const
 {
-    return false;
+    for (antlr_int32_t i = 0; i < other.numBuckets; i++) {
+        const TVal* bucket = other.buckets[i];
+        if ( bucket==NULL ) continue;
+        for (antlr_int32_t j = 0; j < other.bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) break;
+            if ( !this->containsFast(&o.value) ) return false;
+        }
+    }
+    return true;
 }
 
 template <typename T, typename K>
 void Array2DHashSet<T, K, true>::clear()
 {
+    cleanup();
+    buckets = createBuckets(INITAL_CAPACITY, this->numBuckets, this->bucketSizes);
+    n = 0;
+    
 }
 
 template <typename T, typename K>
 std::string Array2DHashSet<T, K, true>::toString()
 {
-    return std::string();
+    if ( size()==0 ) return "{}";
+
+    std::stringstream buf;
+    buf << "{";
+    bool first = true;
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) continue;
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) break;
+            if ( first ) first=false;
+            else buf << ", ";
+            buf << o.value;
+        }
+    }
+    buf << "}";
+    return buf.str();    
 }
 
 template <typename T, typename K>
 std::string Array2DHashSet<T, K, true>::toTableString()
 {
-    return std::string();
+    std::stringstream buf;
+    bool first = true;
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) {
+            buf << "null\n";
+            continue;
+        }
+        buf << "[";
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( first ) first=false;
+            else buf << " ";
+            if ( !o.hasValue ) buf << "_";
+            else buf << o.value;
+        }
+        buf << "]\n";
+    }
+    return buf.str();
 }
 
 template <typename T, typename K>
 const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o)
 {
-    return NULL;
+    antlr_int32_t b = getBucket(o);
+    TVal* bucket = buckets[b];
+
+    // NEW BUCKET
+    if ( bucket==NULL ) {
+        bucket = createBucket(initialBucketCapacity, bucketSizes[b]);
+        bucket[0].hasValue = true;
+        bucket[0].value = o;
+        buckets[b] = bucket;
+        n++;
+        return &bucket[0].value;
+    }
+
+    // LOOK FOR IT IN BUCKET
+    antlr_int32_t bucketLength = bucketSizes[b];
+    for (antlr_int32_t i=0; i<bucketLength; i++) {
+        TVal& existing = bucket[i];
+        if ( !existing.hasValue ) { // empty slot; not there, add.
+            existing.hasValue = true;
+            existing.value = o;
+            n++;
+            return &existing.value;
+        }
+        if ( comparator->equals(existing.value, o) ) return &existing.value; // found existing, quit
+    }
+
+    // FULL BUCKET, expand and add to end
+    TVal* oldBucket = bucket;    
+    bucket = new TVal[bucketLength * 2];
+    memcpy(bucket, oldBucket, sizeof(TVal) * bucketLength);
+    memset(bucket + bucketLength, 0, sizeof(TVal) * bucketLength);
+    delete[] oldBucket;
+
+    buckets[b] = bucket;
+    bucketSizes[b] = bucketLength * 2;
+    
+    // add to end
+    bucket[bucketLength].hasValue = true;
+    bucket[bucketLength].value = o;
+    n++;
+    return &bucket[bucketLength].value;
 }
 
 template <typename T, typename K>
 antlr_int32_t Array2DHashSet<T, K, true>::getBucket(const T& o) const
 {
-    return 0;
+    antlr_int32_t hash = comparator->hashCode(o);
+    antlr_int32_t b = hash & (numBuckets-1); // assumes len is power of 2
+    return b;
 }
 
 template <typename T, typename K>
 void Array2DHashSet<T, K, true>::expand()
 {
+    TVal** old = buckets;
+    antlr_int32_t oldNumBuckets = numBuckets;
+    antlr_int32_t* oldSizes = bucketSizes;
+    
+    currentPrime += 4;
+    antlr_int32_t newCapacity = numBuckets * 2;
+    TVal** newTable = createBuckets(newCapacity, numBuckets, bucketSizes);
+    antlr_int32_t* newBucketLengths = new antlr_int32_t[numBuckets];
+    memset(newBucketLengths, 0, sizeof(antlr_int32_t) * numBuckets);
+    buckets = newTable;
+    threshold = (antlr_int32_t)(newCapacity * LOAD_FACTOR);
+    // System.out.println("new size="+newCapacity+", thres="+threshold);
+    
+    // rehash all existing entries
+    antlr_uint32_t oldSize = size();
+    for (antlr_int32_t i = 0; i < oldNumBuckets; i++) {
+        const TVal* bucket = old[i];
+        if ( bucket==NULL ) {
+            continue;
+        }
+
+        for (antlr_int32_t j = 0; j < oldSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) {
+                break;
+            }
+
+            antlr_int32_t b = getBucket(o.value);
+            antlr_int32_t bucketLength = newBucketLengths[b];
+            TVal* newBucket = NULL;
+            if (bucketLength == 0) {
+                // new bucket
+                newBucket = createBucket(initialBucketCapacity, bucketSizes[b]);
+                newTable[b] = newBucket;
+            }
+            else {
+                newBucket = newTable[b];
+                if (bucketLength == bucketSizes[b]) {
+                    // expand
+                    TVal* oldBucket = newBucket;    
+                    newBucket = new TVal[bucketLength * 2];
+                    memcpy(newBucket, oldBucket, sizeof(TVal) * bucketLength);
+                    memset(newBucket + bucketLength, 0, sizeof(TVal) * bucketLength);
+                    delete[] oldBucket;
+                    
+                    newTable[b] = newBucket;
+                    bucketSizes[b] = bucketLength * 2;                    
+                }
+            }
+
+            newBucket[bucketLength] = o;
+            newBucketLengths[b]++;
+        }
+        
+        // cleanup old bucket
+        delete[] bucket;
+    }
+    
+    // cleanup old table
+    delete[] old;
+    delete[] oldSizes;
+    delete[] newBucketLengths;
+
+    assert(n == oldSize);
 }
 
 /**
-    * Return an array of {@code T[]} with length {@code capacity}.
-    *
-    * @param capacity the length of the array to return
-    * @return the newly constructed array
-    */
+ * Return an array of {@code T[]} with length {@code capacity}.
+ *
+ * @param capacity the length of the array to return
+ * @return the newly constructed array
+ */
 template <typename T, typename K>
-T** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity) const
+typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity, antlr_int32_t& numBuckets, antlr_int32_t*& sizes) const
 {
     return NULL;
 }
 
 /**
-    * Return an array of {@code T} with length {@code capacity}.
-    *
-    * @param capacity the length of the array to return
-    * @return the newly constructed array
-    */
+ * Return an array of {@code T} with length {@code capacity}.
+ *
+ * @param capacity the length of the array to return
+ * @return the newly constructed array
+ */
 template <typename T, typename K>
-T* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity) const
+typename Array2DHashSet<T, K, true>::TVal* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const
 {
     return NULL;
+}
+
+/* De-allocate buckets */
+template <typename T, typename K>
+void Array2DHashSet<T, K, true>::cleanup()
+{
 }
 
 } /* namespace misc */

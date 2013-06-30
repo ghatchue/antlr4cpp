@@ -38,7 +38,7 @@
 
 #include <Antlr4Definitions.h>
 #include <misc/AbstractEqualityComparator.h>
-#include <misc/Key.h>
+#include <misc/HashKeyHelper.h>
 
 namespace antlr4 {
 namespace misc {
@@ -49,8 +49,8 @@ namespace misc {
  *
  * @author Sam Harwell
  */
-template <typename T>
-class ANTLR_API ObjectEqualityComparator : public virtual AbstractEqualityComparator< Key<T> >
+template <typename T, bool isUsingHashKey = Traits::isBaseOf<Key<T>, T>::value>
+class ANTLR_API ObjectEqualityComparator : public virtual AbstractEqualityComparator<T>
 {
 public:
 
@@ -61,7 +61,7 @@ public:
      * {@code obj.}{@link Object#hashCode hashCode()}.
      */
     ANTLR_OVERRIDE
-    antlr_int32_t hashCode(const Key<T>& obj) const;
+    antlr_int32_t hashCode(const T& obj) const;
 
     /**
      * {@inheritDoc}
@@ -73,9 +73,23 @@ public:
      * {@code a.}{@link Object#equals equals}{@code (b)}.
      */
     ANTLR_OVERRIDE
-    bool equals(const Key<T>& a, const Key<T>& b) const;
+    bool equals(const T& a, const T& b) const;
 
+    
+public:
+
+	static const ObjectEqualityComparator<T, isUsingHashKey> INSTANCE;
+    
+protected:
+    
+    HashKeyHelper<T, isUsingHashKey> hashHelper;
+    
 };
+
+
+template <typename T, bool isUsingHashKey>
+const ObjectEqualityComparator<T, isUsingHashKey> ObjectEqualityComparator<T, isUsingHashKey>::INSTANCE = ObjectEqualityComparator<T, isUsingHashKey>();
+
 
 /**
  * {@inheritDoc}
@@ -83,10 +97,10 @@ public:
  * This implementation returns
  * {@code obj.}{@link Object#hashCode hashCode()}.
  */
-template <typename T>
-antlr_int32_t ObjectEqualityComparator<T>::hashCode(const Key<T>& obj) const
+template <typename T, bool isUsingHashKey>
+antlr_int32_t ObjectEqualityComparator<T, isUsingHashKey>::hashCode(const T& obj) const
 {
-    return obj.hashCode();
+    return hashHelper.hashCode(obj);
 }
 
 /**
@@ -98,10 +112,10 @@ antlr_int32_t ObjectEqualityComparator<T>::hashCode(const Key<T>& obj) const
  * this method returns the result of
  * {@code a.}{@link Object#equals equals}{@code (b)}.
  */
-template <typename T>
-bool ObjectEqualityComparator<T>::equals(const Key<T>& a, const Key<T>& b) const
+template <typename T, bool isUsingHashKey>
+bool ObjectEqualityComparator<T, isUsingHashKey>::equals(const T& a, const T& b) const
 {
-    return a.equals(b);
+    return hashHelper.areEqual(a, b);
 }
 
 } /* namespace misc */

@@ -47,17 +47,17 @@ ParseCancellationException::ParseCancellationException()
 }
 
 ParseCancellationException::ParseCancellationException(const std::string& message, RuntimeException* cause /* = NULL */)
-    : RuntimeException(message, cause)
+    :   RuntimeException(message, cause)
 {
 }
 
 ParseCancellationException::ParseCancellationException(const ParseCancellationException& other)
-    : RuntimeException(other)
+    :   RuntimeException(other)
 {
 }
 
 ParseCancellationException::ParseCancellationException(RuntimeException* cause)
-    : RuntimeException(cause)
+    :   RuntimeException(cause)
 {
 }
 

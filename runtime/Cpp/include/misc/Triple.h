@@ -64,14 +64,14 @@ public:
 
 template<typename A, typename B, typename C>
 Triple<A, B, C>::Triple(const A& a, const B& b, const C& c)
-    : a(a), b(b), c(c)
+    :   a(a), b(b), c(c)
 {
 }
 
 template<typename A, typename B, typename C>
 template<typename T1, typename T2, typename T3>
 Triple<A, B, C>::Triple(const Triple<T1, T2, T3>& other)
-    : a(other.a), b(other.b), c(other.c)
+    :   a(other.a), b(other.b), c(other.c)
 {
 }
 

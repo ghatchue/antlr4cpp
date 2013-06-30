@@ -58,8 +58,14 @@ public:
     // Hash function
     size_t operator()(const K& key) const;
 
-    // Comparison function
+    // Comparison function. This is not always an equality comparison!!
     bool operator()(const K& left, const K& right) const;
+    
+    // Hash function to antlr_int32_t value
+    antlr_int32_t hashCode(const K& key) const;
+    
+    // Indicates if two values are equal
+    bool areEqual(const K& left, const K& right) const;
 
 #if defined(ANTLR_USING_MSC_HASH_MAP)
     // Bucket size used by VC++ hash_map
@@ -76,21 +82,29 @@ public:
     // Hash function
     size_t operator()(const K& key) const;
 
-    // Comparison function
+    // Comparison function. This is not always an equality comparison!!
     bool operator()(const K& left, const K& right) const;
 
+    // Hash function to antlr_int32_t value
+    antlr_int32_t hashCode(const K& key) const;
+    
+    // Indicates if two values are equal
+    bool areEqual(const K& left, const K& right) const;
+    
 #if defined(ANTLR_USING_MSC_HASH_MAP)
     // Bucket size used by VC++ hash_map
     enum { bucket_size  = 4 };
 #endif
 };
 
+// Hash function
 template <typename K>
 size_t HashKeyHelper<K, true>::operator()(const K& key) const
 {
     return static_cast<size_t>(key.hashCode());
 }
 
+// Hash function
 template <typename K>
 size_t HashKeyHelper<K, false>::operator()(const K& key) const
 {
@@ -103,6 +117,7 @@ size_t HashKeyHelper<K, false>::operator()(const K& key) const
 #endif
 }
 
+// Comparison function. This is not always an equality comparison!!
 template <typename K>
 bool HashKeyHelper<K, true>::operator()(const K& left, const K& right) const
 {
@@ -114,6 +129,7 @@ bool HashKeyHelper<K, true>::operator()(const K& left, const K& right) const
 #endif
 }
 
+// Comparison function. This is not always an equality comparison!!
 template <typename K>
 bool HashKeyHelper<K, false>::operator()(const K& left, const K& right) const
 {
@@ -125,6 +141,36 @@ bool HashKeyHelper<K, false>::operator()(const K& left, const K& right) const
         return cmp(left, right);
 #endif
 }
+
+// Hash function to antlr_int32_t value
+template <typename K>
+antlr_int32_t HashKeyHelper<K, true>::hashCode(const K& key) const
+{
+    return static_cast<antlr_int32_t>(this->operator ()(key));
+}
+
+// Hash function to antlr_int32_t value
+template <typename K>
+antlr_int32_t HashKeyHelper<K, false>::hashCode(const K& key) const
+{
+    return static_cast<antlr_int32_t>(this->operator ()(key));
+}
+
+// Indicates if two values are equal
+template <typename K>
+bool HashKeyHelper<K, true>::areEqual(const K& left, const K& right) const
+{
+    return left.equals(right);
+}
+
+// Indicates if two values are equal
+template <typename K>
+bool HashKeyHelper<K, false>::areEqual(const K& left, const K& right) const
+{
+    std::equal_to<K> cmp;
+    return cmp(left, right);
+}
+
 
 // Sanity checks
 #if defined(ANTLR_USING_MSC_HASH_MAP) != defined(ANTLR_USING_MSC_HASH_SET)

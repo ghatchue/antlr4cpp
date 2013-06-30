@@ -43,24 +43,24 @@ RuntimeException::~RuntimeException() throw()
 }
 
 RuntimeException::RuntimeException()
-    : std::runtime_error(std::string())
+    :   std::runtime_error(std::string())
 {
 }
 
 RuntimeException::RuntimeException(const std::string& message, RuntimeException* cause /* = NULL */)
-    : std::runtime_error(message),
-      cause(cause)
+    :   std::runtime_error(message),
+        cause(cause)
 {
 }
 
 RuntimeException::RuntimeException(const RuntimeException& other)
-    : std::runtime_error(std::string(other.what() != NULL ? other.what() : ""))
+    :   std::runtime_error(std::string(other.what() != NULL ? other.what() : ""))
 {
 }
 
 RuntimeException::RuntimeException(RuntimeException* cause)
-    : std::runtime_error(std::string()),
-      cause(cause)
+    :   std::runtime_error(std::string()),
+        cause(cause)
 {
 }
 

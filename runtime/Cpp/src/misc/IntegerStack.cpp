@@ -43,13 +43,13 @@ IntegerStack::IntegerStack()
 }
 
 IntegerStack::IntegerStack(antlr_int32_t capacity)
-    : IntegerList(capacity)
+    :   IntegerList(capacity)
 {
 }
 
 IntegerStack::IntegerStack(ANTLR_NOTNULL const IntegerStack& list)
-    : Key<IntegerList>(),
-      IntegerList(list)
+    :   Key<IntegerList>(),
+        IntegerList(list)
 {
 }
 

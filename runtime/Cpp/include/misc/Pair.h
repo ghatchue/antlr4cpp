@@ -63,14 +63,14 @@ public:
 
 template<typename A, typename B>
 Pair<A, B>::Pair(const A& a, const B& b)
-    : a(a), b(b)
+    :   a(a), b(b)
 {
 }
 
 template<typename A, typename B>
 template<typename T1, typename T2>
 Pair<A, B>::Pair(const Pair<T1, T2>& other)
-    : a(other.a), b(other.b)
+    :   a(other.a), b(other.b)
 {
 }
 

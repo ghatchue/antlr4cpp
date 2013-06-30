@@ -43,14 +43,14 @@ namespace misc {
 const Interval Interval::INVALID = Interval(-1, -2);
 
 Interval::Interval(antlr_int32_t a, antlr_int32_t b)
-    : a(a),
-      b(b)
+    :   a(a),
+        b(b)
 {
 }
 
 Interval::Interval(const Interval& other)
-    : a(other.a),
-      b(other.b)
+    :   a(other.a),
+        b(other.b)
 {
 }
 
