@@ -101,7 +101,7 @@ public:
     bool operator==(Array2DHashSet<T, K, true>& other) const;
 
     ANTLR_OVERRIDE
-    const T* add(const T& t);
+    bool add(const T& t);
 
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
@@ -150,8 +150,10 @@ public:
     std::string toTableString();
 
 protected:
-        
-    const T* getOrAddImpl(const T& o);
+    
+    const T* getOrAdd(const T& o, bool& added);
+    
+    const T* getOrAddImpl(const T& o, bool& added);
 
     antlr_int32_t getBucket(const T& o) const;
 
@@ -200,7 +202,7 @@ protected:
     /** How many elements in set */
     antlr_uint32_t n;
     
-    antlr_int32_t threshold; // when to expand
+    antlr_uint32_t threshold; // when to expand
 
     antlr_int32_t currentPrime; // jump by 4 primes each expand or whatever
     antlr_int32_t initialBucketCapacity;
@@ -250,7 +252,7 @@ Array2DHashSet<T, K, true>::Array2DHashSet()
         bucketSizes(NULL),
         numBuckets(0),
         n(0),
-        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        threshold((antlr_uint32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
         currentPrime(1),
         initialBucketCapacity(INITAL_BUCKET_CAPACITY)
 {
@@ -264,7 +266,7 @@ Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE const AbstractEquality
         bucketSizes(NULL),
         numBuckets(0),
         n(0),
-        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        threshold((antlr_uint32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
         currentPrime(1),
         initialBucketCapacity(INITAL_BUCKET_CAPACITY)
 {
@@ -279,7 +281,7 @@ Array2DHashSet<T, K, true>::Array2DHashSet(ANTLR_NULLABLE const AbstractEquality
         bucketSizes(NULL),
         numBuckets(0),
         n(0),
-        threshold((antlr_int32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
+        threshold((antlr_uint32_t)(INITAL_CAPACITY * LOAD_FACTOR)),
         currentPrime(1),
         initialBucketCapacity(INITAL_BUCKET_CAPACITY)
 {
@@ -307,8 +309,15 @@ void Array2DHashSet<T, K, true>::initialize(ANTLR_NULLABLE const AbstractEqualit
 template <typename T, typename K>
 const T* Array2DHashSet<T, K, true>::getOrAdd(const T& o)
 {
+    bool added = false;
+    return getOrAdd(o, added);
+}
+
+template <typename T, typename K>
+const T* Array2DHashSet<T, K, true>::getOrAdd(const T& o, bool& added)
+{
     if ( n > threshold ) expand();
-    return getOrAddImpl(o);
+    return getOrAddImpl(o, added);
 }
 
 template <typename T, typename K>
@@ -352,9 +361,11 @@ bool Array2DHashSet<T, K, true>::operator==(Array2DHashSet<T, K, true>& other) c
 }
 
 template <typename T, typename K>
-const T* Array2DHashSet<T, K, true>::add(const T& t)
+bool Array2DHashSet<T, K, true>::add(const T& t)
 {
-    return getOrAdd(t);
+    bool added = false;
+    getOrAdd(t, added);
+    return added;
 }
 
 template <typename T, typename K>
@@ -553,13 +564,15 @@ std::string Array2DHashSet<T, K, true>::toTableString()
 }
 
 template <typename T, typename K>
-const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o)
+const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o, bool& added)
 {
     antlr_int32_t b = getBucket(o);
     TVal* bucket = buckets[b];
+    added = false;
 
     // NEW BUCKET
     if ( bucket==NULL ) {
+        added = true;
         bucket = createBucket(initialBucketCapacity, bucketSizes[b]);
         bucket[0].hasValue = true;
         bucket[0].value = o;
@@ -573,6 +586,7 @@ const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o)
     for (antlr_int32_t i=0; i<bucketLength; i++) {
         TVal& existing = bucket[i];
         if ( !existing.hasValue ) { // empty slot; not there, add.
+            added = true;
             existing.hasValue = true;
             existing.value = o;
             n++;
@@ -592,6 +606,7 @@ const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o)
     bucketSizes[b] = bucketLength * 2;
     
     // add to end
+    added = true;
     bucket[bucketLength].hasValue = true;
     bucket[bucketLength].value = o;
     n++;
@@ -619,7 +634,7 @@ void Array2DHashSet<T, K, true>::expand()
     antlr_int32_t* newBucketLengths = new antlr_int32_t[numBuckets];
     memset(newBucketLengths, 0, sizeof(antlr_int32_t) * numBuckets);
     buckets = newTable;
-    threshold = (antlr_int32_t)(newCapacity * LOAD_FACTOR);
+    threshold = (antlr_uint32_t)(newCapacity * LOAD_FACTOR);
     // System.out.println("new size="+newCapacity+", thres="+threshold);
     
     // rehash all existing entries
@@ -684,7 +699,12 @@ void Array2DHashSet<T, K, true>::expand()
 template <typename T, typename K>
 typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity, antlr_int32_t& numBuckets, antlr_int32_t*& sizes) const
 {
-    return NULL;
+    TVal** table = new TVal*[capacity];
+    memset(table, 0, sizeof(TVal*) * capacity);
+    numBuckets = capacity;
+    sizes = new antlr_int32_t[capacity];
+    memset(sizes, 0, sizeof(antlr_int32_t) * capacity);
+    return table;
 }
 
 /**
@@ -696,13 +716,24 @@ typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBu
 template <typename T, typename K>
 typename Array2DHashSet<T, K, true>::TVal* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const
 {
-    return NULL;
+    TVal* bucket = new TVal[capacity];
+    memset(bucket, 0, sizeof(TVal) * capacity);
+    bucketSize = capacity;
+    return bucket;
 }
 
 /* De-allocate buckets */
 template <typename T, typename K>
 void Array2DHashSet<T, K, true>::cleanup()
 {
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        delete[] buckets[i];
+    }
+    delete[] buckets;
+    delete[] bucketSizes;
+    buckets = NULL;
+    bucketSizes = NULL;
+    n = 0;
 }
 
 } /* namespace misc */

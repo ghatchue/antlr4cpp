@@ -35,6 +35,9 @@
 
 #include <BaseTest.h>
 #include <misc/Array2DHashSet.h>
+#include "IntKey.h"
+#include "StringKey.h"
+#include "ZeroKey.h"
 
 using namespace antlr4::misc;
 
@@ -42,8 +45,82 @@ class TestArray2DHashSet : public BaseTest
 {
 };
 
-TEST_F(TestArray2DHashSet, testConstructor)
+
+TEST_F(TestArray2DHashSet, testSize)
 {
     Array2DHashSet<antlr_int32_t> set;
+    EXPECT_EQ(0u, set.size());
+    set.add(-3);
+    set.add(1);
+    set.add(2);
+    set.add(5);
+    EXPECT_EQ(4u, set.size());
+    set.remove(1);
+    set.remove(5);
+    EXPECT_EQ(2u, set.size());
 }
 
+TEST_F(TestArray2DHashSet, testContains)
+{
+    Array2DHashSet<StringKey> set;
+    EXPECT_FALSE(set.contains("five"));
+    set.add("five");
+    EXPECT_TRUE(set.contains("five"));
+}
+
+TEST_F(TestArray2DHashSet, testAdd)
+{
+    Array2DHashSet<IntKey> set;
+    EXPECT_TRUE(set.add(1));
+    EXPECT_TRUE(set.add(3));
+    EXPECT_FALSE(set.add(1));
+    EXPECT_FALSE(set.add(3));
+}
+
+TEST_F(TestArray2DHashSet, testRemove)
+{
+    Array2DHashSet<IntKey> set;
+    EXPECT_FALSE(set.remove(5));
+    EXPECT_TRUE(set.add(1));
+    EXPECT_TRUE(set.remove(1));
+}
+
+TEST_F(TestArray2DHashSet, testConstantKeyHash)
+{
+    Array2DHashSet<ZeroKey> set;
+    set.add(0);
+    set.add(1);
+    set.add(2);
+    set.add(2);
+    EXPECT_EQ(1u, set.size());
+    EXPECT_TRUE(set.remove(100));
+    EXPECT_EQ(0u, set.size());
+}
+
+TEST_F(TestArray2DHashSet, testPrimitiveIntHashSet)
+{
+    Array2DHashSet<antlr_int32_t> set;
+    set.add(0);
+    set.add(1);
+    set.add(1);
+    EXPECT_EQ(2u, set.size());
+    EXPECT_TRUE(set.contains(0));
+    EXPECT_TRUE(set.contains(1));
+    set.add(-357);
+    EXPECT_EQ(3u, set.size());
+    EXPECT_TRUE(set.contains(-357));
+    EXPECT_FALSE(set.contains(456));
+}
+
+TEST_F(TestArray2DHashSet, testCStringHashSet)
+{
+    Array2DHashSet<const char*> set;
+    set.add("zero");
+    set.add("one");
+    set.add("one");
+    set.add("onetwo");
+    EXPECT_EQ(3u, set.size());
+    EXPECT_TRUE(set.contains("zero"));
+    EXPECT_TRUE(set.contains("one"));
+    EXPECT_FALSE(set.contains("three"));
+}

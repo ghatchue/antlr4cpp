@@ -35,87 +35,15 @@
 
 #include <BaseTest.h>
 #include <misc/HashSet.h>
-#include <misc/Key.h>
-#include <misc/MurmurHash.h>
 #include <string>
+#include "IntKey.h"
+#include "StringKey.h"
+#include "ZeroKey.h"
 
 using namespace antlr4::misc;
 
 class TestHashSet : public BaseTest
 {
-};
-
-class IntKey : public virtual Key<IntKey>
-{
-public:
-    
-    IntKey(const IntKey& v) : Key<IntKey>(), value(v.value) { }
-    IntKey(const antlr_int32_t& v) : value(v) { }
-    
-    ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        return value;
-    }
-    
-    ANTLR_OVERRIDE
-    bool equals(const IntKey& other) const
-    {
-        return value == other.value;
-    }
-
-public:
-    antlr_int32_t value;
-};
-
-class StringKey : public virtual Key<StringKey>
-{
-public:
-
-    StringKey() { }
-    StringKey(const StringKey& v) : Key<StringKey>(), value(v.value) { }
-    StringKey(const std::string& v) : value(v) { }
-    StringKey(const char* v) : value(v) { }
-
-    ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        antlr_int32_t hash = MurmurHash::initialize();
-        antlr_uint32_t len = value.length();
-        for (antlr_uint32_t i = 0; i < len; i++)
-            hash = MurmurHash::update(hash, (antlr_int32_t)value[i]);
-        hash = MurmurHash::finish(hash, len);
-        return hash;
-    }
-    
-    ANTLR_OVERRIDE
-    bool equals(const StringKey& other) const
-    {
-        return value == other.value;
-    }
-
-public:
-    std::string value;
-};
-
-class ZeroKey : public virtual Key<ZeroKey>
-{
-public:
-    
-    ZeroKey(const ZeroKey&) : Key<ZeroKey>() { }
-    ZeroKey(const antlr_int32_t&) { }
-    
-    ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        return 0;
-    }
-    
-    ANTLR_OVERRIDE
-    bool equals(const ZeroKey&) const
-    {
-        return true;
-    }
 };
 
 TEST_F(TestHashSet, testSize)

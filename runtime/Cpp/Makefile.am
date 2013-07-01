@@ -74,6 +74,8 @@ antlr4cpp_unit_test_sources = \
     test/gmock_main.cc \
     test/BaseTest.h \
     test/BaseTest.cpp \
+    test/misc/IntKey.h \
+    test/misc/StringKey.h \
     test/misc/TestArray2DHashSet.cpp \
     test/misc/TestDoubleKeyMap.cpp \
     test/misc/TestHashMap.cpp \
@@ -84,7 +86,9 @@ antlr4cpp_unit_test_sources = \
     test/misc/TestOrderedHashSet.cpp \
     test/misc/TestPair.cpp \
     test/misc/TestTriple.cpp \
-    test/misc/TestUtils.cpp
+    test/misc/TestUtils.cpp \
+    test/misc/ZeroKey.h
+
 
 
 ## Main library: libantlr4cpp
