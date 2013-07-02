@@ -16,6 +16,15 @@
     <Filter Include="Source Files\misc">
       <UniqueIdentifier>{187688ac-7c10-4d7d-b2bd-0201c9458655}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gtest">
+      <UniqueIdentifier>{2dac3212-6b18-452b-921d-ee50e3decdd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gmock">
+      <UniqueIdentifier>{5a0ba94e-c39e-4f05-bead-7981e8a7bbef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\misc">
+      <UniqueIdentifier>{84435c91-c2ff-4004-b91d-7687e11aa728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gmock_main.cc">
@@ -62,14 +71,23 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gmock\gmock.h">
+    <ClInclude Include="BaseTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gtest\gtest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\gtest</Filter>
     </ClInclude>
-    <ClInclude Include="BaseTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="gmock\gmock.h">
+      <Filter>Header Files\gmock</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\IntKey.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\StringKey.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\ZeroKey.h">
+      <Filter>Header Files\misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

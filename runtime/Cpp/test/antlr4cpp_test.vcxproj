@@ -380,6 +380,9 @@
     <ClInclude Include="BaseTest.h" />
     <ClInclude Include="gmock\gmock.h" />
     <ClInclude Include="gtest\gtest.h" />
+    <ClInclude Include="misc\IntKey.h" />
+    <ClInclude Include="misc\StringKey.h" />
+    <ClInclude Include="misc\ZeroKey.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
