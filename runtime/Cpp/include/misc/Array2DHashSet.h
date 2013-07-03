@@ -598,8 +598,10 @@ const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o, bool& added)
     // FULL BUCKET, expand and add to end
     TVal* oldBucket = bucket;    
     bucket = new TVal[bucketLength * 2];
-    memcpy(bucket, oldBucket, sizeof(TVal) * bucketLength);
-    memset(bucket + bucketLength, 0, sizeof(TVal) * bucketLength);
+    for (antlr_int32_t i = 0; i < bucketLength; i++)
+        bucket[i] = oldBucket[i];
+    for (antlr_int32_t i = bucketLength; i < bucketLength * 2; i++)
+        bucket[i].hasValue = false;
     delete[] oldBucket;
 
     buckets[b] = bucket;
@@ -665,8 +667,10 @@ void Array2DHashSet<T, K, true>::expand()
                     // expand
                     TVal* oldBucket = newBucket;    
                     newBucket = new TVal[bucketLength * 2];
-                    memcpy(newBucket, oldBucket, sizeof(TVal) * bucketLength);
-                    memset(newBucket + bucketLength, 0, sizeof(TVal) * bucketLength);
+                    for (antlr_int32_t k = 0; k < bucketLength; k++)
+                        newBucket[k] = oldBucket[k];
+                    for (antlr_int32_t k = bucketLength; k < bucketLength * 2; k++)
+                        newBucket[k].hasValue = false;
                     delete[] oldBucket;
                     
                     newTable[b] = newBucket;
@@ -717,7 +721,8 @@ template <typename T, typename K>
 typename Array2DHashSet<T, K, true>::TVal* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const
 {
     TVal* bucket = new TVal[capacity];
-    memset(bucket, 0, sizeof(TVal) * capacity);
+    for (antlr_int32_t i = 0; i < capacity; i++)
+        bucket[i].hasValue = false;
     bucketSize = capacity;
     return bucket;
 }
