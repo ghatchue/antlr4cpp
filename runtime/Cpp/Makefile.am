@@ -40,6 +40,7 @@ antlr4cpp_headers = \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
     include/misc/Key.h \
+    include/misc/MultiMap.h \
     include/misc/MurmurHash.h \
     include/misc/ObjectEqualityComparator.h \
     include/misc/OrderedHashSet.h \
@@ -83,6 +84,7 @@ antlr4cpp_unit_test_sources = \
     test/misc/TestIntegerList.cpp \
     test/misc/TestIntegerStack.cpp \
     test/misc/TestIntervalSet.cpp \
+    test/misc/TestMultiMap.cpp \
     test/misc/TestOrderedHashSet.cpp \
     test/misc/TestPair.cpp \
     test/misc/TestTriple.cpp \
