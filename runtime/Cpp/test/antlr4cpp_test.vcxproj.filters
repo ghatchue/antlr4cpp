@@ -72,6 +72,9 @@
     <ClCompile Include="misc\TestMultiMap.cpp">
       <Filter>Source Files\misc</Filter>
     </ClCompile>
+    <ClCompile Include="misc\TestFlexibleHashMap.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseTest.h">

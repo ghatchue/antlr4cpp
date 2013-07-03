@@ -43,6 +43,7 @@
     <ClInclude Include="include\misc\Array2DHashSet.h" />
     <ClInclude Include="include\misc\DoubleKeyMap.h" />
     <ClInclude Include="include\misc\EqualityComparator.h" />
+    <ClInclude Include="include\misc\FlexibleHashMap.h" />
     <ClInclude Include="include\misc\HashSet.h" />
     <ClInclude Include="include\misc\IntegerList.h" />
     <ClInclude Include="include\misc\IntegerStack.h" />

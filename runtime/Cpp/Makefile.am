@@ -31,6 +31,7 @@ antlr4cpp_headers = \
     include/misc/Array2DHashSet.h \
     include/misc/DoubleKeyMap.h \
     include/misc/EqualityComparator.h \
+    include/misc/FlexibleHashMap.h \
     include/misc/HashMap.h \
     include/misc/HashKeyHelper.h \
     include/misc/HashSet.h \
@@ -80,6 +81,7 @@ antlr4cpp_unit_test_sources = \
     test/misc/StringKey.h \
     test/misc/TestArray2DHashSet.cpp \
     test/misc/TestDoubleKeyMap.cpp \
+    test/misc/TestFlexibleHashMap.cpp \
     test/misc/TestHashMap.cpp \
     test/misc/TestHashSet.cpp \
     test/misc/TestIntegerList.cpp \

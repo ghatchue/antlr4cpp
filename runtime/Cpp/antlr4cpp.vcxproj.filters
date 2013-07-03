@@ -111,6 +111,9 @@
     <ClInclude Include="include\misc\MultiMap.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
+    <ClInclude Include="include\misc\FlexibleHashMap.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\misc\Interval.cpp">
