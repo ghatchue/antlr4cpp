@@ -35,6 +35,8 @@
 
 #include <BaseTest.h>
 #include <misc/Array2DHashSet.h>
+#include <misc/Utils.h>
+#include <algorithm>
 #include "IntKey.h"
 #include "StringKey.h"
 #include "ZeroKey.h"
@@ -60,6 +62,17 @@ TEST_F(TestArray2DHashSet, testSize)
     EXPECT_EQ(2u, set.size());
 }
 
+TEST_F(TestArray2DHashSet, testIsEmpty)
+{
+    Array2DHashSet<antlr_int32_t> set;
+    EXPECT_TRUE(set.isEmpty());
+    set.add(-3);
+    set.add(1);
+    EXPECT_FALSE(set.isEmpty());
+    set.clear();
+    EXPECT_TRUE(set.isEmpty());
+}
+
 TEST_F(TestArray2DHashSet, testContains)
 {
     Array2DHashSet<StringKey> set;
@@ -68,6 +81,17 @@ TEST_F(TestArray2DHashSet, testContains)
     EXPECT_TRUE(set.contains("five"));
 }
 
+TEST_F(TestArray2DHashSet, testContainsFast)
+{
+    Array2DHashSet<StringKey> set;
+    StringKey v("five");
+    EXPECT_FALSE(set.containsFast(&v));
+    set.add(v);
+    EXPECT_TRUE(set.containsFast(&v));
+    EXPECT_FALSE(set.containsFast(NULL));
+}
+
+
 TEST_F(TestArray2DHashSet, testAdd)
 {
     Array2DHashSet<IntKey> set;
@@ -75,14 +99,89 @@ TEST_F(TestArray2DHashSet, testAdd)
     EXPECT_TRUE(set.add(3));
     EXPECT_FALSE(set.add(1));
     EXPECT_FALSE(set.add(3));
+    EXPECT_EQ("{1, 3}", set.toString());
+}
+
+TEST_F(TestArray2DHashSet, testGetOrAdd)
+{
+    Array2DHashSet<IntKey> set;
+    const IntKey* v1 = set.getOrAdd(1);
+    const IntKey* v3 = set.getOrAdd(3);
+    EXPECT_EQ(1, v1->value);
+    EXPECT_EQ(3, v3->value);
+    EXPECT_EQ(v1, set.getOrAdd(1));
+    EXPECT_EQ(v3, set.getOrAdd(3));
+    EXPECT_EQ(2u, set.size());
+}
+
+TEST_F(TestArray2DHashSet, testGet)
+{
+    Array2DHashSet<IntKey> set;
+    EXPECT_EQ(NULL, set.get(1));
+    EXPECT_EQ(NULL, set.get(-18));
+    EXPECT_TRUE(set.add(1));
+    EXPECT_TRUE(set.add(-18));
+    EXPECT_EQ(1, set.get(1)->value);
+    EXPECT_EQ(-18, set.get(-18)->value);
+}
+
+TEST_F(TestArray2DHashSet, testHashCode)
+{
+    Array2DHashSet<IntKey> a;
+    Array2DHashSet<IntKey> b;
+    for (antlr_int32_t i = 0; i < 200; i++) {
+        a.add(i);
+        b.add(200-i-1);
+    }
+    EXPECT_EQ(200u, a.size());
+    EXPECT_EQ(200u, b.size());
+    EXPECT_EQ(a.hashCode(), b.hashCode());
+    a.remove(100);
+    EXPECT_NE(a.hashCode(), b.hashCode());
+    b.remove(100);
+    EXPECT_EQ(a.hashCode(), b.hashCode());
+}
+
+TEST_F(TestArray2DHashSet, testEqualOperator)
+{
+    Array2DHashSet<IntKey> a;
+    Array2DHashSet<IntKey> b;
+    for (antlr_int32_t i = 0; i < 200; i++) {
+        a.add(i);
+        b.add(200-i-1);
+    }
+    EXPECT_EQ(200u, a.size());
+    EXPECT_EQ(200u, b.size());
+    EXPECT_TRUE(a == b);
+    a.remove(100);
+    EXPECT_FALSE(a == b);
+    b.remove(100);
+    EXPECT_TRUE(a == b);
+    a.remove(99);
+    b.remove(98);
+    EXPECT_FALSE(a == b);
 }
 
 TEST_F(TestArray2DHashSet, testRemove)
 {
     Array2DHashSet<IntKey> set;
     EXPECT_FALSE(set.remove(5));
-    EXPECT_TRUE(set.add(1));
-    EXPECT_TRUE(set.remove(1));
+    for (antlr_int32_t i = 0; i < 200; i++)
+        EXPECT_TRUE(set.add(i));
+    for (antlr_int32_t i = 0; i < 200; i++)
+        EXPECT_TRUE(set.remove  (i));
+    EXPECT_EQ(0u, set.size());
+}
+
+TEST_F(TestArray2DHashSet, testRemoveFast)
+{
+    Array2DHashSet<IntKey> set;
+    IntKey v(1);
+    EXPECT_FALSE(set.removeFast(NULL));
+    EXPECT_FALSE(set.removeFast(&v));
+    EXPECT_TRUE(set.add(v));
+    EXPECT_TRUE(set.removeFast(&v));
+    EXPECT_EQ(0u, set.size());
 }
 
 TEST_F(TestArray2DHashSet, testConstantKeyHash)
@@ -123,4 +222,25 @@ TEST_F(TestArray2DHashSet, testCStringHashSet)
     EXPECT_TRUE(set.contains("zero"));
     EXPECT_TRUE(set.contains("one"));
     EXPECT_FALSE(set.contains("three"));
+}
+
+TEST_F(TestArray2DHashSet, testToArray)
+{
+    Array2DHashSet<antlr_int32_t> set;
+    for (antlr_int32_t i = -3; i < 4; i++)
+        set.add(i);
+    std::vector<antlr_int32_t> v = set.toArray();
+    std::sort(v.begin(), v.end());
+    EXPECT_EQ("[-3, -2, -1, 0, 1, 2, 3]", Utils::stringValueOf(v));
+}
+
+TEST_F(TestArray2DHashSet, testToCustomArray)
+{
+    Array2DHashSet<antlr_int32_t> set;
+    for (antlr_int32_t i = -3; i < 4; i++)
+        set.add(i);
+    std::vector<double> v;
+    set.toArray(v);
+    std::sort(v.begin(), v.end());
+    EXPECT_EQ("[-3, -2, -1, 0, 1, 2, 3]", Utils::stringValueOf(v));
 }

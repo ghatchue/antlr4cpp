@@ -432,6 +432,7 @@ template <typename U>
 std::vector<U>& Array2DHashSet<T, K, true>::toArray(std::vector<U>& a) const
 {
     a.reserve(size());
+    a.clear();
     
     for (antlr_int32_t i = 0; i < numBuckets; i++) {
         const TVal* bucket = buckets[i];
@@ -513,7 +514,6 @@ void Array2DHashSet<T, K, true>::clear()
     cleanup();
     buckets = createBuckets(INITAL_CAPACITY, this->numBuckets, this->bucketSizes);
     n = 0;
-    
 }
 
 template <typename T, typename K>
@@ -543,8 +543,8 @@ template <typename T, typename K>
 std::string Array2DHashSet<T, K, true>::toTableString()
 {
     std::stringstream buf;
-    bool first = true;
     for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        bool first = true;
         const TVal* bucket = buckets[i];
         if ( bucket==NULL ) {
             buf << "null\n";
@@ -665,7 +665,7 @@ void Array2DHashSet<T, K, true>::expand()
                 newBucket = newTable[b];
                 if (bucketLength == bucketSizes[b]) {
                     // expand
-                    TVal* oldBucket = newBucket;    
+                    TVal* oldBucket = newBucket;
                     newBucket = new TVal[bucketLength * 2];
                     for (antlr_int32_t k = 0; k < bucketLength; k++)
                         newBucket[k] = oldBucket[k];
@@ -674,7 +674,7 @@ void Array2DHashSet<T, K, true>::expand()
                     delete[] oldBucket;
                     
                     newTable[b] = newBucket;
-                    bucketSizes[b] = bucketLength * 2;                    
+                    bucketSizes[b] = bucketLength * 2;
                 }
             }
 
