@@ -37,6 +37,7 @@
 #include <misc/Array2DHashSet.h>
 #include <misc/Utils.h>
 #include <algorithm>
+#include "HashRangeKey.h"
 #include "IntKey.h"
 #include "StringKey.h"
 #include "ZeroKey.h"
@@ -182,6 +183,47 @@ TEST_F(TestArray2DHashSet, testRemoveFast)
     EXPECT_TRUE(set.add(v));
     EXPECT_TRUE(set.removeFast(&v));
     EXPECT_EQ(0u, set.size());
+}
+
+TEST_F(TestArray2DHashSet, testRemoveWithHashRangeKey)
+{
+    Array2DHashSet<HashRangeKey> set;
+    for (antlr_int32_t i = 0; i < 20; i++)
+        set.add(i);
+    EXPECT_EQ(
+        "[0 10 _ _ _ _ _ _]\n"
+        "[1 11 _ _ _ _ _ _]\n"
+        "[2 12 _ _ _ _ _ _]\n"
+        "[3 13 _ _ _ _ _ _]\n"
+        "[4 14 _ _ _ _ _ _]\n"
+        "[5 15 _ _ _ _ _ _]\n"
+        "[6 16 _ _ _ _ _ _]\n"
+        "[7 17 _ _ _ _ _ _]\n"
+        "[8 18 _ _ _ _ _ _]\n"
+        "[9 19 _ _ _ _ _ _]\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n",
+        set.toTableString());
 }
 
 TEST_F(TestArray2DHashSet, testConstantKeyHash)

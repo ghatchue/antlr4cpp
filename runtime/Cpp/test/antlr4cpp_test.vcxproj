@@ -371,6 +371,7 @@
     <ClCompile Include="misc\TestIntegerList.cpp" />
     <ClCompile Include="misc\TestIntegerStack.cpp" />
     <ClCompile Include="misc\TestIntervalSet.cpp" />
+    <ClCompile Include="misc\TestMultiMap.cpp" />
     <ClCompile Include="misc\TestOrderedHashSet.cpp" />
     <ClCompile Include="misc\TestPair.cpp" />
     <ClCompile Include="misc\TestTriple.cpp" />
@@ -380,6 +381,7 @@
     <ClInclude Include="BaseTest.h" />
     <ClInclude Include="gmock\gmock.h" />
     <ClInclude Include="gtest\gtest.h" />
+    <ClInclude Include="misc\HashRangeKey.h" />
     <ClInclude Include="misc\IntKey.h" />
     <ClInclude Include="misc\StringKey.h" />
     <ClInclude Include="misc\ZeroKey.h" />

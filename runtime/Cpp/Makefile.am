@@ -75,6 +75,7 @@ antlr4cpp_unit_test_sources = \
     test/gmock_main.cc \
     test/BaseTest.h \
     test/BaseTest.cpp \
+    test/misc/HashRangeKey.h \
     test/misc/IntKey.h \
     test/misc/StringKey.h \
     test/misc/TestArray2DHashSet.cpp \

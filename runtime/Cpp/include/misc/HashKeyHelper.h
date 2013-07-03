@@ -171,12 +171,6 @@ bool HashKeyHelper<K, false>::areEqual(const K& left, const K& right) const
     return cmp(left, right);
 }
 
-
-// Sanity checks
-#if defined(ANTLR_USING_MSC_HASH_MAP) != defined(ANTLR_USING_MSC_HASH_SET)
-#   error "MS hash_map/set inconsistency"
-#endif
-
 } /* namespace misc */
 } /* namespace antlr4 */
 
