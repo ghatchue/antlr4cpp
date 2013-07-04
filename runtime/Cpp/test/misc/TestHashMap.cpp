@@ -35,6 +35,7 @@
 
 #include <BaseTest.h>
 #include <misc/HashMap.h>
+#include <misc/Utils.h>
 #include <string>
 #include "IntKey.h"
 #include "StringKey.h"
@@ -136,4 +137,11 @@ TEST_F(TestHashMap, testCStringHashMap)
     EXPECT_EQ(3u, map.size());
     EXPECT_EQ("000", *map.get("zero"));
     EXPECT_EQ("111111", *map.get("one"));
+}
+
+TEST_F(TestHashMap, testInsertionOperator)
+{
+    EXPECT_EQ("10", Utils::stringValueOf(IntKey(10)));
+    EXPECT_EQ("ten", Utils::stringValueOf(StringKey("ten")));
+    EXPECT_EQ("0", Utils::stringValueOf(ZeroKey()));
 }

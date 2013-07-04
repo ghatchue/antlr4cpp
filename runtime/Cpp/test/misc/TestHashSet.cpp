@@ -35,6 +35,7 @@
 
 #include <BaseTest.h>
 #include <misc/HashSet.h>
+#include <misc/Utils.h>
 #include <string>
 #include "IntKey.h"
 #include "StringKey.h"
@@ -121,4 +122,11 @@ TEST_F(TestHashSet, testCStringHashSet)
     EXPECT_TRUE(set.contains("zero"));
     EXPECT_TRUE(set.contains("one"));
     EXPECT_FALSE(set.contains("three"));
+}
+
+TEST_F(TestHashSet, testInsertionOperator)
+{
+    EXPECT_EQ("10", Utils::stringValueOf(IntKey(10)));
+    EXPECT_EQ("ten", Utils::stringValueOf(StringKey("ten")));
+    EXPECT_EQ("0", Utils::stringValueOf(ZeroKey()));
 }

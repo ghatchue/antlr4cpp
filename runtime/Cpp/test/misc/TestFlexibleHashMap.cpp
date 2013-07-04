@@ -36,9 +36,11 @@
 #include <BaseTest.h>
 #include <misc/FlexibleHashMap.h>
 #include <misc/Utils.h>
+#include <algorithm>
 #include <string>
 #include "IntKey.h"
 #include "StringKey.h"
+#include "ZeroKey.h"
 
 using namespace antlr4::misc;
 
@@ -49,8 +51,116 @@ class TestFlexibleHashMap : public BaseTest
 
 TEST_F(TestFlexibleHashMap, testSize)
 {
-    FlexibleHashMap<antlr_int32_t, std::string> map;
+    FlexibleHashMap<IntKey, IntKey> map;
     EXPECT_EQ(0u, map.size());
+    map.put(1, 1);
+    map.put(-2, -2);
+    map.put(3, 3);
+    EXPECT_EQ(3u, map.size());
+    map.remove(-2);
+    EXPECT_EQ(2u, map.size());
+}
+
+TEST_F(TestFlexibleHashMap, testIsEmpty)
+{
+    FlexibleHashMap<IntKey, IntKey> map;
+    EXPECT_TRUE(map.isEmpty());
+    map.put(1, 1);
+    map.put(-2, -2);
+    EXPECT_FALSE(map.isEmpty());
+    map.clear();
+    EXPECT_TRUE(map.isEmpty());
+}
+
+TEST_F(TestFlexibleHashMap, testContainsKey)
+{
+    FlexibleHashMap<StringKey, IntKey> map;
+    EXPECT_FALSE(map.containsKey("five"));
+    map.put("five", 5);
+    EXPECT_TRUE(map.containsKey("five"));
+}
+
+TEST_F(TestFlexibleHashMap, testContainsValue)
+{
+    FlexibleHashMap<StringKey, IntKey> map;
+    EXPECT_THROW(map.containsValue(5), std::logic_error);
+}
+
+TEST_F(TestFlexibleHashMap, testGet)
+{
+    FlexibleHashMap<IntKey, antlr_int32_t> map;
+    EXPECT_EQ(NULL, map.get(1));
+    map.put(1, 10);
+    map.put(2, 20);
+    map.put(3, 30);
+    EXPECT_EQ(10, *map.get(1));
+    EXPECT_EQ(20, *map.get(2));
+    EXPECT_EQ(30, *map.get(3));
+}
+
+TEST_F(TestFlexibleHashMap, testPut)
+{
+    FlexibleHashMap<IntKey, std::string> map;
+    const std::string* p1 = map.put(1, "one");
+    const std::string* p3 = map.put(3, "three");
+    EXPECT_EQ("one", *p1);
+    EXPECT_EQ("three", *p3);
+    EXPECT_EQ("one", *map.get(1));
+    EXPECT_EQ("three", *map.get(3));
+    map.put(1, "two");
+    EXPECT_EQ("two", *map.get(1));
+}
+
+TEST_F(TestFlexibleHashMap, testRemove)
+{
+    FlexibleHashMap<IntKey, std::string> map;
+    map.remove(5);
+    map.put(1, "one");
+    EXPECT_EQ("one", *map.get(1));
+    map.remove(1);
+    EXPECT_EQ(NULL, map.get(1));
+}
+
+TEST_F(TestFlexibleHashMap, testClear)
+{
+    FlexibleHashMap<IntKey, std::string> map;
+    map.put(1, "one");
+    map.put(2, "two");
+    map.clear();
+    EXPECT_EQ("{}", map.toString());
+}
+
+TEST_F(TestFlexibleHashMap, testToString)
+{
+    FlexibleHashMap<IntKey, std::string> map;
+    EXPECT_EQ("{}", map.toString());
+    map.put(1, "one");
+    map.put(2, "two");
+    EXPECT_EQ("{1:one, 2:two}", map.toString());
+}
+
+TEST_F(TestFlexibleHashMap, testConstantKeyHash)
+{
+    FlexibleHashMap<ZeroKey, antlr_int32_t> map;
+    map.put(0, 10);
+    map.put(1, 20);
+    map.put(2, 30);
+    map.put(2, 40);
+    EXPECT_EQ(1u, map.size());
+    EXPECT_EQ(40, *map.get(2));
+}
+
+TEST_F(TestFlexibleHashMap, testValues)
+{
+    FlexibleHashMap<antlr_int32_t, antlr_int32_t> map;
+    for (antlr_int32_t i = -3; i < 4; i++)
+        map.put(i, i);
+    std::vector<const antlr_int32_t*> v = map.values();
+    std::vector<antlr_int32_t> v2;
+    for (std::vector<const antlr_int32_t*>::const_iterator it = v.begin(); it != v.end(); it++)
+        v2.push_back(**it);
+    std::sort(v2.begin(), v2.end());
+    EXPECT_EQ("[-3, -2, -1, 0, 1, 2, 3]", Utils::stringValueOf(v2));
 }
 
 TEST_F(TestFlexibleHashMap, testToTableString)

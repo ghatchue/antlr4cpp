@@ -287,7 +287,6 @@ const V* FlexibleHashMap<K, V, B, true>::put(const K& key, const V& value)
         Entry& e = *it;
         if ( comparator->equals(e.key, key) ) {
             e.value = value;
-            n++;
             return &e.value;
         }    
     }
@@ -298,9 +297,17 @@ const V* FlexibleHashMap<K, V, B, true>::put(const K& key, const V& value)
 }
 
 template <typename K, typename V, typename B>
-void FlexibleHashMap<K, V, B, true>::remove(const K&)
+void FlexibleHashMap<K, V, B, true>::remove(const K& key)
 {
-    throw std::logic_error("FlexibleHashMap::remove not supported");
+    antlr_int32_t b = getBucket(key);
+    std::list<Entry>* bucket = buckets[b];
+    if ( bucket==NULL ) return; // no bucket
+    for (typename std::list<Entry>::iterator it = bucket->begin(); it != bucket->end(); it++) {
+        if ( comparator->equals(it->key, key) ) {
+            bucket->erase(it);
+            n--;
+        }
+    }
 }
 
 template <typename K, typename V, typename B>
