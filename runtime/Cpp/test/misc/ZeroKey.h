@@ -37,6 +37,7 @@
 #define	ZERO_KEY_H
 
 #include <misc/Key.h>
+#include <sstream>
 
 using namespace antlr4::misc;
 
@@ -60,5 +61,14 @@ public:
         return true;
     }
 };
+
+namespace std {
+    static ostream& operator<< (ostream& os, const ZeroKey&)
+    {
+        const antlr_int32_t value = 0;
+        os << value;
+        return os;
+    }
+}
 
 #endif /* ifndef ZERO_KEY_H */

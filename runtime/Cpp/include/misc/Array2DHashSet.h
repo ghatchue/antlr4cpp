@@ -107,8 +107,8 @@ public:
 
     bool containsFast(ANTLR_NULLABLE const T* obj) const;
 
-//    ANTLR_OVERRIDE
-//    SetIterator iterator();
+    //ANTLR_OVERRIDE
+    //SetIterator iterator();
     
     std::vector<const T*> toPtrArray() const;
 
@@ -527,8 +527,8 @@ template <typename T, typename K>
 void Array2DHashSet<T, K, true>::clear()
 {
     cleanup();
-    this->numBuckets = INITAL_CAPACITY;
-    buckets = createBuckets(INITAL_CAPACITY, this->bucketSizes);
+    numBuckets = INITAL_CAPACITY;
+    buckets = createBuckets(INITAL_CAPACITY, bucketSizes);
     n = 0;
 }
 
@@ -755,6 +755,7 @@ void Array2DHashSet<T, K, true>::cleanup()
     delete[] bucketSizes;
     buckets = NULL;
     bucketSizes = NULL;
+    numBuckets = 0;
     n = 0;
 }
 

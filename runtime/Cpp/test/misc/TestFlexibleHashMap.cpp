@@ -37,6 +37,8 @@
 #include <misc/FlexibleHashMap.h>
 #include <misc/Utils.h>
 #include <string>
+#include "IntKey.h"
+#include "StringKey.h"
 
 using namespace antlr4::misc;
 
@@ -47,7 +49,38 @@ class TestFlexibleHashMap : public BaseTest
 
 TEST_F(TestFlexibleHashMap, testSize)
 {
-    //FlexibleHashMap<antlr_int32_t, std::string> map;
-    FlexibleHashMap<antlr_int32_t, std::string>::Entry e(0, "");
-    //EXPECT_EQ(0u, map.size());
+    FlexibleHashMap<antlr_int32_t, std::string> map;
+    EXPECT_EQ(0u, map.size());
+}
+
+TEST_F(TestFlexibleHashMap, testToTableString)
+{
+    FlexibleHashMap<StringKey, antlr_int32_t> map;
+    map.put("hi", 1);
+    map.put("mom", 2);
+    map.put("foo", 3);
+    map.put("ach", 4);
+    map.put("cbba", 5);
+    map.put("d", 6);
+    map.put("edf", 7);
+    map.put("mom", 8);
+    map.put("hi", 9);
+    EXPECT_EQ(
+        "[d:6 edf:7]\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "[cbba:5]\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "null\n"
+        "[ach:4]\n"
+        "[mom:8]\n"
+        "[hi:9]\n"
+        "[foo:3]\n"
+        "null\n",
+        map.toTableString());
 }

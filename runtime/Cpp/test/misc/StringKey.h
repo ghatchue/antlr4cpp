@@ -38,6 +38,7 @@
 
 #include <misc/Key.h>
 #include <misc/MurmurHash.h>
+#include <sstream>
 #include <string>
 
 using namespace antlr4::misc;
@@ -71,5 +72,14 @@ public:
 public:
     std::string value;
 };
+
+namespace std {
+    static ostream& operator<< (ostream& os, const StringKey& v)
+    {
+        os << v.value;
+        return os;
+    }
+}
+
 
 #endif /* ifndef STRING_KEY_H */

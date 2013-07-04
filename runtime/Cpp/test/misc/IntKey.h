@@ -37,6 +37,7 @@
 #define	INT_KEY_H
 
 #include <misc/Key.h>
+#include <sstream>
 
 using namespace antlr4::misc;
 
@@ -64,5 +65,13 @@ public:
 public:
     antlr_int32_t value;
 };
+
+namespace std {
+    static ostream& operator<< (ostream& os, const IntKey& v)
+    {
+        os << v.value;
+        return os;
+    }
+}
 
 #endif /* ifndef INT_KEY_H */

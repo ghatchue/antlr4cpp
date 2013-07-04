@@ -67,7 +67,7 @@ public:
 };
 
 namespace std {
-    ostream& operator<< (ostream& os, const HashRangeKey& v)
+    static ostream& operator<< (ostream& os, const HashRangeKey& v)
     {
         os << v.value;
         return os;
