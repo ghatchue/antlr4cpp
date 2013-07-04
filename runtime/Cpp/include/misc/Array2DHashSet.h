@@ -57,12 +57,6 @@ class ANTLR_API Array2DHashSet;
 template <typename T, typename K>
 class ANTLR_API Array2DHashSet<T, K, true> : Key< Array2DHashSet<T, K, true> >
 {
-public:
-
-    class SetIterator
-    {
-    };
-
 protected:
     
     struct TVal
@@ -114,8 +108,10 @@ public:
 
     bool containsFast(ANTLR_NULLABLE const T* obj) const;
 
-    ANTLR_OVERRIDE
-    SetIterator iterator();
+//    ANTLR_OVERRIDE
+//    SetIterator iterator();
+    
+    std::vector<const T*> toPtrArray() const;
 
     ANTLR_OVERRIDE
     std::vector<T> toArray() const;
@@ -397,9 +393,28 @@ bool Array2DHashSet<T, K, true>::containsFast(ANTLR_NULLABLE const T* obj) const
 }
 
 template <typename T, typename K>
-typename Array2DHashSet<T, K, true>::SetIterator Array2DHashSet<T, K, true>::iterator()
+std::vector<const T*> Array2DHashSet<T, K, true>::toPtrArray() const
 {
-    return typename Array2DHashSet<T, K, true>::SetIterator();
+    std::vector<const T*> a;
+    a.reserve(size());
+    
+    for (antlr_int32_t i = 0; i < numBuckets; i++) {
+        const TVal* bucket = buckets[i];
+        if ( bucket==NULL ) {
+            continue;
+        }
+        
+        for (antlr_int32_t j = 0; j < bucketSizes[i]; j++) {
+            const TVal& o = bucket[j];
+            if ( !o.hasValue ) {
+                break;
+            }
+            
+            a.push_back(&o.value);
+        }
+    }
+    
+    return a;
 }
 
 template <typename T, typename K>

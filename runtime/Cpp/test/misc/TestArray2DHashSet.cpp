@@ -276,6 +276,19 @@ TEST_F(TestArray2DHashSet, testToArray)
     EXPECT_EQ("[-3, -2, -1, 0, 1, 2, 3]", Utils::stringValueOf(v));
 }
 
+TEST_F(TestArray2DHashSet, testToPtrArray)
+{
+    Array2DHashSet<antlr_int32_t> set;
+    for (antlr_int32_t i = -3; i < 4; i++)
+        set.add(i);
+    std::vector<const antlr_int32_t*> v = set.toPtrArray();
+    std::vector<antlr_int32_t> v2;
+    for (std::vector<const antlr_int32_t*>::const_iterator it = v.begin(); it != v.end(); it++)
+        v2.push_back(**it);
+    std::sort(v2.begin(), v2.end());
+    EXPECT_EQ("[-3, -2, -1, 0, 1, 2, 3]", Utils::stringValueOf(v2));
+}
+
 TEST_F(TestArray2DHashSet, testToCustomArray)
 {
     Array2DHashSet<antlr_int32_t> set;
