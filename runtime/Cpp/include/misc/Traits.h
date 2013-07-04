@@ -72,6 +72,19 @@ struct Traits
     template< typename T>
     struct isSame<T,T> { static const bool value = true; };
     
+    // Indicates if B is a superclass of D
+    template <typename B, typename D>
+    struct super
+    {
+        static const bool value = isSame<B, D>::value || isBaseOf<B, D>::value;
+    };
+
+    // Indicates if D extends B
+    template <typename D, typename B>
+    struct extends
+    {
+        static const bool value = isSame<B, D>::value || isBaseOf<B, D>::value;
+    };
 };
 
 

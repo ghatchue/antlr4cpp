@@ -37,6 +37,7 @@
 #define	HASH_RANGE_KEY_H
 
 #include <misc/Key.h>
+#include <sstream>
 
 using namespace antlr4::misc;
 
@@ -47,7 +48,6 @@ public:
     HashRangeKey() : value(0), maxHash(10) { }
     HashRangeKey(const HashRangeKey& other) : Key<HashRangeKey>(), value(other.value), maxHash(other.maxHash) { }
     HashRangeKey(const antlr_int32_t& value) : value(value), maxHash(10) { }
-    operator size_t() const { return value; }
     
     ANTLR_OVERRIDE
     antlr_int32_t hashCode() const
@@ -65,5 +65,14 @@ public:
     antlr_int32_t value;
     antlr_int32_t maxHash;
 };
+
+namespace std {
+    ostream& operator<< (ostream& os, const HashRangeKey& v)
+    {
+        os << v.value;
+        return os;
+    }
+}
+
 
 #endif /* ifndef HASH_RANGE_KEY_H */

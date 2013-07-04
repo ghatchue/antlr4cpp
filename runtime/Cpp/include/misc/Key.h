@@ -56,7 +56,7 @@ public:
     
     virtual bool operator==(const Key<T>& other) const;
 
-    virtual operator size_t() const;
+    operator size_t() const;
 };
 
 template <typename T>

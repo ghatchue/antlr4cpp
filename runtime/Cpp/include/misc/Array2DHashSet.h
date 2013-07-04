@@ -50,8 +50,7 @@
 namespace antlr4 {
 namespace misc {
 
-template <typename T, typename K = T,
-          bool K_isBaseOf_T = Traits::isSame<K, T>::value || Traits::isBaseOf<K, T>::value>
+template <typename T, typename K = T, bool K_isBaseOf_T = Traits::super<K, T>::value>
 class ANTLR_API Array2DHashSet;
 
 template <typename T, typename K>
@@ -164,7 +163,7 @@ protected:
      * @param capacity the length of the array to return
      * @return the newly constructed array
      */
-    TVal** createBuckets(antlr_int32_t capacity, antlr_int32_t& numBuckets, antlr_int32_t*& sizes) const;
+    TVal** createBuckets(antlr_int32_t capacity, antlr_int32_t*& sizes) const;
 
     /**
      * Return an array of {@code T} with length {@code capacity}.
@@ -172,7 +171,7 @@ protected:
      * @param capacity the length of the array to return
      * @return the newly constructed array
      */
-    TVal* createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const;
+    TVal* createBucket(antlr_int32_t capacity) const;
     
     /* De-allocate buckets */
     void cleanup();
@@ -293,7 +292,8 @@ void Array2DHashSet<T, K, true>::initialize(ANTLR_NULLABLE const AbstractEqualit
     }
 
     this->comparator = comparator;
-    this->buckets = createBuckets(initialCapacity, this->numBuckets, this->bucketSizes);
+    this->numBuckets = initialCapacity;
+    this->buckets = createBuckets(initialCapacity, this->bucketSizes);
     this->initialBucketCapacity = initialBucketCapacity;
 }
 
@@ -527,7 +527,8 @@ template <typename T, typename K>
 void Array2DHashSet<T, K, true>::clear()
 {
     cleanup();
-    buckets = createBuckets(INITAL_CAPACITY, this->numBuckets, this->bucketSizes);
+    this->numBuckets = INITAL_CAPACITY;
+    buckets = createBuckets(INITAL_CAPACITY, this->bucketSizes);
     n = 0;
 }
 
@@ -588,7 +589,8 @@ const T* Array2DHashSet<T, K, true>::getOrAddImpl(const T& o, bool& added)
     // NEW BUCKET
     if ( bucket==NULL ) {
         added = true;
-        bucket = createBucket(initialBucketCapacity, bucketSizes[b]);
+        bucketSizes[b] = initialBucketCapacity;
+        bucket = createBucket(initialBucketCapacity);
         bucket[0].hasValue = true;
         bucket[0].value = o;
         buckets[b] = bucket;
@@ -647,7 +649,8 @@ void Array2DHashSet<T, K, true>::expand()
     
     currentPrime += 4;
     antlr_int32_t newCapacity = numBuckets * 2;
-    TVal** newTable = createBuckets(newCapacity, numBuckets, bucketSizes);
+    numBuckets = newCapacity;
+    TVal** newTable = createBuckets(newCapacity, bucketSizes);
     antlr_int32_t* newBucketLengths = new antlr_int32_t[numBuckets];
     memset(newBucketLengths, 0, sizeof(antlr_int32_t) * numBuckets);
     buckets = newTable;
@@ -673,7 +676,8 @@ void Array2DHashSet<T, K, true>::expand()
             TVal* newBucket = NULL;
             if (bucketLength == 0) {
                 // new bucket
-                newBucket = createBucket(initialBucketCapacity, bucketSizes[b]);
+                bucketSizes[b] = initialBucketCapacity;
+                newBucket = createBucket(initialBucketCapacity);
                 newTable[b] = newBucket;
             }
             else {
@@ -716,11 +720,10 @@ void Array2DHashSet<T, K, true>::expand()
  * @return the newly constructed array
  */
 template <typename T, typename K>
-typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity, antlr_int32_t& numBuckets, antlr_int32_t*& sizes) const
+typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBuckets(antlr_int32_t capacity, antlr_int32_t*& sizes) const
 {
     TVal** table = new TVal*[capacity];
     memset(table, 0, sizeof(TVal*) * capacity);
-    numBuckets = capacity;
     sizes = new antlr_int32_t[capacity];
     memset(sizes, 0, sizeof(antlr_int32_t) * capacity);
     return table;
@@ -733,12 +736,11 @@ typename Array2DHashSet<T, K, true>::TVal** Array2DHashSet<T, K, true>::createBu
  * @return the newly constructed array
  */
 template <typename T, typename K>
-typename Array2DHashSet<T, K, true>::TVal* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity, antlr_int32_t& bucketSize) const
+typename Array2DHashSet<T, K, true>::TVal* Array2DHashSet<T, K, true>::createBucket(antlr_int32_t capacity) const
 {
     TVal* bucket = new TVal[capacity];
     for (antlr_int32_t i = 0; i < capacity; i++)
         bucket[i].hasValue = false;
-    bucketSize = capacity;
     return bucket;
 }
 
