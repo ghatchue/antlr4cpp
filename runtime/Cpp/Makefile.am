@@ -27,6 +27,12 @@ antlr4cpp_headers = \
     include/IntStream.h \
     include/Lexer.h \
     include/Token.h \
+    include/atn/ATNSTate.h \
+    include/atn/DecisionState.h \
+    include/dfa/DFA.h \
+    include/dfa/DFASerializer.h \
+    include/dfa/DFAState.h \
+    include/dfa/LexerDFASerializer.h \
     include/misc/AbstractEqualityComparator.h \
     include/misc/Array2DHashSet.h \
     include/misc/DoubleKeyMap.h \
@@ -41,6 +47,7 @@ antlr4cpp_headers = \
     include/misc/IntervalSet.h \
     include/misc/IntSet.h \
     include/misc/Key.h \
+    include/misc/KeyPtr.h \
     include/misc/MultiMap.h \
     include/misc/MurmurHash.h \
     include/misc/ObjectEqualityComparator.h \
@@ -59,6 +66,12 @@ antlr4cpp_sources = \
     src/IntStream.cpp \
     src/Lexer.cpp \
     src/Token.cpp \
+    src/atn/ATNState.cpp \
+    src/atn/DecisionState.cpp \
+    src/dfa/DFA.cpp \
+    src/dfa/DFASerializer.cpp \
+    src/dfa/DFAState.cpp \
+    src/dfa/LexerDFASerializer.cpp \
     src/misc/IntegerList.cpp \
     src/misc/IntegerStack.cpp \
     src/misc/IntervalSet.cpp \
@@ -87,6 +100,7 @@ antlr4cpp_unit_test_sources = \
     test/misc/TestIntegerList.cpp \
     test/misc/TestIntegerStack.cpp \
     test/misc/TestIntervalSet.cpp \
+    test/misc/TestKeyPtr.cpp \
     test/misc/TestMultiMap.cpp \
     test/misc/TestOrderedHashSet.cpp \
     test/misc/TestPair.cpp \
