@@ -38,6 +38,7 @@
 
 #include <Antlr4Definitions.h>
 #include <atn/ATNConfigSet.h>
+#include <misc/HashSet.h>
 #include <misc/Key.h>
 #include <memory>
 
@@ -77,31 +78,63 @@ class ANTLR_API DFAState : public Key<DFAState>
 {
 public:
     
-	/** Map a predicate to a predicted alternative. */
-	class PredPrediction
+    /** Map a predicate to a predicted alternative. */
+    class PredPrediction
     {
     public:
         
-		antlr_int32_t alt;
-		PredPrediction(const SemanticContext* pred, antlr_int32_t alt);
+        antlr_int32_t alt;
+        PredPrediction(const SemanticContext* pred, antlr_int32_t alt);
 
         ANTLR_OVERRIDE
-		std::string toString() const;
+        std::string toString() const;
         
     public:
         
-		ANTLR_NOTNULL
-		const SemanticContext* pred; // never null; at least SemanticContext.NONE        
-	};
+        ANTLR_NOTNULL
+        const SemanticContext* pred; // never null; at least SemanticContext.NONE        
+    };
     
 public:
     
-    ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const { return 0; }
-    
-    ANTLR_OVERRIDE
-    DFAState* clone() const { return NULL; }
+    DFAState();
 
+    DFAState(antlr_int32_t stateNumber);
+
+    DFAState(ANTLR_NOTNULL ATNConfigSet* configs);
+    
+    DFAState(const DFAState& other);
+
+    /** Get the set of all alts mentioned by all ATN configurations in this
+     *  DFA state.
+     */
+    HashSet<antlr_int32_t> getAltSet() const;
+
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const;
+
+    /**
+     * Two {@link DFAState} instances are equal if their ATN configuration sets
+     * are the same. This method is used to see if a state already exists.
+     * <p/>
+     * Because the number of alternatives and number of ATN configurations are
+     * finite, there is a finite number of DFA states that can be processed.
+     * This is necessary to show that the algorithm terminates.
+     * <p/>
+     * Cannot test the DFA state numbers here because in
+     * {@link ParserATNSimulator#addDFAState} we need to know if any other state
+     * exists that has this exact set of ATN configurations. The
+     * {@link #stateNumber} is irrelevant.
+     */
+    ANTLR_OVERRIDE
+    bool operator==(const DFAState& other) const;
+
+    ANTLR_OVERRIDE
+    DFAState* clone() const;
+
+    ANTLR_OVERRIDE
+    std::string toString() const;    
+    
 public:
     
     antlr_int32_t stateNumber;

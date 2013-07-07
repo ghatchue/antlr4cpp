@@ -89,7 +89,7 @@ std::string DFASerializer::getStateString(const DFAState& s) const
     std::string baseStateStr = std::string(s.isAcceptState ? ":" : "") + "s" + Utils::stringValueOf(n) + (s.requiresFullContext ? "^" : "");
     if ( s.isAcceptState ) {
         if ( s.predicates!=NULL ) {
-            baseStateStr += "=>" + Utils::stringValueOfPtrArrayViaToString(s.predicates, s.numPredicates);
+            baseStateStr += "=>" + Utils::stringValueOfPtrArray(s.predicates, s.numPredicates);
         }
         else {
             baseStateStr += "=>" + s.prediction;

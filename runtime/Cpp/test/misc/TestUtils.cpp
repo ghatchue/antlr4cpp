@@ -42,6 +42,17 @@ class TestUtils : public BaseTest
 {
 };
 
+class MyClass
+{
+public:
+    
+    MyClass(const std::string& s) : s(s) { }
+    std::string toString() const { return s + ":" + s; }
+    
+public:
+    std::string s;
+};
+
 TEST_F(TestUtils, testStringValueOfInt)
 {
     EXPECT_EQ("123", Utils::stringValueOf(123));
@@ -90,4 +101,16 @@ TEST_F(TestUtils, testBinarySearch)
     EXPECT_EQ(-3, Utils::binarySearch(items.begin(), items.end(), 9));
     EXPECT_EQ( 2, Utils::binarySearch(items.begin(), items.end(), 10));
     EXPECT_EQ(-4, Utils::binarySearch(items.begin(), items.end(), 15));
+}
+
+TEST_F(TestUtils, testStringValueOfPtrArray)
+{
+    MyClass** a = new MyClass*[5];
+    for (antlr_int32_t i = 0; i < 5; i++)
+        a[i] = new MyClass(std::string("n") + Utils::stringValueOf(i));
+    EXPECT_EQ("[n0:n0, n1:n1, n2:n2, n3:n3, n4:n4]", Utils::stringValueOfPtrArray(
+            const_cast<const MyClass**>(a), 5u));
+    for (antlr_int32_t i = 0; i < 5; i++)
+        delete a[i];
+    delete[] a;
 }

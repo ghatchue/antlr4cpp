@@ -37,6 +37,7 @@
 #define UTILS_H
 
 #include <Antlr4Definitions.h>
+#include <misc/Traits.h>
 #include <algorithm>
 #include <list>
 #include <sstream>
@@ -53,22 +54,33 @@ public:
     template <typename T>
     static std::string stringValueOfList(const T& list);
 
-    // An implementation of the Java method String.valueOf(List)
     template <typename T>
     static std::string stringValueOf(const std::list<T>& list);
 
-    // An implementation of the Java method String.valueOf(List)
     template <typename T>
     static std::string stringValueOf(const std::vector<T>& list);
 
-    // An implementation of the Java method String.valueOf(primitive type)
     template <typename T>
-    static std::string stringValueOf(T value);
+    static std::string stringValueOfPtrArray(const T** array, antlr_uint32_t num);
+
+    template <typename T>
+    static std::string stringValueOf(const T& value);
+    
+    template <typename T, bool hasToString = Traits::hasToString<T>::value>
+    struct String;
     
     template <typename T>
-    static std::string stringValueOfPtrArrayViaToString(T** array, antlr_uint32_t num);
-
-    // An implementation of Arrays.binarySearch
+    struct String<T, true>
+    {
+        static std::string valueOf(const T& value);
+    };
+    
+    template <typename T>
+    struct String<T, false>
+    {
+        static std::string valueOf(const T& value);
+    };
+        
     template <typename Iter, typename T>
     static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value);
 };
@@ -81,7 +93,7 @@ std::string Utils::stringValueOfList(const T& list)
     stream << "[";
     for (typename T::const_iterator it = list.begin(); it != list.end();)
     {
-        stream << *it;
+        stream << Utils::stringValueOf(*it);
         if (++it != list.end())
             stream << ", ";
     }
@@ -101,8 +113,38 @@ std::string Utils::stringValueOf(const std::vector<T>& list)
     return stringValueOfList(list);
 }
 
+template <typename T>
+std::string Utils::stringValueOfPtrArray(const T** array, antlr_uint32_t num)
+{
+    std::stringstream stream;
+    if (array == NULL) return "null";
+    else {
+        stream << "[";
+        for (antlr_uint32_t i = 0; i < num; i++) {
+            stream << Utils::stringValueOf<T>(*array[i]);
+            if (i+1 < num) stream << ", ";
+        }
+        stream << "]";
+    }
+    return stream.str();
+}
+
+template <typename T>
+std::string Utils::stringValueOf(const T& value)
+{
+    return String<T>::valueOf(value);
+}
+
 template<typename T>
-std::string Utils::stringValueOf(T value)
+std::string Utils::String<T, true>::valueOf(const T& value)
+{
+    std::stringstream stream;
+    stream << value.toString();
+    return stream.str();
+}
+
+template<typename T>
+std::string Utils::String<T, false>::valueOf(const T& value)
 {
     std::stringstream stream;
     stream << value;
@@ -127,23 +169,6 @@ antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
     }
     return result;
 }
-
-template <typename T>
-std::string stringValueOfPtrArrayViaToString(T** array, antlr_uint32_t num)
-{
-    std::stringstream stream;
-    if (array == NULL) return "null";
-    else {
-        stream << "[";
-        for (antlr_uint32_t i = 0; i < num; i++) {
-            stream << array[i]->toString();
-            if (i < num) stream << ", ";
-        }
-        stream << "]";
-    }
-    return stream.str();
-}
-
 
 } /* namespace misc */
 } /* namespace antlr4 */

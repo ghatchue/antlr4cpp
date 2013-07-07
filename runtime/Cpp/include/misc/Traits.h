@@ -37,7 +37,7 @@
 #define TYPE_TRAITS_H
 
 #include <Antlr4Definitions.h>
-
+#include <string>
 
 namespace antlr4 {
 namespace misc {
@@ -84,6 +84,17 @@ struct Traits
     struct extends
     {
         static const bool value = isSame<B, D>::value || isBaseOf<B, D>::value;
+    };
+    
+    // Check if T has a toString member function
+    template<typename T, typename RESULT = std::string>
+    class hasToString
+    {
+        template <typename U, std::string (U::*)() const> struct Check;
+        template <typename U> static char func(Check<U, &U::toString> *);
+        template <typename U> static int func(...);
+      public:
+        enum { value = sizeof(func<T>(0)) == sizeof(char) };
     };
 };
 
