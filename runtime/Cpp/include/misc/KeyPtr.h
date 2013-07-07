@@ -50,7 +50,7 @@ template <typename T, bool isUsingHashKey = Traits::isBaseOf<Key<T>, T>::value>
 class ANTLR_API KeyPtr;
 
 template <typename T>
-class ANTLR_API KeyPtr<T, true> : public Key<T>
+class ANTLR_API KeyPtr<T, true> : public Key< KeyPtr<T, true> >
 {
 public:
 
@@ -64,10 +64,14 @@ public:
     
     KeyPtr(T* ptr, bool hasOwnership = true);
 
-    KeyPtr(KeyPtr<T, true>& other);
+    // Copy constructor
+    KeyPtr(const KeyPtr<T, true>& other);
     
     // Equal operator
-    KeyPtr<T, true>& operator=(KeyPtr<T, true>& other);
+    KeyPtr<T, true>& operator=(const KeyPtr<T, true>& other);
+    
+    ANTLR_OVERRIDE
+    KeyPtr<T, true>* clone() const;
     
     // Dereference object
     T& operator*() const;
@@ -136,26 +140,41 @@ KeyPtr<T, true>::KeyPtr(T* ptr, bool hasOwnership /* = true */)
 {
 }
 
+// Copy constructor
 template <typename T>
-KeyPtr<T, true>::KeyPtr(KeyPtr<T, true>& other)
-    :   Key<T>()
+KeyPtr<T, true>::KeyPtr(const KeyPtr<T, true>& other)
+    :   Key< KeyPtr<T, true> >(),
+        hasOwnership(true)
 {
-    reset(other.release(), other.hasOwnership);
+    this->operator=(other);
 }
 
 // Equal operator
 template <typename T>
-KeyPtr<T, true>& KeyPtr<T, true>::operator=(KeyPtr<T, true>& other)
+KeyPtr<T, true>& KeyPtr<T, true>::operator=(const KeyPtr<T, true>& other)
 {
     if (this != &other)
     {
-        reset(other.release(), other.hasOwnership);
+        reset();
+        hasOwnership = other.hasOwnership;
+        if (other.hasOwnership && other.get() != NULL) {
+            ptr.reset(other->clone());
+        } else {
+            ptr.reset(other.get());
+        }
     }
     return *this;
 }
 
+template <typename T>
+KeyPtr<T, true>* KeyPtr<T, true>::clone() const
+{
+    return new KeyPtr<T, true>(*this);
+}
+
+
 #if defined(HAVE_CXX11)
-    
+
 // Move constructor
 template <typename T>
 KeyPtr<T, true>::KeyPtr(KeyPtr<T, true>&& other)

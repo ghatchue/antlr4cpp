@@ -208,6 +208,11 @@ bool IntegerList::operator==(const IntegerList& other) const
     return _data == other._data;
 }
 
+IntegerList* IntegerList::clone() const
+{
+    return new IntegerList(*this);
+}
+
 /**
  * Returns the hash code value for this list.
  * <p/>

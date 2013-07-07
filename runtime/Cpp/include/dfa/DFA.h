@@ -37,6 +37,7 @@
 #define DFA_H
 
 #include <Antlr4Definitions.h>
+#include <dfa/DFAState.h>
 #include <misc/HashMap.h>
 #include <misc/KeyPtr.h>
 #include <memory>
@@ -44,7 +45,6 @@
 #include <vector>
 
 namespace antlr4 { namespace atn { class DecisionState; } }
-namespace antlr4 { namespace dfa { class DFAState; } }
 
 using namespace antlr4::atn;
 using namespace antlr4::misc;
@@ -78,7 +78,7 @@ public:
      *  ({@link Set} only allows you to see if it's there).
      */
     ANTLR_NOTNULL
-    antlr_auto_ptr< const HashMap<KeyPtr<DFAState>, DFAState*> > states;
+    antlr_auto_ptr< HashMap<KeyPtr<DFAState>, DFAState*> > states;
     
     ANTLR_NULLABLE
     const DFAState* s0;

@@ -64,10 +64,10 @@ public:
     }
     
     ANTLR_OVERRIDE
-    bool equals(const StringKey& other) const
-    {
-        return value == other.value;
-    }
+    bool equals(const StringKey& other) const { return value == other.value; }
+    
+    ANTLR_OVERRIDE
+    StringKey* clone() const { return new StringKey(*this); }    
 
 public:
     std::string value;

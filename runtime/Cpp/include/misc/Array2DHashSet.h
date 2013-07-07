@@ -92,6 +92,9 @@ public:
 
     ANTLR_OVERRIDE
     bool operator==(Array2DHashSet<T, K, true>& other) const;
+    
+    ANTLR_OVERRIDE
+    Array2DHashSet<T, K, true>* clone() const;
 
     ANTLR_OVERRIDE
     bool add(const T& t);
@@ -354,6 +357,12 @@ bool Array2DHashSet<T, K, true>::operator==(Array2DHashSet<T, K, true>& other) c
     if ( other.size() != size() ) return false;
     bool same = this->containsAll(other);
     return same;
+}
+
+template <typename T, typename K>
+Array2DHashSet<T, K, true>* Array2DHashSet<T, K, true>::clone() const
+{
+    throw std::logic_error("Array2DHashSet::clone not supported");
 }
 
 template <typename T, typename K>

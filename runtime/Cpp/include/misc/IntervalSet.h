@@ -171,6 +171,9 @@ public:
     bool operator==(const IntSet& other) const;
 
     ANTLR_OVERRIDE
+    IntSet* clone() const;
+
+    ANTLR_OVERRIDE
     std::string toString() const;
 
     std::string toString(bool elemAreChar) const;

@@ -37,14 +37,19 @@
 #define DFA_STATE_H
 
 #include <Antlr4Definitions.h>
+#include <misc/Key.h>
 
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace dfa {
 
-class ANTLR_API DFAState
+class ANTLR_API DFAState : public Key<DFAState>
 {
 public:
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const { return 0; }
 
 };
 

@@ -50,16 +50,14 @@ public:
     ZeroKey(const antlr_int32_t&) { }
     
     ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        return 0;
-    }
+    antlr_int32_t hashCode() const { return 0; }
     
     ANTLR_OVERRIDE
-    bool equals(const ZeroKey&) const
-    {
-        return true;
-    }
+    bool equals(const ZeroKey&) const { return true; }
+    
+    ANTLR_OVERRIDE
+    ZeroKey* clone() const { return new ZeroKey(*this); }    
+    
 };
 
 namespace std {

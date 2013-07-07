@@ -50,16 +50,13 @@ public:
     HashRangeKey(const antlr_int32_t& value) : value(value), maxHash(10) { }
     
     ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        return value % maxHash;
-    }
+    antlr_int32_t hashCode() const { return value % maxHash; }
     
     ANTLR_OVERRIDE
-    bool equals(const HashRangeKey& other) const
-    {
-        return value == other.value;
-    }
+    bool equals(const HashRangeKey& other) const { return value == other.value; }
+    
+    ANTLR_OVERRIDE
+    HashRangeKey* clone() const { return new HashRangeKey(*this); }
 
 public:
     antlr_int32_t value;

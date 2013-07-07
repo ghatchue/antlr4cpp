@@ -114,6 +114,9 @@ public:
      */
     ANTLR_OVERRIDE
     bool operator==(const IntegerList& other) const;
+    
+    ANTLR_OVERRIDE
+    IntegerList* clone() const;
 
     /**
      * Returns the hash code value for this list.

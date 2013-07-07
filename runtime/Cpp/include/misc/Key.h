@@ -55,6 +55,8 @@ public:
     virtual bool equals(const Key<T>& other) const;
     
     virtual bool operator==(const Key<T>& other) const;
+    
+    virtual T* clone() const = 0;
 
     operator size_t() const;
 };

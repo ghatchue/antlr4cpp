@@ -51,17 +51,14 @@ public:
     IntKey(const antlr_int32_t& v) : value(v) { }
     
     ANTLR_OVERRIDE
-    antlr_int32_t hashCode() const
-    {
-        return value;
-    }
+    antlr_int32_t hashCode() const { return value; }
     
     ANTLR_OVERRIDE
-    bool equals(const IntKey& other) const
-    {
-        return value == other.value;
-    }
+    bool equals(const IntKey& other) const { return value == other.value; }
 
+    ANTLR_OVERRIDE
+    IntKey* clone() const { return new IntKey(*this); }
+    
 public:
     antlr_int32_t value;
 };

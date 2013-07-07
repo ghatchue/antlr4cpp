@@ -128,6 +128,9 @@ public:
 
     ANTLR_OVERRIDE
     bool operator==(FlexibleHashMap<K, V, B, true>& other) const;
+    
+    ANTLR_OVERRIDE
+    FlexibleHashMap<K, V, B, true>* clone() const;
 
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
@@ -358,6 +361,12 @@ template <typename K, typename V, typename B>
 bool FlexibleHashMap<K, V, B, true>::operator==(FlexibleHashMap<K, V, B, true>&) const
 {
     throw std::logic_error("FlexibleHashMap::operator== not supported");
+}
+
+template <typename K, typename V, typename B>
+FlexibleHashMap<K, V, B, true>* FlexibleHashMap<K, V, B, true>::clone() const
+{
+    throw std::logic_error("FlexibleHashMap::clone not supported");
 }
 
 template <typename K, typename V, typename B>

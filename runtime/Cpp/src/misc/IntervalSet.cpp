@@ -475,6 +475,11 @@ bool IntervalSet::operator==(const IntSet& other) const
     return true;
 }
 
+IntSet* IntervalSet::clone() const
+{
+    return new IntervalSet(*this);
+}
+
 std::string IntervalSet::toString() const
 {
     return toString(false);

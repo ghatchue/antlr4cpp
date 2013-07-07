@@ -45,8 +45,16 @@ class KeyMock : public NiceMock< antlr4::misc::Key<KeyMock> >
 {
 public:
     
-    MOCK_METHOD0(Die, void());
-    ~KeyMock() { Die(); }
+    KeyMock() { }
+    KeyMock(const KeyMock&) : NiceMock< antlr4::misc::Key<KeyMock> >() { }
+    
+    MOCK_METHOD0(dieMock, void());
+    ~KeyMock() { dieMock(); }
+
+    ANTLR_OVERRIDE
+    KeyMock* clone() const { cloneMock(); return new KeyMock(*this); }
+    MOCK_CONST_METHOD0(cloneMock, KeyMock*());
+    
     
     MOCK_CONST_METHOD0(hashCode, antlr_int32_t());
 };
@@ -58,7 +66,7 @@ class TestKeyPtr : public BaseTest
 TEST_F(TestKeyPtr, testDestructorCalled)
 {
     KeyPtr<KeyMock> p(new KeyMock());
-    EXPECT_CALL(*p, Die())
+    EXPECT_CALL(*p, dieMock())
         .Times(1);
 }
 
@@ -66,50 +74,67 @@ TEST_F(TestKeyPtr, testDestructorNotCalled)
 {
     KeyMock* key = new KeyMock();
     KeyPtr<KeyMock> p(key, false);
-    EXPECT_CALL(*p, Die())
+    EXPECT_CALL(*p, dieMock())
         .Times(0);
-    ASSERT_TRUE(Mock::VerifyAndClear(key));
+    p.reset();
+    EXPECT_TRUE(Mock::VerifyAndClear(key));
     delete key;
 }
 
-TEST_F(TestKeyPtr, testTransferConstructorWithOwnership)
+TEST_F(TestKeyPtr, testCopyConstructorWithOwnership)
 {
     KeyMock* key = new KeyMock();
-    EXPECT_CALL(*key, Die())
-        .Times(0);
     KeyPtr<KeyMock> p1(key);
     KeyPtr<KeyMock> p2(p1);
-    EXPECT_EQ(NULL, p1.get());
-    EXPECT_EQ(key, p2.get());
-    ASSERT_TRUE(Mock::VerifyAndClear(key));
+    EXPECT_NE((KeyMock*)NULL, p1.get());
+    EXPECT_NE((KeyMock*)NULL, p2.get());
+    EXPECT_NE(p1.get(), p2.get());
+    EXPECT_CALL(*p1, dieMock());
+    EXPECT_CALL(*p2, dieMock());
+    p1.reset();
+    p2.reset();
+    EXPECT_TRUE(Mock::VerifyAndClear(p1.get()));
+    EXPECT_TRUE(Mock::VerifyAndClear(p2.get()));
 }
 
-TEST_F(TestKeyPtr, testTransferConstructorWithoutOwnership)
+TEST_F(TestKeyPtr, testCopyConstructorWithoutOwnership)
 {
     KeyMock* key = new KeyMock();
-    EXPECT_CALL(*key, Die())
-        .Times(0);
     KeyPtr<KeyMock> p1(key, false);
     KeyPtr<KeyMock> p2(p1);
-    EXPECT_EQ(NULL, p1.get());
-    EXPECT_EQ(key, p2.get());
-    ASSERT_TRUE(Mock::VerifyAndClear(key));
+    EXPECT_NE((KeyMock*)NULL, p1.get());
+    EXPECT_NE((KeyMock*)NULL, p2.get());
+    EXPECT_EQ(p1.get(), p2.get());
+    EXPECT_CALL(*key, dieMock())
+        .Times(0);
+    p1.reset();
+    p2.reset();
+    EXPECT_TRUE(Mock::VerifyAndClear(key));
     delete key;
 }
+
+TEST_F(TestKeyPtr, testCopyConstructorNullPtr)
+{
+    KeyPtr<KeyMock> p1;
+    KeyPtr<KeyMock> p2(p1);
+    EXPECT_EQ((KeyMock*)NULL, p1.get());
+    EXPECT_EQ((KeyMock*)NULL, p2.get());
+}
+
 
 TEST_F(TestKeyPtr, testResetToPtrWithOwnership)
 {
     KeyMock* key = new KeyMock();
     KeyPtr<KeyMock> p(new KeyMock());
-    EXPECT_CALL(*p, Die());
+    EXPECT_CALL(*p, dieMock());
     p.reset(key);
-    EXPECT_CALL(*p, Die());
+    EXPECT_CALL(*p, dieMock());
 }
 
 TEST_F(TestKeyPtr, testResetToNullWithOwnership)
 {
     KeyPtr<KeyMock> p(new KeyMock());
-    EXPECT_CALL(*p, Die());
+    EXPECT_CALL(*p, dieMock());
     p.reset();
 }
 
@@ -117,12 +142,12 @@ TEST_F(TestKeyPtr, testResetToPtrWithoutOwnership)
 {
     KeyMock* key = new KeyMock();
     KeyPtr<KeyMock> p(key, false);
-    EXPECT_CALL(*p, Die())
+    EXPECT_CALL(*p, dieMock())
         .Times(0);
     p.reset(new KeyMock());
-    EXPECT_CALL(*p, Die());
+    EXPECT_CALL(*p, dieMock());
     p.reset();
-    ASSERT_TRUE(Mock::VerifyAndClear(key));
+    EXPECT_TRUE(Mock::VerifyAndClear(key));
     delete key;
 }
 
@@ -130,10 +155,10 @@ TEST_F(TestKeyPtr, testResetToNullWithoutOwnership)
 {
     KeyMock* key = new KeyMock();
     KeyPtr<KeyMock> p(key, false);
-    EXPECT_CALL(*p, Die())
+    EXPECT_CALL(*p, dieMock())
         .Times(0);
     p.reset();
-    ASSERT_TRUE(Mock::VerifyAndClear(key));
+    EXPECT_TRUE(Mock::VerifyAndClear(key));
     delete key;
 }
 
@@ -142,16 +167,30 @@ TEST_F(TestKeyPtr, testHashCode)
     KeyPtr<KeyMock> p(new KeyMock());
     EXPECT_CALL(*p, hashCode())
         .Times(2);
-    HashKeyHelper< KeyPtr<KeyMock>, true > hk;
+    HashKeyHelper< KeyPtr<KeyMock> > hk;
     EXPECT_TRUE(hk.areEqual(p, p));
 }
 
 TEST_F(TestKeyPtr, testHashCodeThrowsExceptionForNullPtr)
 {
     KeyPtr<KeyMock> p(new KeyMock());
-    HashKeyHelper< KeyPtr<KeyMock>, true > hk;
+    HashKeyHelper< KeyPtr<KeyMock> > hk;
     KeyPtr<KeyMock> p2;
     EXPECT_CALL(*p, hashCode())
         .WillOnce(Throw(std::logic_error("")));
     EXPECT_THROW(hk.areEqual(p, p2), std::logic_error);
+}
+
+TEST_F(TestKeyPtr, testCloneNullPtr)
+{
+    KeyPtr<KeyMock> p;
+    KeyPtr<KeyMock>* p2 = p.clone();
+    EXPECT_EQ((KeyMock*)NULL, p2->get());
+}
+
+TEST_F(TestKeyPtr, testCloneKeyPtr)
+{
+    KeyPtr<KeyMock> p(new KeyMock());
+    EXPECT_CALL(*p, cloneMock());
+    delete p.clone();
 }

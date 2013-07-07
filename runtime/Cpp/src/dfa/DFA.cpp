@@ -34,9 +34,50 @@
  */
 
 #include <dfa/DFA.h>
+#include <atn/DecisionState.h>
 
 namespace antlr4 {
 namespace dfa {
+
+
+DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState)
+    :   states(new HashMap<KeyPtr<DFAState>, DFAState*>()),
+        s0(NULL),
+        decision(0),
+        atnStartState(atnStartState)
+{
+}
+
+DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState, antlr_int32_t decision)
+    :   states(new HashMap<KeyPtr<DFAState>, DFAState*>()),
+        s0(NULL),
+        decision(decision),
+        atnStartState(atnStartState)
+{
+}
+
+/**
+ * Return a list of all states in this DFA, ordered by state number.
+ */
+std::vector<const DFAState*> DFA::getStates() const
+{
+    return std::vector<const DFAState*>();
+}
+
+std::string DFA::toString() const
+{
+    return toString(std::vector<std::string>());
+}
+
+std::string DFA::toString(const std::vector<std::string>& tokenNames) const
+{
+    return std::string();
+}
+
+std::string DFA::toLexerString() const
+{
+    return std::string();
+}
 
 
 } /* namespace dfa */

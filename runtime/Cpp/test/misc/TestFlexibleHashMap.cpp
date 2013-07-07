@@ -86,6 +86,20 @@ TEST_F(TestFlexibleHashMap, testContainsValue)
     EXPECT_THROW(map.containsValue(5), std::logic_error);
 }
 
+TEST_F(TestFlexibleHashMap, testEqualOperator)
+{
+    FlexibleHashMap<StringKey, IntKey> a;
+    FlexibleHashMap<StringKey, IntKey> b;
+    EXPECT_THROW(a == b, std::logic_error);
+}
+
+TEST_F(TestFlexibleHashMap, testClone)
+{
+    FlexibleHashMap<StringKey, IntKey> a;
+    EXPECT_THROW(a.clone(), std::logic_error);
+}
+
+
 TEST_F(TestFlexibleHashMap, testGet)
 {
     FlexibleHashMap<IntKey, antlr_int32_t> map;

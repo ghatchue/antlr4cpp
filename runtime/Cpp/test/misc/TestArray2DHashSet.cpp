@@ -163,6 +163,12 @@ TEST_F(TestArray2DHashSet, testEqualOperator)
     EXPECT_FALSE(a == b);
 }
 
+TEST_F(TestArray2DHashSet, testClone)
+{
+    Array2DHashSet<IntKey> a;
+    EXPECT_THROW(a.clone(), std::logic_error);
+}
+
 TEST_F(TestArray2DHashSet, testRemove)
 {
     Array2DHashSet<IntKey> set;
