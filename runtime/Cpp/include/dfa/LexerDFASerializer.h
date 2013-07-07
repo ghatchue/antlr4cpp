@@ -37,15 +37,20 @@
 #define LEXER_DFA_SERIALIZER_H
 
 #include <Antlr4Definitions.h>
-
+#include <dfa/DFASerializer.h>
 
 namespace antlr4 {
 namespace dfa {
 
-class ANTLR_API LexerDFASerializer
+class ANTLR_API LexerDFASerializer : public DFASerializer
 {
 public:
 
+	LexerDFASerializer(ANTLR_NOTNULL const DFA* dfa);
+
+	ANTLR_OVERRIDE
+	std::string getEdgeLabel(antlr_uint32_t i);
+    
 };
 
 

@@ -33,25 +33,23 @@
  * Gael Hatchue
  */
 
-#include <dfa/LexerDFASerializer.h>
-#include <sstream>
+#ifndef ATN_CONFIG_SET_H
+#define ATN_CONFIG_SET_H
+
+#include <Antlr4Definitions.h>
+
 
 namespace antlr4 {
-namespace dfa {
+namespace atn {
 
-
-LexerDFASerializer::LexerDFASerializer(ANTLR_NOTNULL const DFA* dfa)
-    :   DFASerializer(dfa, NULL)
+class ANTLR_API ATNConfigSet
 {
-}
+public:
 
-std::string LexerDFASerializer::getEdgeLabel(antlr_uint32_t i)
-{
-    std::stringstream buf;
-    buf << "'" << static_cast<char>(i) << "'";
-    return buf.str();
-}
+};
 
 
-} /* namespace dfa */
+} /* namespace atn */
 } /* namespace antlr4 */
+
+#endif /* ifndef ATN_CONFIG_SET_H */

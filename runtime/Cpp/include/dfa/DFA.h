@@ -68,17 +68,23 @@ public:
     ANTLR_OVERRIDE
     std::string toString() const;
 
-    std::string toString(const std::vector<std::string>& tokenNames) const;
+    std::string toString(ANTLR_NULLABLE const std::vector<std::string>* tokenNames) const;
 
     std::string toLexerString() const;
     
+protected:
+    
+    static bool compareStatesForSort (const DFAState* o1, const DFAState* o2);
+    
 public:
 
+    typedef HashMap<KeyPtr<DFAState>, DFAState*> StateHashMap;
+    
     /** A set of all DFA states. Use {@link Map} so we can get old state back
      *  ({@link Set} only allows you to see if it's there).
      */
     ANTLR_NOTNULL
-    antlr_auto_ptr< HashMap<KeyPtr<DFAState>, DFAState*> > states;
+    antlr_auto_ptr< StateHashMap > states;
     
     ANTLR_NULLABLE
     const DFAState* s0;

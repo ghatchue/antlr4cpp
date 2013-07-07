@@ -27,8 +27,10 @@ antlr4cpp_headers = \
     include/IntStream.h \
     include/Lexer.h \
     include/Token.h \
+    include/atn/ATNConfigSet.h \
     include/atn/ATNSTate.h \
     include/atn/DecisionState.h \
+    include/atn/SemanticContext.h \
     include/dfa/DFA.h \
     include/dfa/DFASerializer.h \
     include/dfa/DFAState.h \
@@ -66,8 +68,10 @@ antlr4cpp_sources = \
     src/IntStream.cpp \
     src/Lexer.cpp \
     src/Token.cpp \
+    src/atn/ATNConfigSet.cpp \
     src/atn/ATNState.cpp \
     src/atn/DecisionState.cpp \
+    src/atn/SemanticContext.cpp \
     src/dfa/DFA.cpp \
     src/dfa/DFASerializer.cpp \
     src/dfa/DFAState.cpp \

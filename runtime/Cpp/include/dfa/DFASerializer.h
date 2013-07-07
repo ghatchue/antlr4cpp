@@ -37,15 +37,38 @@
 #define DFA_SERIALIZER_H
 
 #include <Antlr4Definitions.h>
+#include <string>
+#include <vector>
 
+namespace antlr4 { namespace dfa { class DFA; } }
+namespace antlr4 { namespace dfa { class DFAState; } }
 
 namespace antlr4 {
 namespace dfa {
 
+/** A DFA walker that knows how to dump them to serialized strings. */
 class ANTLR_API DFASerializer
 {
 public:
 
+	DFASerializer(ANTLR_NOTNULL const DFA* dfa,
+            ANTLR_NULLABLE const std::vector<std::string>* tokenNames);
+
+	std::string toString() const;
+
+protected:
+    
+	std::string getEdgeLabel(antlr_uint32_t i) const;
+
+    std::string getStateString(const DFAState& s) const;
+    
+private:
+
+	ANTLR_NOTNULL
+	const DFA* dfa;
+    
+	ANTLR_NULLABLE
+	const std::vector<std::string>* tokenNames;
 };
 
 

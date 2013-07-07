@@ -35,13 +35,16 @@
 
 #include <dfa/DFA.h>
 #include <atn/DecisionState.h>
+#include <dfa/DFASerializer.h>
+#include <dfa/LexerDFASerializer.h>
+#include <algorithm>
 
 namespace antlr4 {
 namespace dfa {
 
 
 DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState)
-    :   states(new HashMap<KeyPtr<DFAState>, DFAState*>()),
+    :   states(new StateHashMap()),
         s0(NULL),
         decision(0),
         atnStartState(atnStartState)
@@ -49,11 +52,16 @@ DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState)
 }
 
 DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState, antlr_int32_t decision)
-    :   states(new HashMap<KeyPtr<DFAState>, DFAState*>()),
+    :   states(new StateHashMap()),
         s0(NULL),
         decision(decision),
         atnStartState(atnStartState)
 {
+}
+
+bool DFA::compareStatesForSort (const DFAState* o1, const DFAState* o2)
+{
+    return o1->stateNumber < o2->stateNumber;
 }
 
 /**
@@ -61,22 +69,30 @@ DFA::DFA(ANTLR_NOTNULL const DecisionState* atnStartState, antlr_int32_t decisio
  */
 std::vector<const DFAState*> DFA::getStates() const
 {
-    return std::vector<const DFAState*>();
+    std::vector<const DFAState*> result;
+    for (StateHashMap::const_iterator it = states->begin(); it != states->end(); it++)
+        result.push_back(it->first.get());
+    std::sort(result.begin(), result.end(), compareStatesForSort);
+    return result;
 }
 
 std::string DFA::toString() const
 {
-    return toString(std::vector<std::string>());
+    return toString(NULL);
 }
 
-std::string DFA::toString(const std::vector<std::string>& tokenNames) const
+std::string DFA::toString(ANTLR_NULLABLE const std::vector<std::string>* tokenNames) const
 {
-    return std::string();
+    if ( s0==NULL ) return "";
+    antlr_auto_ptr<DFASerializer> serializer(new DFASerializer(this,tokenNames));
+    return serializer->toString();
 }
 
 std::string DFA::toLexerString() const
 {
-    return std::string();
+    if ( s0==NULL ) return "";
+    antlr_auto_ptr<DFASerializer> serializer(new LexerDFASerializer(this));
+    return serializer->toString();
 }
 
 

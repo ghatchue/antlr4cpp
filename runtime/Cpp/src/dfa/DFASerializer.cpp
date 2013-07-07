@@ -34,10 +34,69 @@
  */
 
 #include <dfa/DFASerializer.h>
+#include <dfa/DFA.h>
+#include <dfa/DFAState.h>
+#include <misc/Utils.h>
+#include <sstream>
 
 namespace antlr4 {
 namespace dfa {
 
+DFASerializer::DFASerializer(ANTLR_NOTNULL const DFA* dfa,
+        ANTLR_NULLABLE const std::vector<std::string>* tokenNames)
+    :   dfa(dfa),
+        tokenNames(tokenNames)
+{
+}
 
+std::string DFASerializer::toString() const
+{
+    if ( dfa->s0==NULL ) return "";
+    std::stringstream buf;
+    std::vector<const DFAState*> states = dfa->getStates();
+    for (std::vector<const DFAState*>::const_iterator it = states.begin();
+            it != states.end(); it++)
+    {
+        const DFAState& s = **it;
+        antlr_uint32_t n = 0;
+        if ( s.edges!=NULL ) n = s.numEdges;
+        for (antlr_uint32_t i=0; i<n; i++) {
+            const DFAState* t = s.edges[i];
+            if ( t!=NULL && t->stateNumber != ANTLR_INT32_MAX ) {
+                buf << getStateString(s);
+                std::string label = getEdgeLabel(i);
+                buf << "-" << label << "->" << getStateString(*t) << "\n";
+            }
+        }
+    }
+
+    //return Utils.sortLinesInString(output);
+    return buf.str();
+}
+
+std::string DFASerializer::getEdgeLabel(antlr_uint32_t i) const
+{
+    std::string label;
+    if ( i==0 ) return "EOF";
+    if ( tokenNames!=NULL ) label = (*tokenNames)[i-1];
+    else label = Utils::stringValueOf(i-1);
+    return label;
+}
+
+std::string DFASerializer::getStateString(const DFAState& s) const
+{
+    antlr_int32_t n = s.stateNumber;
+    std::string baseStateStr = std::string(s.isAcceptState ? ":" : "") + "s" + Utils::stringValueOf(n) + (s.requiresFullContext ? "^" : "");
+    if ( s.isAcceptState ) {
+        if ( s.predicates!=NULL ) {
+            baseStateStr += "=>" + Utils::stringValueOfPtrArrayViaToString(s.predicates, s.numPredicates);
+        }
+        else {
+            baseStateStr += "=>" + s.prediction;
+        }
+    }
+    return baseStateStr;
+}
+    
 } /* namespace dfa */
 } /* namespace antlr4 */

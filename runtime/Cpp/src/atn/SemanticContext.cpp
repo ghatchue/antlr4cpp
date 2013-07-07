@@ -33,25 +33,11 @@
  * Gael Hatchue
  */
 
-#include <dfa/LexerDFASerializer.h>
-#include <sstream>
+#include <atn/SemanticContext.h>
 
 namespace antlr4 {
-namespace dfa {
+namespace atn {
 
 
-LexerDFASerializer::LexerDFASerializer(ANTLR_NOTNULL const DFA* dfa)
-    :   DFASerializer(dfa, NULL)
-{
-}
-
-std::string LexerDFASerializer::getEdgeLabel(antlr_uint32_t i)
-{
-    std::stringstream buf;
-    buf << "'" << static_cast<char>(i) << "'";
-    return buf.str();
-}
-
-
-} /* namespace dfa */
+} /* namespace atn */
 } /* namespace antlr4 */

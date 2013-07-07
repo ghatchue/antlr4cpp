@@ -65,6 +65,9 @@ public:
     template <typename T>
     static std::string stringValueOf(T value);
     
+    template <typename T>
+    static std::string stringValueOfPtrArrayViaToString(T** array, antlr_uint32_t num);
+
     // An implementation of Arrays.binarySearch
     template <typename Iter, typename T>
     static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value);
@@ -123,6 +126,22 @@ antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
         }
     }
     return result;
+}
+
+template <typename T>
+std::string stringValueOfPtrArrayViaToString(T** array, antlr_uint32_t num)
+{
+    std::stringstream stream;
+    if (array == NULL) return "null";
+    else {
+        stream << "[";
+        for (antlr_uint32_t i = 0; i < num; i++) {
+            stream << array[i]->toString();
+            if (i < num) stream << ", ";
+        }
+        stream << "]";
+    }
+    return stream.str();
 }
 
 
