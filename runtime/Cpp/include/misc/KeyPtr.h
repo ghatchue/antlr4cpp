@@ -178,7 +178,7 @@ KeyPtr<T, true>* KeyPtr<T, true>::clone() const
 // Move constructor
 template <typename T>
 KeyPtr<T, true>::KeyPtr(KeyPtr<T, true>&& other)
-    :   Key<T>()
+    :   Key< KeyPtr<T, true> >()
 {
     reset(other.release(), other.hasOwnership);
 }
