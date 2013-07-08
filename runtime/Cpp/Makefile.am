@@ -28,7 +28,7 @@ antlr4cpp_headers = \
     include/Lexer.h \
     include/Token.h \
     include/atn/ATNConfigSet.h \
-    include/atn/ATNSTate.h \
+    include/atn/ATNState.h \
     include/atn/DecisionState.h \
     include/atn/SemanticContext.h \
     include/dfa/DFA.h \
