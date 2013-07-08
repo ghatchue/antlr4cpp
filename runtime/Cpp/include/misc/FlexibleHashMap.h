@@ -309,6 +309,7 @@ void FlexibleHashMap<K, V, B, true>::remove(const K& key)
         if ( comparator->equals(it->key, key) ) {
             bucket->erase(it);
             n--;
+            return;
         }
     }
 }

@@ -37,6 +37,14 @@
   <ItemGroup>
     <ClInclude Include="include\antlr4.h" />
     <ClInclude Include="include\Antlr4Definitions.h" />
+    <ClInclude Include="include\atn\ATNConfigSet.h" />
+    <ClInclude Include="include\atn\ATNState.h" />
+    <ClInclude Include="include\atn\DecisionState.h" />
+    <ClInclude Include="include\atn\SemanticContext.h" />
+    <ClInclude Include="include\dfa\DFA.h" />
+    <ClInclude Include="include\dfa\DFASerializer.h" />
+    <ClInclude Include="include\dfa\DFAState.h" />
+    <ClInclude Include="include\dfa\LexerDFASerializer.h" />
     <ClInclude Include="include\IntStream.h" />
     <ClInclude Include="include\Lexer.h" />
     <ClInclude Include="include\misc\AbstractEqualityComparator.h" />
@@ -53,6 +61,7 @@
     <ClInclude Include="include\misc\Interval.h" />
     <ClInclude Include="include\misc\IntervalSet.h" />
     <ClInclude Include="include\misc\IntSet.h" />
+    <ClInclude Include="include\misc\KeyPtr.h" />
     <ClInclude Include="include\misc\MultiMap.h" />
     <ClInclude Include="include\misc\MurmurHash.h" />
     <ClInclude Include="include\misc\ObjectEqualityComparator.h" />
@@ -68,6 +77,14 @@
     <ClInclude Include="include\Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\atn\ATNConfigSet.cpp" />
+    <ClCompile Include="src\atn\ATNState.cpp" />
+    <ClCompile Include="src\atn\DecisionState.cpp" />
+    <ClCompile Include="src\atn\SemanticContext.cpp" />
+    <ClCompile Include="src\dfa\DFA.cpp" />
+    <ClCompile Include="src\dfa\DFASerializer.cpp" />
+    <ClCompile Include="src\dfa\DFAState.cpp" />
+    <ClCompile Include="src\dfa\LexerDFASerializer.cpp" />
     <ClCompile Include="src\IntStream.cpp" />
     <ClCompile Include="src\Lexer.cpp" />
     <ClCompile Include="src\misc\IntegerList.cpp" />

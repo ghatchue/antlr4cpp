@@ -84,7 +84,7 @@ template <typename K, typename T>
 const T* HashMap<K, T>::put(const K& key, const T& value)
 {
     std::pair<typename HashMapBase::iterator, bool> result =
-        insert(std::pair<K, T>(key, value));
+        HashMapBase::insert(std::pair<K, T>(key, value));
     if (!result.second)
         result.first->second = value;
     return &result.first->second;
