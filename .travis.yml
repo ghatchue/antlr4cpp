@@ -1,3 +1,6 @@
+notifications:
+  email: false
+
 script:     cd ./runtime/Cpp &&
                 ./autogen.sh &&
                 make test
