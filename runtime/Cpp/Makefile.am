@@ -128,13 +128,14 @@ if ENABLE_STATIC
     check_PROGRAMS += test/antlr4cpp_test
     test_antlr4cpp_test_SOURCES = $(antlr4cpp_unit_test_sources)
     test_antlr4cpp_test_LDADD = lib/libantlr4cpp.la
-    test_antlr4cpp_test_LDFLAGS = -static
-    test_antlr4cpp_test_CXXFLAGS = $(AM_CXXFLAGS) -I"$(srcdir)/test"
+    test_antlr4cpp_test_LDFLAGS = -static -lpthread
+    test_antlr4cpp_test_CXXFLAGS = $(AM_CXXFLAGS) -DGTEST_HAS_PTHREAD -I"$(srcdir)/test"
 endif
 if ENABLE_SHARED    
     TESTS += test/antlr4cpp_test_shared
     check_PROGRAMS += test/antlr4cpp_test_shared
     test_antlr4cpp_test_shared_SOURCES = $(antlr4cpp_unit_test_sources)
     test_antlr4cpp_test_shared_LDADD = lib/libantlr4cpp.la
-    test_antlr4cpp_test_shared_CXXFLAGS = $(AM_CXXFLAGS) -I"$(srcdir)/test"
+    test_antlr4cpp_test_shared_LDFLAGS = -lpthread
+    test_antlr4cpp_test_shared_CXXFLAGS = $(AM_CXXFLAGS) -DGTEST_HAS_PTHREAD -I"$(srcdir)/test"
 endif

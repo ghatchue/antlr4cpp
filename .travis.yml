@@ -2,6 +2,6 @@ notifications:
   email: false
 
 script:     cd ./runtime/Cpp &&
-                ./autogen.sh &&
+                ./autogen.sh --enable-shared &&
                 make &&
                 make  test

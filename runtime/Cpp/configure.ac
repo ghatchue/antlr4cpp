@@ -30,11 +30,14 @@ AC_HEADER_TR1_UNORDERED_SET
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([algorithm])
+AC_CHECK_HEADERS([cassert])
 AC_CHECK_HEADERS([cstring])
 AC_CHECK_HEADERS([inttypes.h])
 AC_CHECK_HEADERS([iostream])
 AC_CHECK_HEADERS([list])
 AC_CHECK_HEADERS([memory])
+AC_CHECK_HEADERS([pthread.h])
+AC_CHECK_HEADERS([set])
 AC_CHECK_HEADERS([sstream])
 AC_CHECK_HEADERS([stdexcept])
 AC_CHECK_HEADERS([string])
