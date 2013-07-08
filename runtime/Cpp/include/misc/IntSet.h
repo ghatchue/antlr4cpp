@@ -38,7 +38,7 @@
 
 #include <Antlr4Definitions.h>
 #include <misc/Key.h>
-#include <string.h>
+#include <string>
 #include <list>
 
 namespace antlr4 {
