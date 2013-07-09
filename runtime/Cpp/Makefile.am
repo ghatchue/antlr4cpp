@@ -15,7 +15,8 @@ distclean-local:
 ## General options
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = subdir-objects
-AM_CXXFLAGS = -Wall -Wextra -I$(srcdir)/include @AM_CXXFLAGS@
+AM_CXXFLAGS = -Wall -Wextra -I$(srcdir)/include @AM_CXXFLAGS@ @PTHREAD_CFLAGS@
+AM_LDFLAGS  = @PTHREAD_LIBS@ @AM_LDFLAGS@
 dist_noinst_SCRIPTS = autogen.sh
 test: check ;
 TESTS =
@@ -123,19 +124,23 @@ lib_libantlr4cpp_la_SOURCES = $(antlr4cpp_sources)
 
 
 ## Unit tests
+GTEST_CXXFLAGS =
+if HAVE_PTHREAD
+    GTEST_CXXFLAGS += -DGTEST_HAS_PTHREAD
+endif
 if ENABLE_STATIC
     TESTS += test/antlr4cpp_test
     check_PROGRAMS += test/antlr4cpp_test
     test_antlr4cpp_test_SOURCES = $(antlr4cpp_unit_test_sources)
     test_antlr4cpp_test_LDADD = lib/libantlr4cpp.la
-    test_antlr4cpp_test_LDFLAGS = -static -lpthread
-    test_antlr4cpp_test_CXXFLAGS = $(AM_CXXFLAGS) -DGTEST_HAS_PTHREAD -I"$(srcdir)/test"
+    test_antlr4cpp_test_LDFLAGS = $(AM_LDFLAGS) -static
+    test_antlr4cpp_test_CXXFLAGS = $(AM_CXXFLAGS) $(GTEST_CXXFLAGS) -I"$(srcdir)/test"
 endif
 if ENABLE_SHARED    
     TESTS += test/antlr4cpp_test_shared
     check_PROGRAMS += test/antlr4cpp_test_shared
     test_antlr4cpp_test_shared_SOURCES = $(antlr4cpp_unit_test_sources)
     test_antlr4cpp_test_shared_LDADD = lib/libantlr4cpp.la
-    test_antlr4cpp_test_shared_LDFLAGS = -lpthread
-    test_antlr4cpp_test_shared_CXXFLAGS = $(AM_CXXFLAGS) -DGTEST_HAS_PTHREAD -I"$(srcdir)/test"
+    test_antlr4cpp_test_shared_LDFLAGS = $(AM_LDFLAGS)
+    test_antlr4cpp_test_shared_CXXFLAGS = $(AM_CXXFLAGS) $(GTEST_CXXFLAGS) -I"$(srcdir)/test"
 endif

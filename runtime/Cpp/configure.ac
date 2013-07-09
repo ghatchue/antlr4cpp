@@ -26,6 +26,7 @@ AC_CXX_HAVE_HASH_MAP
 AC_HEADER_TR1_UNORDERED_MAP
 AC_CXX_HAVE_HASH_SET
 AC_HEADER_TR1_UNORDERED_SET
+ACX_PTHREAD
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -60,6 +61,9 @@ AC_CONFIG_FILES([Makefile])
 # conditionals indicating if building static or shared
 AM_CONDITIONAL([ENABLE_STATIC], [test "$enable_static" = "yes"])
 AM_CONDITIONAL([ENABLE_SHARED], [test "$enable_shared" = "yes"])
+
+# pthread support
+AM_CONDITIONAL([HAVE_PTHREAD], [test x"$acx_pthread_ok" != "xno"])
 
 # generate the final Makefile etc.
 AC_OUTPUT
