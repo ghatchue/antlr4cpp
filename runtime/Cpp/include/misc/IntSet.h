@@ -38,8 +38,9 @@
 
 #include <Antlr4Definitions.h>
 #include <misc/Key.h>
-#include <string>
 #include <list>
+#include <memory>
+#include <string>
 
 namespace antlr4 {
 namespace misc {
@@ -89,7 +90,7 @@ public:
     /** remove this element from this set */
     virtual void remove(antlr_int32_t el) = 0;
 
-    virtual std::list<antlr_int32_t> toList() const = 0;
+    virtual antlr_auto_ptr< std::list<antlr_int32_t> > toList() const = 0;
     
     virtual std::string toString() const = 0;
 };

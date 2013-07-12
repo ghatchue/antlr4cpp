@@ -41,6 +41,7 @@
 #include <misc/HashSet.h>
 #include <misc/Key.h>
 #include <misc/Utils.h>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -109,7 +110,10 @@ public:
     OrderedHashSet<T>* clone() const;
 
     ANTLR_OVERRIDE
-    std::vector<T> toArray() const;
+    antlr_auto_ptr< std::vector<const T*> > toPtrArray() const;
+
+    ANTLR_OVERRIDE
+    antlr_auto_ptr< std::vector<T> > toArray() const;
 
     ANTLR_OVERRIDE
     std::string toString() const;
@@ -241,9 +245,18 @@ OrderedHashSet<T>* OrderedHashSet<T>::clone() const
 }
 
 template<typename T>
-std::vector<T> OrderedHashSet<T>::toArray() const
+antlr_auto_ptr< std::vector<const T*> > OrderedHashSet<T>::toPtrArray() const
 {
-    return _elements;
+    antlr_auto_ptr< std::vector<const T*> > a(new std::vector<const T*>());
+    for (typename std::vector<T>::const_iterator it = _elements.begin(); it != _elements.end(); it++)
+        a->push_back(&(*it));
+    return a;
+}
+
+template<typename T>
+antlr_auto_ptr< std::vector<T> > OrderedHashSet<T>::toArray() const
+{
+    return antlr_auto_ptr< std::vector<T> >(new std::vector<T>(_elements));
 }
 
 template<typename T>

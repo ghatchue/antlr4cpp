@@ -48,7 +48,7 @@ namespace misc {
 const IntervalSet IntervalSet::COMPLETE_CHAR_SET = IntervalSet::of(0, Lexer::MAX_CHAR_VALUE);
 const IntervalSet IntervalSet::EMPTY_SET = IntervalSet();
 
-IntervalSet::IntervalSet(const std::list<Interval> intervals)
+IntervalSet::IntervalSet(const std::list<Interval>& intervals)
     :   intervals(intervals.begin(), intervals.end()),
         readonly(false)
 {
@@ -571,45 +571,45 @@ antlr_uint32_t IntervalSet::size() const
     return n;
 }
 
-IntegerList IntervalSet::toIntegerList() const
+antlr_auto_ptr<IntegerList> IntervalSet::toIntegerList() const
 {
-    IntegerList values(size());
+    antlr_auto_ptr<IntegerList> values(new IntegerList(size()));
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
         const Interval& I = intervals[i];
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         for (antlr_int32_t v=a; v<=b; v++) {
-            values.add(v);
+            values->add(v);
         }
     }
     return values;
 }
 
-std::list<antlr_int32_t> IntervalSet::toList() const
+antlr_auto_ptr< std::list<antlr_int32_t> > IntervalSet::toList() const
 {
-    std::list<antlr_int32_t> values;
+    antlr_auto_ptr< std::list<antlr_int32_t> > values(new std::list<antlr_int32_t>());
     antlr_uint32_t n = intervals.size();
     for (antlr_uint32_t i = 0; i < n; i++) {
         const Interval& I = intervals[i];
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         for (antlr_int32_t v=a; v<=b; v++) {
-            values.push_back(v);
+            values->push_back(v);
         }
     }
     return values;
 }
 
-std::set<antlr_int32_t> IntervalSet::toSet() const
+antlr_auto_ptr< std::set<antlr_int32_t> > IntervalSet::toSet() const
 {
-    std::set<antlr_int32_t> s;
+    antlr_auto_ptr< std::set<antlr_int32_t> > s(new std::set<antlr_int32_t>());
     for (std::vector<Interval>::const_iterator it = intervals.begin(); it != intervals.end(); it++) {
         const Interval& I = *it;
         antlr_int32_t a = I.a;
         antlr_int32_t b = I.b;
         for (antlr_int32_t v=a; v<=b; v++) {
-            s.insert(v);
+            s->insert(v);
         }
     }
     return s;
@@ -637,9 +637,9 @@ antlr_int32_t IntervalSet::get(antlr_uint32_t i) const
     return -1;
 }
 
-std::vector<antlr_int32_t> IntervalSet::toArray() const
+antlr_auto_ptr< std::vector<antlr_int32_t> > IntervalSet::toArray() const
 {
-    return toIntegerList().toArray();
+    return toIntegerList()->toArray();
 }
     
 void IntervalSet::remove(antlr_int32_t el)

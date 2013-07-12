@@ -170,9 +170,9 @@ void IntegerList::clear()
     _data.clear();
 }
 
-std::vector<antlr_int32_t> IntegerList::toArray() const
+antlr_auto_ptr< std::vector<antlr_int32_t> > IntegerList::toArray() const
 {
-    return _data;
+    return antlr_auto_ptr< std::vector<antlr_int32_t> >(new std::vector<antlr_int32_t>(_data));
 }
 
 bool IntegerList::compareForSort(antlr_int32_t a, antlr_int32_t b)

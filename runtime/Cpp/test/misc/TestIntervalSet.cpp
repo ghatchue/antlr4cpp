@@ -437,8 +437,8 @@ TEST_F(TestIntervalSet, testToList)
     s.add(50,55);
     s.add(5,5);
     std::string expecting = "[5, 20, 21, 22, 23, 24, 25, 50, 51, 52, 53, 54, 55]";
-    std::list<antlr_int32_t> list = s.toList();
-    std::string result = Utils::stringValueOf(list);
+    antlr_auto_ptr< std::list<antlr_int32_t> > list = s.toList();
+    std::string result = Utils::stringValueOf(*list);
     EXPECT_EQ(expecting, result);
 }
 

@@ -108,7 +108,7 @@ public:
     /** Get the set of all alts mentioned by all ATN configurations in this
      *  DFA state.
      */
-    HashSet<antlr_int32_t> getAltSet() const;
+    antlr_auto_ptr< HashSet<antlr_int32_t> > getAltSet() const;
 
     ANTLR_OVERRIDE
     antlr_int32_t hashCode() const;

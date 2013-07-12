@@ -45,6 +45,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
+#include <memory>
 #include <sstream>
 
 namespace antlr4 {
@@ -113,10 +114,11 @@ public:
     //ANTLR_OVERRIDE
     //SetIterator iterator();
     
-    std::vector<const T*> toPtrArray() const;
+    ANTLR_OVERRIDE
+    antlr_auto_ptr< std::vector<const T*> > toPtrArray() const;
 
     ANTLR_OVERRIDE
-    std::vector<T> toArray() const;
+    antlr_auto_ptr< std::vector<T> > toArray() const;
 
     //ANTLR_OVERRIDE
     template <typename U>
@@ -402,10 +404,10 @@ bool Array2DHashSet<T, K, true>::containsFast(ANTLR_NULLABLE const T* obj) const
 }
 
 template <typename T, typename K>
-std::vector<const T*> Array2DHashSet<T, K, true>::toPtrArray() const
+antlr_auto_ptr< std::vector<const T*> > Array2DHashSet<T, K, true>::toPtrArray() const
 {
-    std::vector<const T*> a;
-    a.reserve(size());
+    antlr_auto_ptr< std::vector<const T*> > a(new std::vector<const T*>());
+    a->reserve(size());
     
     for (antlr_int32_t i = 0; i < numBuckets; i++) {
         const TVal* bucket = buckets[i];
@@ -419,7 +421,7 @@ std::vector<const T*> Array2DHashSet<T, K, true>::toPtrArray() const
                 break;
             }
             
-            a.push_back(&o.value);
+            a->push_back(&o.value);
         }
     }
     
@@ -427,10 +429,10 @@ std::vector<const T*> Array2DHashSet<T, K, true>::toPtrArray() const
 }
 
 template <typename T, typename K>
-std::vector<T> Array2DHashSet<T, K, true>::toArray() const
+antlr_auto_ptr< std::vector<T> > Array2DHashSet<T, K, true>::toArray() const
 {
-    std::vector<T> a;
-    a.reserve(size());
+    antlr_auto_ptr< std::vector<T> > a(new std::vector<T>());
+    a->reserve(size());
     
     for (antlr_int32_t i = 0; i < numBuckets; i++) {
         const TVal* bucket = buckets[i];
@@ -444,7 +446,7 @@ std::vector<T> Array2DHashSet<T, K, true>::toArray() const
                 break;
             }
             
-            a.push_back(o.value);
+            a->push_back(o.value);
         }
     }
     

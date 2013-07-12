@@ -67,12 +67,12 @@ bool DFA::compareStatesForSort (const DFAState* o1, const DFAState* o2)
 /**
  * Return a list of all states in this DFA, ordered by state number.
  */
-std::vector<const DFAState*> DFA::getStates() const
+antlr_auto_ptr< std::vector<const DFAState*> > DFA::getStates() const
 {
-    std::vector<const DFAState*> result;
+    antlr_auto_ptr< std::vector<const DFAState*> > result(new std::vector<const DFAState*>());
     for (StateHashMap::const_iterator it = states->begin(); it != states->end(); it++)
-        result.push_back(it->first.get());
-    std::sort(result.begin(), result.end(), compareStatesForSort);
+        result->push_back(it->first.get());
+    std::sort(result->begin(), result->end(), compareStatesForSort);
     return result;
 }
 

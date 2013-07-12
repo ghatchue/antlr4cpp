@@ -63,7 +63,7 @@ public:
     /**
      * Return a list of all states in this DFA, ordered by state number.
      */
-    std::vector<const DFAState*> getStates() const;
+    antlr_auto_ptr< std::vector<const DFAState*> > getStates() const;
 
     ANTLR_OVERRIDE
     std::string toString() const;

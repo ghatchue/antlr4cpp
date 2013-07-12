@@ -39,6 +39,7 @@
 #include <Antlr4Definitions.h>
 #include <misc/Key.h>
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -90,7 +91,7 @@ public:
 
     void clear();
 
-    std::vector<antlr_int32_t> toArray() const;
+    antlr_auto_ptr< std::vector<antlr_int32_t> > toArray() const;
 
     void sort();
 

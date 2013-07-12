@@ -35,6 +35,7 @@
 
 #include <BaseTest.h>
 #include <misc/OrderedHashSet.h>
+#include <misc/Utils.h>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -181,4 +182,28 @@ TEST_F(TestOrderedHashSet, testConstIterator)
     antlr_uint32_t i = 0;
     for (OrderedHashSet<antlr_int32_t>::const_iterator it = set.begin(); it != set.end(); it++, i++)
         EXPECT_EQ(exp[i], *it);
+}
+
+TEST_F(TestOrderedHashSet, testToArray)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    EXPECT_EQ("[-5, 10, 15, 16]", Utils::stringValueOf(*set.toArray()));
+}
+
+TEST_F(TestOrderedHashSet, testToPtrArray)
+{
+    OrderedHashSet<antlr_int32_t> set;
+    set.add(-5);
+    set.add(10);
+    set.add(15);
+    set.add(16);
+    antlr_auto_ptr< std::vector<const antlr_int32_t*> > v = set.toPtrArray();
+    std::vector<antlr_int32_t> v2;
+    for (std::vector<const antlr_int32_t*>::const_iterator it = v->begin(); it != v->end(); it++)
+        v2.push_back(**it);
+    EXPECT_EQ("[-5, 10, 15, 16]", Utils::stringValueOf(v2));
 }

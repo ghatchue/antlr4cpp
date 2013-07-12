@@ -191,7 +191,7 @@ TEST_F(TestIntegerList, testToArray)
     list.add(4);
     list.add(-3);
     list.add(16);
-    EXPECT_EQ("[-14, 4, -3, 16]", Utils::stringValueOf(list.toArray()));
+    EXPECT_EQ("[-14, 4, -3, 16]", Utils::stringValueOf(*list.toArray()));
 }
 
 TEST_F(TestIntegerList, testSort)

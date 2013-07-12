@@ -65,7 +65,7 @@ class ANTLR_API IntervalSet : public IntSet
 {
 public:
 
-    IntervalSet(const std::list<Interval> intervals);
+    IntervalSet(const std::list<Interval>& intervals);
 
     IntervalSet(const IntervalSet& set);
     
@@ -183,12 +183,12 @@ public:
     ANTLR_OVERRIDE
     antlr_uint32_t size() const;
     
-    IntegerList toIntegerList() const;
+    antlr_auto_ptr<IntegerList> toIntegerList() const;
 
     ANTLR_OVERRIDE
-    std::list<antlr_int32_t> toList() const;
+    antlr_auto_ptr< std::list<antlr_int32_t> > toList() const;
 
-    std::set<antlr_int32_t> toSet() const;
+    antlr_auto_ptr< std::set<antlr_int32_t> > toSet() const;
 
     /** Get the ith element of ordered set.  Used only by RandomPhrase so
      *  don't bother to implement if you're not doing that for a new
@@ -196,7 +196,7 @@ public:
      */
     antlr_int32_t get(antlr_uint32_t i) const;
 
-    std::vector<antlr_int32_t> toArray() const;
+    antlr_auto_ptr< std::vector<antlr_int32_t> > toArray() const;
     
     ANTLR_OVERRIDE
     void remove(antlr_int32_t el);

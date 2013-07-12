@@ -53,9 +53,9 @@ std::string DFASerializer::toString() const
 {
     if ( dfa->s0==NULL ) return "";
     std::stringstream buf;
-    std::vector<const DFAState*> states = dfa->getStates();
-    for (std::vector<const DFAState*>::const_iterator it = states.begin();
-            it != states.end(); it++)
+    antlr_auto_ptr< std::vector<const DFAState*> > states = dfa->getStates();
+    for (std::vector<const DFAState*>::const_iterator it = states->begin();
+            it != states->end(); it++)
     {
         const DFAState& s = **it;
         antlr_uint32_t n = 0;
