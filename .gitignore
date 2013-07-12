@@ -40,6 +40,13 @@ tool/target/
 /runtime/Cpp/config.guess
 /runtime/Cpp/config.sub
 /runtime/Cpp/ltmain.sh
+/runtime/Cpp/compile
+/runtime/Cpp/test-driver
+/runtime/Cpp/test-suite.log
+/runtime/Cpp/test/antlr4cpp_test.log
+/runtime/Cpp/test/antlr4cpp_test.trs
+/runtime/Cpp/test/antlr4cpp_test_shared.log
+/runtime/Cpp/test/antlr4cpp_test_shared.trs
 /runtime/Cpp/test/antlr4cpp_test
 /runtime/Cpp/test/antlr4cpp_test_shared
 
