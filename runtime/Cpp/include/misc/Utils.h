@@ -73,6 +73,7 @@ public:
     struct String<T, true>
     {
         static std::string valueOf(const T& value);
+        static std::string valueOf(const T* value);
     };
     
     template <typename T>
@@ -133,6 +134,14 @@ template <typename T>
 std::string Utils::stringValueOf(const T& value)
 {
     return String<T>::valueOf(value);
+}
+
+template<typename T>
+std::string Utils::String<T, true>::valueOf(const T* value)
+{
+    if (value == NULL)
+        return "null";
+    return valueOf(*value);
 }
 
 template<typename T>

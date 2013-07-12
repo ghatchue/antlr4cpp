@@ -41,6 +41,7 @@
 #include <misc/HashSet.h>
 #include <misc/Key.h>
 #include <memory>
+#include <string>
 
 namespace antlr4 { namespace atn { class SemanticContext; } }
 
@@ -83,7 +84,6 @@ public:
     {
     public:
         
-        antlr_int32_t alt;
         PredPrediction(const SemanticContext* pred, antlr_int32_t alt);
 
         ANTLR_OVERRIDE
@@ -93,15 +93,19 @@ public:
         
         ANTLR_NOTNULL
         const SemanticContext* pred; // never null; at least SemanticContext.NONE        
+
+        antlr_int32_t alt;
     };
     
 public:
+    
+    ~DFAState();
     
     DFAState();
 
     DFAState(antlr_int32_t stateNumber);
 
-    DFAState(ANTLR_NOTNULL ATNConfigSet* configs);
+    DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet> configs);
     
     DFAState(const DFAState& other);
 
@@ -133,7 +137,7 @@ public:
     DFAState* clone() const;
 
     ANTLR_OVERRIDE
-    std::string toString() const;    
+    std::string toString() const;
     
 public:
     

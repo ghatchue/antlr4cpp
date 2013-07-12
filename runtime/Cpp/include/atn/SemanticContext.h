@@ -37,6 +37,7 @@
 #define SEMANTIC_CONTEXT_H
 
 #include <Antlr4Definitions.h>
+#include <string>
 
 
 namespace antlr4 {
@@ -46,6 +47,9 @@ class ANTLR_API SemanticContext
 {
 public:
 
+    ANTLR_OVERRIDE
+    std::string toString() const { return std::string(); }
+    
 };
 
 

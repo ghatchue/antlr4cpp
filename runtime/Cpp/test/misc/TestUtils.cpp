@@ -114,3 +114,11 @@ TEST_F(TestUtils, testStringValueOfPtrArray)
         delete a[i];
     delete[] a;
 }
+
+TEST_F(TestUtils, testStringValueOfPtr)
+{
+    MyClass a("one");
+    MyClass* p = NULL;
+    EXPECT_EQ("one:one", Utils::String<MyClass>::valueOf(&a));
+    EXPECT_EQ("null", Utils::String<MyClass>::valueOf(p));
+}
