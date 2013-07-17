@@ -33,10 +33,10 @@
  * Gael Hatchue
  */
 
-#include <misc/IntervalSet.h>
-#include <misc/MurmurHash.h>
-#include <Lexer.h>
-#include <Token.h>
+#include <antlr/misc/IntervalSet.h>
+#include <antlr/misc/MurmurHash.h>
+#include <antlr/Lexer.h>
+#include <antlr/Token.h>
 #include <memory>
 #include <sstream>
 #include <stdexcept>

@@ -34,7 +34,7 @@
  */
 
 #include <BaseTest.h>
-#include <misc/IntegerStack.h>
+#include <antlr/misc/IntegerStack.h>
 #include <stdexcept>
 
 using namespace antlr4::misc;

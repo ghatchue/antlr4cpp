@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/IntegerStack.h>
+#include <antlr/misc/IntegerStack.h>
 
 namespace antlr4 {
 namespace misc {

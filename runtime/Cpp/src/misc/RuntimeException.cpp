@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/RuntimeException.h>
+#include <antlr/misc/RuntimeException.h>
 
 namespace antlr4 {
 namespace misc {

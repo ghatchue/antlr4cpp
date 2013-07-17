@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/ParseCancellationException.h>
+#include <antlr/misc/ParseCancellationException.h>
 
 namespace antlr4 {
 namespace misc {

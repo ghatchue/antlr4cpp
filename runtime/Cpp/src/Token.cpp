@@ -33,8 +33,8 @@
  * Gael Hatchue
  */
 
-#include <Token.h>
-#include <IntStream.h>
+#include <antlr/Token.h>
+#include <antlr/IntStream.h>
 
 namespace antlr4 {
 

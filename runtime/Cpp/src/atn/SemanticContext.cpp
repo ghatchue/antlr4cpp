@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <atn/SemanticContext.h>
+#include <antlr/atn/SemanticContext.h>
 
 namespace antlr4 {
 namespace atn {

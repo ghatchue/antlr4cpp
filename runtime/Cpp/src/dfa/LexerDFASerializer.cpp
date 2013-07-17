@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <dfa/LexerDFASerializer.h>
+#include <antlr/dfa/LexerDFASerializer.h>
 #include <sstream>
 
 namespace antlr4 {

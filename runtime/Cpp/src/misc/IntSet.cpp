@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/IntSet.h>
+#include <antlr/misc/IntSet.h>
 
 namespace antlr4 {
 namespace misc {

@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/Utils.h>
+#include <antlr/misc/Utils.h>
 
 namespace antlr4 {
 namespace misc {

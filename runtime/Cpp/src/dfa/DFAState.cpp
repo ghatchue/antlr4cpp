@@ -33,10 +33,10 @@
  * Gael Hatchue
  */
 
-#include <dfa/DFAState.h>
-#include <atn/SemanticContext.h>
-#include <misc/MurmurHash.h>
-#include <misc/Utils.h>
+#include <antlr/dfa/DFAState.h>
+#include <antlr/atn/SemanticContext.h>
+#include <antlr/misc/MurmurHash.h>
+#include <antlr/misc/Utils.h>
 #include <sstream>
 
 namespace antlr4 {

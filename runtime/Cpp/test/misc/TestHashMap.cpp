@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/HashMap.h>
-#include <misc/Utils.h>
+#include <antlr/misc/HashMap.h>
+#include <antlr/misc/Utils.h>
 #include <string>
 #include "IntKey.h"
 #include "StringKey.h"

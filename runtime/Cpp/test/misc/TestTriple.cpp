@@ -34,7 +34,7 @@
  */
 
 #include <BaseTest.h>
-#include <misc/Triple.h>
+#include <antlr/misc/Triple.h>
 #include <string>
 
 using namespace antlr4::misc;

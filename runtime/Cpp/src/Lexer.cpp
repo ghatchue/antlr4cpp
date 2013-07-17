@@ -33,8 +33,8 @@
  * Gael Hatchue
  */
 
-#include <Lexer.h>
-#include <Token.h>
+#include <antlr/Lexer.h>
+#include <antlr/Token.h>
 
 namespace antlr4 {
 

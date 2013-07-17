@@ -34,9 +34,9 @@
  */
 
 #include <BaseTest.h>
-#include <Lexer.h>
-#include <misc/IntervalSet.h>
-#include <misc/Utils.h>
+#include <antlr/Lexer.h>
+#include <antlr/misc/IntervalSet.h>
+#include <antlr/misc/Utils.h>
 #include <memory>
 
 using namespace antlr4;

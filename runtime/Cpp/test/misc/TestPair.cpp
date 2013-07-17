@@ -34,7 +34,7 @@
  */
 
 #include <BaseTest.h>
-#include <misc/Pair.h>
+#include <antlr/misc/Pair.h>
 #include <string>
 
 using namespace antlr4::misc;

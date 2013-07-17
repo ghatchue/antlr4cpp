@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/OrderedHashSet.h>
-#include <misc/Utils.h>
+#include <antlr/misc/OrderedHashSet.h>
+#include <antlr/misc/Utils.h>
 #include <memory>
 #include <stdexcept>
 #include <string>

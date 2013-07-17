@@ -34,7 +34,7 @@
  */
 
 #include <BaseTest.h>
-#include <misc/Utils.h>
+#include <antlr/misc/Utils.h>
 
 using namespace antlr4::misc;
 

@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/FlexibleHashMap.h>
-#include <misc/Utils.h>
+#include <antlr/misc/FlexibleHashMap.h>
+#include <antlr/misc/Utils.h>
 #include <algorithm>
 #include <string>
 #include "IntKey.h"

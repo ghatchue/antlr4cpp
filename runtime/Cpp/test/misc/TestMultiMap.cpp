@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/MultiMap.h>
-#include <misc/Utils.h>
+#include <antlr/misc/MultiMap.h>
+#include <antlr/misc/Utils.h>
 #include <string>
 
 using namespace antlr4::misc;

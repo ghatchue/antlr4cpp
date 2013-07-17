@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <atn/ATNState.h>
+#include <antlr/atn/ATNState.h>
 
 namespace antlr4 {
 namespace atn {

@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/MurmurHash.h>
+#include <antlr/misc/MurmurHash.h>
 
 namespace antlr4 {
 namespace misc {

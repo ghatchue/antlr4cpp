@@ -36,7 +36,7 @@
 #ifndef INT_KEY_H
 #define	INT_KEY_H
 
-#include <misc/Key.h>
+#include <antlr/misc/Key.h>
 #include <sstream>
 
 using namespace antlr4::misc;

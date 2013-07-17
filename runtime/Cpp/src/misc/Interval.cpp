@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <misc/Interval.h>
+#include <antlr/misc/Interval.h>
 #include <algorithm>
 #include <sstream>
 

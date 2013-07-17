@@ -33,10 +33,10 @@
  * Gael Hatchue
  */
 
-#include <dfa/DFA.h>
-#include <atn/DecisionState.h>
-#include <dfa/DFASerializer.h>
-#include <dfa/LexerDFASerializer.h>
+#include <antlr/dfa/DFA.h>
+#include <antlr/atn/DecisionState.h>
+#include <antlr/dfa/DFASerializer.h>
+#include <antlr/dfa/LexerDFASerializer.h>
 #include <algorithm>
 
 namespace antlr4 {

@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/Array2DHashSet.h>
-#include <misc/Utils.h>
+#include <antlr/misc/Array2DHashSet.h>
+#include <antlr/misc/Utils.h>
 #include <algorithm>
 #include "HashRangeKey.h"
 #include "IntKey.h"

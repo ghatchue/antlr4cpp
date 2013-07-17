@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/HashKeyHelper.h>
-#include <misc/KeyPtr.h>
+#include <antlr/misc/HashKeyHelper.h>
+#include <antlr/misc/KeyPtr.h>
 #include <gmock/gmock.h>
 
 using namespace antlr4::misc;

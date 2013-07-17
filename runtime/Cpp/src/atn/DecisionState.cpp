@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <atn/DecisionState.h>
+#include <antlr/atn/DecisionState.h>
 
 namespace antlr4 {
 namespace atn {

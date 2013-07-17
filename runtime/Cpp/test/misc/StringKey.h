@@ -36,8 +36,8 @@
 #ifndef STRING_KEY_H
 #define	STRING_KEY_H
 
-#include <misc/Key.h>
-#include <misc/MurmurHash.h>
+#include <antlr/misc/Key.h>
+#include <antlr/misc/MurmurHash.h>
 #include <sstream>
 #include <string>
 

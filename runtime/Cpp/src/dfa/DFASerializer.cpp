@@ -33,10 +33,10 @@
  * Gael Hatchue
  */
 
-#include <dfa/DFASerializer.h>
-#include <dfa/DFA.h>
-#include <dfa/DFAState.h>
-#include <misc/Utils.h>
+#include <antlr/dfa/DFASerializer.h>
+#include <antlr/dfa/DFA.h>
+#include <antlr/dfa/DFAState.h>
+#include <antlr/misc/Utils.h>
 #include <sstream>
 
 namespace antlr4 {

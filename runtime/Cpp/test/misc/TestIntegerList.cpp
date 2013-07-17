@@ -34,8 +34,8 @@
  */
 
 #include <BaseTest.h>
-#include <misc/IntegerList.h>
-#include <misc/Utils.h>
+#include <antlr/misc/IntegerList.h>
+#include <antlr/misc/Utils.h>
 #include <stdexcept>
 
 using namespace antlr4::misc;

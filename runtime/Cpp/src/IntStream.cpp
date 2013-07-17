@@ -33,7 +33,7 @@
  * Gael Hatchue
  */
 
-#include <IntStream.h>
+#include <antlr/IntStream.h>
 
 
 namespace antlr4 {

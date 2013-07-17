@@ -34,7 +34,7 @@
  */
 
 #include <BaseTest.h>
-#include <misc/DoubleKeyMap.h>
+#include <antlr/misc/DoubleKeyMap.h>
 #include <string>
 
 using namespace antlr4::misc;
