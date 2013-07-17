@@ -36,7 +36,7 @@
 #ifndef DFA_H
 #define DFA_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/dfa/DFAState.h>
 #include <antlr/misc/HashMap.h>
 #include <antlr/misc/KeyPtr.h>

@@ -36,7 +36,7 @@
 #ifndef PLUS_BLOCK_START_STATE_H
 #define PLUS_BLOCK_START_STATE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

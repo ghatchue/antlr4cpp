@@ -36,7 +36,7 @@
 #ifndef CommonToken_H
 #define CommonToken_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

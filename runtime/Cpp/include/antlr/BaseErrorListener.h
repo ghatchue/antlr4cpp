@@ -36,7 +36,7 @@
 #ifndef BaseErrorListener_H
 #define BaseErrorListener_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

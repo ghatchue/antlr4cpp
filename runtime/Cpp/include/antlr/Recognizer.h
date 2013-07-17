@@ -36,7 +36,7 @@
 #ifndef Recognizer_H
 #define Recognizer_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

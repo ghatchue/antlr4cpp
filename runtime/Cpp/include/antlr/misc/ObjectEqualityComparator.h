@@ -36,7 +36,7 @@
 #ifndef OBJECT_EQUALITY_COMPARATOR_H
 #define OBJECT_EQUALITY_COMPARATOR_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/AbstractEqualityComparator.h>
 #include <antlr/misc/HashKeyHelper.h>
 

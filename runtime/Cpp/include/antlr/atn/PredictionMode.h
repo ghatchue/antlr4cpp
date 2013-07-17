@@ -36,7 +36,7 @@
 #ifndef PREDICTION_MODE_H
 #define PREDICTION_MODE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

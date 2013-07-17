@@ -23,7 +23,7 @@ TESTS =
 check_PROGRAMS =
 
 antlr4cpp_headers = \
-    include/antlr/antlr4.h \
+    include/antlr4.h \
     include/antlr/Antlr4Definitions.h \
     include/antlr/ANTLRErrorListener.h \
     include/antlr/ANTLRErrorStrategy.h \

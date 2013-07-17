@@ -36,7 +36,7 @@
 #ifndef DFA_STATE_H
 #define DFA_STATE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/atn/ATNConfigSet.h>
 #include <antlr/misc/HashSet.h>
 #include <antlr/misc/Key.h>

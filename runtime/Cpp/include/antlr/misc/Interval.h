@@ -36,7 +36,7 @@
 #ifndef INTERVAL_H
 #define INTERVAL_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 
 namespace antlr4 {

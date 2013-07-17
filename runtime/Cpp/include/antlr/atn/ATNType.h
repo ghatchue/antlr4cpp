@@ -36,7 +36,7 @@
 #ifndef ATN_TYPE_H
 #define ATN_TYPE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

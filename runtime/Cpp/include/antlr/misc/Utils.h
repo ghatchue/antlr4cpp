@@ -36,7 +36,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/Traits.h>
 #include <algorithm>
 #include <list>

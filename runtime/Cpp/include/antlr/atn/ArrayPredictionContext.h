@@ -36,7 +36,7 @@
 #ifndef ARRAY_PREDICTION_CONTEXT_H
 #define ARRAY_PREDICTION_CONTEXT_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

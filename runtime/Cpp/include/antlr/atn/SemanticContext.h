@@ -36,7 +36,7 @@
 #ifndef SEMANTIC_CONTEXT_H
 #define SEMANTIC_CONTEXT_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 
 

@@ -36,7 +36,7 @@
 #ifndef INTEGER_STACK_H
 #define INTEGER_STACK_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/IntegerList.h>
 
 namespace antlr4 {

@@ -36,7 +36,7 @@
 #ifndef MURMUR_HASH_H
 #define MURMUR_HASH_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <vector>
 
 namespace antlr4 {

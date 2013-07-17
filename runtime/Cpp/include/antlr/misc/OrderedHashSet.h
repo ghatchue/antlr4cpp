@@ -36,7 +36,7 @@
 #ifndef ORDERED_HASH_SET_H
 #define ORDERED_HASH_SET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/HashKeyHelper.h>
 #include <antlr/misc/HashSet.h>
 #include <antlr/misc/Key.h>

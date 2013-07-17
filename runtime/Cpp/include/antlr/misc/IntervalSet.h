@@ -36,7 +36,7 @@
 #ifndef INTERVAL_SET_H
 #define INTERVAL_SET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/IntegerList.h>
 #include <antlr/misc/Interval.h>
 #include <antlr/misc/IntSet.h>

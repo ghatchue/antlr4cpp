@@ -36,7 +36,7 @@
 #ifndef TYPE_TRAITS_H
 #define TYPE_TRAITS_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 
 namespace antlr4 {

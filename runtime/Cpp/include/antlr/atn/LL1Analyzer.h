@@ -36,7 +36,7 @@
 #ifndef LL1_ANALYZER_H
 #define LL1_ANALYZER_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

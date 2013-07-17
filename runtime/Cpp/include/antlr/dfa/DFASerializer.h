@@ -36,7 +36,7 @@
 #ifndef DFA_SERIALIZER_H
 #define DFA_SERIALIZER_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 #include <vector>
 

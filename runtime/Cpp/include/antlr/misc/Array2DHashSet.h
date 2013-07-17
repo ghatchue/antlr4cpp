@@ -36,7 +36,7 @@
 #ifndef ARRAY_2D_HASH_SET_H
 #define ARRAY_2D_HASH_SET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/AbstractEqualityComparator.h>
 #include <antlr/misc/Key.h>
 #include <antlr/misc/MurmurHash.h>

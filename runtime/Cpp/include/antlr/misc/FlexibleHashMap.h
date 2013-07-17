@@ -36,7 +36,7 @@
 #ifndef FLEXIBLE_HASH_MAP_H
 #define FLEXIBLE_HASH_MAP_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/AbstractEqualityComparator.h>
 #include <antlr/misc/HashMap.h>
 #include <antlr/misc/Key.h>

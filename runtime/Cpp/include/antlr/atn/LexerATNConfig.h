@@ -36,7 +36,7 @@
 #ifndef LEXER_ATN_CONFIG_H
 #define LEXER_ATN_CONFIG_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

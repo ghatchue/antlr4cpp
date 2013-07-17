@@ -36,7 +36,7 @@
 #ifndef HASH_SET_H
 #define HASH_SET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/HashKeyHelper.h>
 #include <antlr/misc/Key.h>
 #include <antlr/misc/StdHashSet.h>

@@ -36,7 +36,7 @@
 #ifndef EQUALITY_COMPARATOR_H
 #define EQUALITY_COMPARATOR_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

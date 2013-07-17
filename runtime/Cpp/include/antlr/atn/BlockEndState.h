@@ -36,7 +36,7 @@
 #ifndef BLOCK_END_STATE_H
 #define BLOCK_END_STATE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

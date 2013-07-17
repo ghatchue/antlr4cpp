@@ -36,7 +36,7 @@
 #ifndef PARSE_CANCELLATION_EXCEPTION_H
 #define PARSE_CANCELLATION_EXCEPTION_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/RuntimeException.h>
 
 namespace antlr4 {

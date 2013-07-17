@@ -36,7 +36,7 @@
 #ifndef STAR_LOOP_ENTRY_STATE_H
 #define STAR_LOOP_ENTRY_STATE_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

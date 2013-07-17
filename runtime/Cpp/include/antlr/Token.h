@@ -36,7 +36,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 
 namespace antlr4 {

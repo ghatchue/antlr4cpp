@@ -36,7 +36,7 @@
 #ifndef RUNTIME_EXCEPTION_H
 #define RUNTIME_EXCEPTION_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <memory>
 #include <stdexcept>
 #include <string>

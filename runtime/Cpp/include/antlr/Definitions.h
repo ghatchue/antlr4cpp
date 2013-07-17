@@ -33,8 +33,8 @@
  * Gael Hatchue
  */
 
-#ifndef ANTLR4_DEFINITIONS_H
-#define ANTLR4_DEFINITIONS_H
+#ifndef DEFINITIONS_H
+#define DEFINITIONS_H
 
 /* config.h */
 #ifdef HAVE_CONFIG_H
@@ -88,4 +88,4 @@
 #   define antlr_auto_ptr std::auto_ptr
 #endif
     
-#endif /* ANTLR4_DEFINITIONS_H */
+#endif /* DEFINITIONS_H */

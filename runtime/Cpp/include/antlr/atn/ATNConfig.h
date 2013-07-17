@@ -36,7 +36,7 @@
 #ifndef ATN_CONFIG_H
 #define ATN_CONFIG_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

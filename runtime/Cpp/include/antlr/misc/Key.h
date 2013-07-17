@@ -36,7 +36,7 @@
 #ifndef KEY_H
 #define KEY_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <cstring>      // size_t
 
 namespace antlr4 {

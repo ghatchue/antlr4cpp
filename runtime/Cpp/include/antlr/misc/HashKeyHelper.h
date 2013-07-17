@@ -36,7 +36,7 @@
 #ifndef HASH_KEY_HELPER_H
 #define HASH_KEY_HELPER_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/Key.h>
 #include <antlr/misc/StdHashMap.h>
 #include <antlr/misc/Traits.h>

@@ -36,7 +36,7 @@
 #ifndef BailErrorStrategy_H
 #define BailErrorStrategy_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

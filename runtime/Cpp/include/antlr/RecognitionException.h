@@ -36,7 +36,7 @@
 #ifndef RecognitionException_H
 #define RecognitionException_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

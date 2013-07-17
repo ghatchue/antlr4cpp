@@ -36,7 +36,7 @@
 #ifndef NOT_SET_TRANSITION_H
 #define NOT_SET_TRANSITION_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

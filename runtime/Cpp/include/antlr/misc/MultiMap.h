@@ -36,7 +36,7 @@
 #ifndef MULTI_MAP_H
 #define MULTI_MAP_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/HashMap.h>
 #include <vector>
 

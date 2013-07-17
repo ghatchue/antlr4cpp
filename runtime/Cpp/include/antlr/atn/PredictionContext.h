@@ -36,7 +36,7 @@
 #ifndef PREDICTION_CONTEXT_H
 #define PREDICTION_CONTEXT_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

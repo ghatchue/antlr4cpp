@@ -36,7 +36,7 @@
 #ifndef INT_STREAM_H
 #define INT_STREAM_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <string>
 
 

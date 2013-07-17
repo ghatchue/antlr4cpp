@@ -36,7 +36,7 @@
 #ifndef PREDICATE_TRANSITION_H
 #define PREDICATE_TRANSITION_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

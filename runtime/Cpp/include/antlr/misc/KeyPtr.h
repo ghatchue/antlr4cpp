@@ -36,7 +36,7 @@
 #ifndef KEY_PTR_H
 #define KEY_PTR_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/Key.h>
 #include <antlr/misc/Traits.h>
 #include <memory>

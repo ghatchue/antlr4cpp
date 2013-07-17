@@ -36,7 +36,7 @@
 #ifndef INTSET_H
 #define INTSET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/misc/Key.h>
 #include <list>
 #include <memory>

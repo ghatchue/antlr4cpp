@@ -36,7 +36,7 @@
 #ifndef UnbufferedTokenStream_H
 #define UnbufferedTokenStream_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {

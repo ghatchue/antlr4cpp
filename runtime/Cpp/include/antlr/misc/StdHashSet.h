@@ -36,7 +36,7 @@
 #ifndef STD_HASH_SET_H
 #define STD_HASH_SET_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 #if defined(HAVE_CXX11)

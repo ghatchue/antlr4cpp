@@ -36,7 +36,7 @@
 #ifndef LEXER_DFA_SERIALIZER_H
 #define LEXER_DFA_SERIALIZER_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 #include <antlr/dfa/DFASerializer.h>
 
 namespace antlr4 {

@@ -36,7 +36,7 @@
 #ifndef ParserRuleContext_H
 #define ParserRuleContext_H
 
-#include <antlr/Antlr4Definitions.h>
+#include <antlr/Definitions.h>
 
 
 namespace antlr4 {
