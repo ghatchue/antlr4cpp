@@ -60,3 +60,6 @@ vsbuild/
 # ignore netbeans project artifacts
 runtime/Cpp/a.out.dSYM/
 runtime/Cpp/nbproject/
+
+# Ignore desktop services store on Mac OSX
+*.DS_Store
