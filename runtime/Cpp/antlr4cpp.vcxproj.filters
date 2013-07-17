@@ -13,17 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\misc">
-      <UniqueIdentifier>{6f0a25b4-7822-42a6-b000-3d6aec5cd015}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\misc">
       <UniqueIdentifier>{7b3f5a44-6d9c-4d79-8511-ccb91d5f0cfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\atn">
-      <UniqueIdentifier>{153929f8-ca27-4057-aa78-e07086bb7d99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\dfa">
-      <UniqueIdentifier>{655547c6-0c02-4bef-8ccc-3299a9ea85d2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\atn">
       <UniqueIdentifier>{4d54e938-9ea7-43f3-bf48-d72977a74ad0}</UniqueIdentifier>
@@ -31,128 +22,18 @@
     <Filter Include="Source Files\dfa">
       <UniqueIdentifier>{530626ba-d347-4aed-9375-3c8530ac7125}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\antlr4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Utils.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\IntSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Antlr4Definitions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Interval.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\IntervalSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\IntStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Lexer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\MurmurHash.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\AbstractEqualityComparator.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\DoubleKeyMap.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\EqualityComparator.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\HashMap.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Pair.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Triple.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\StdHashMap.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\HashKeyHelper.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Key.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\IntegerList.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\IntegerStack.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\ParseCancellationException.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\RuntimeException.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\StdHashSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\HashSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\OrderedHashSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Traits.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\ObjectEqualityComparator.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\Array2DHashSet.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\MultiMap.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\FlexibleHashMap.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\misc\KeyPtr.h">
-      <Filter>Header Files\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="include\atn\ATNConfigSet.h">
-      <Filter>Header Files\atn</Filter>
-    </ClInclude>
-    <ClInclude Include="include\atn\ATNState.h">
-      <Filter>Header Files\atn</Filter>
-    </ClInclude>
-    <ClInclude Include="include\atn\DecisionState.h">
-      <Filter>Header Files\atn</Filter>
-    </ClInclude>
-    <ClInclude Include="include\atn\SemanticContext.h">
-      <Filter>Header Files\atn</Filter>
-    </ClInclude>
-    <ClInclude Include="include\dfa\DFA.h">
-      <Filter>Header Files\dfa</Filter>
-    </ClInclude>
-    <ClInclude Include="include\dfa\DFASerializer.h">
-      <Filter>Header Files\dfa</Filter>
-    </ClInclude>
-    <ClInclude Include="include\dfa\DFAState.h">
-      <Filter>Header Files\dfa</Filter>
-    </ClInclude>
-    <ClInclude Include="include\dfa\LexerDFASerializer.h">
-      <Filter>Header Files\dfa</Filter>
-    </ClInclude>
+    <Filter Include="Header Files\antlr">
+      <UniqueIdentifier>{ce7c6749-1edc-43cc-9865-8f9ad1d20f76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\antlr\misc">
+      <UniqueIdentifier>{6f0a25b4-7822-42a6-b000-3d6aec5cd015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\antlr\atn">
+      <UniqueIdentifier>{153929f8-ca27-4057-aa78-e07086bb7d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\antlr\dfa">
+      <UniqueIdentifier>{655547c6-0c02-4bef-8ccc-3299a9ea85d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\misc\Interval.cpp">
@@ -215,5 +96,541 @@
     <ClCompile Include="src\atn\SemanticContext.cpp">
       <Filter>Source Files\atn</Filter>
     </ClCompile>
+    <ClCompile Include="src\atn\ActionTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ArrayPredictionContext.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ATN.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ATNConfig.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ATNSimulator.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ATNType.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\AtomTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\BasicBlockStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\BasicState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\BlockEndState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\BlockStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\EmptyPredictionContext.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\EpsilonTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\LexerATNConfig.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\LexerATNSimulator.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\LL1Analyzer.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\LoopEndState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\NotSetTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\OrderedATNConfigSet.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\ParserATNSimulator.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PlusBlockStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PlusLoopbackState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PredicateTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PredictionContext.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PredictionContextCache.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\PredictionMode.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\RangeTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\RuleStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\RuleStopState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\RuleTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\SetTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\SingletonPredictionContext.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\StarBlockStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\StarLoopbackState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\StarLoopEntryState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\TokensStartState.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\Transition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\atn\WildcardTransition.cpp">
+      <Filter>Source Files\atn</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ANTLRErrorListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ANTLRErrorStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ANTLRFileStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ANTLRInputStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BailErrorStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseErrorListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BufferedTokenStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CharStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommonToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommonTokenFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommonTokenStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleErrorListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DefaultErrorStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DiagnosticErrorListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FailedPredicateException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputMismatchException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LexerNoViableAltException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NoViableAltException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParserRuleContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProxyErrorListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RecognitionException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Recognizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RuleContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TokenFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TokenSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TokenStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TokenStreamRewriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UnbufferedCharStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UnbufferedTokenStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WritableToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\antlr4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ActionTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ArrayPredictionContext.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATN.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATNConfig.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATNConfigSet.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATNSimulator.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATNState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ATNType.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\AtomTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\BasicBlockStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\BasicState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\BlockEndState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\BlockStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\DecisionState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\EmptyPredictionContext.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\EpsilonTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\LexerATNConfig.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\LexerATNSimulator.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\LL1Analyzer.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\LoopEndState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\NotSetTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\OrderedATNConfigSet.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\ParserATNSimulator.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PlusBlockStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PlusLoopbackState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PredicateTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PredictionContext.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PredictionContextCache.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\PredictionMode.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\RangeTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\RuleStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\RuleStopState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\RuleTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\SemanticContext.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\SetTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\SingletonPredictionContext.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\StarBlockStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\StarLoopbackState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\StarLoopEntryState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\TokensStartState.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\Transition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\atn\WildcardTransition.h">
+      <Filter>Header Files\antlr\atn</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\dfa\DFA.h">
+      <Filter>Header Files\antlr\dfa</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\dfa\DFASerializer.h">
+      <Filter>Header Files\antlr\dfa</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\dfa\DFAState.h">
+      <Filter>Header Files\antlr\dfa</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\dfa\LexerDFASerializer.h">
+      <Filter>Header Files\antlr\dfa</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\AbstractEqualityComparator.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Array2DHashSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\DoubleKeyMap.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\EqualityComparator.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\FlexibleHashMap.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\HashKeyHelper.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\HashMap.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\HashSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\IntegerList.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\IntegerStack.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Interval.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\IntervalSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\IntSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Key.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\KeyPtr.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\MultiMap.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\MurmurHash.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\ObjectEqualityComparator.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\OrderedHashSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Pair.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\ParseCancellationException.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\RuntimeException.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\StdHashMap.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\StdHashSet.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Traits.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Triple.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\misc\Utils.h">
+      <Filter>Header Files\antlr\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ANTLRErrorListener.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ANTLRErrorStrategy.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ANTLRFileStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ANTLRInputStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\BailErrorStrategy.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\BaseErrorListener.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\BufferedTokenStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\CharStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\CommonToken.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\CommonTokenFactory.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\CommonTokenStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ConsoleErrorListener.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\DefaultErrorStrategy.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\Definitions.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\DiagnosticErrorListener.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\FailedPredicateException.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\InputMismatchException.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\IntStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\Lexer.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\LexerNoViableAltException.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\NoViableAltException.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\Parser.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ParserRuleContext.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\ProxyErrorListener.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\RecognitionException.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\Recognizer.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\RuleContext.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\Token.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\TokenFactory.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\TokenSource.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\TokenStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\TokenStreamRewriter.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\UnbufferedCharStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\UnbufferedTokenStream.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
+    <ClInclude Include="include\antlr\WritableToken.h">
+      <Filter>Header Files\antlr</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
