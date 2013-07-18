@@ -19,8 +19,7 @@ before_script:
 
 # Build the runtime
 script:
-  - make
-  - make test
+  - make && make test
 
 # Turn off email notifications
 notifications:
