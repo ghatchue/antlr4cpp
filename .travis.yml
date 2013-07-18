@@ -11,7 +11,6 @@ language: cpp
 # The value set here is visible via $CC environment variable.
 compiler:
   - gcc
-  - clang
 
 # Configuration steps before the build
 before_script:
