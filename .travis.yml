@@ -1,7 +1,28 @@
+# This is  a Travis-CI  build configuration file.   The list  of configurations
+# available is located in
+#
+#     http://about.travis-ci.org/docs/user/build-configuration/
+#
+
+# Language specification.
+language: cpp
+
+# Compilers.  Several  compilers are  provided in Travis,  so we try  them all.
+# The value set here is visible via $CC environment variable.
+compiler:
+  - gcc
+  - clang
+
+# Configuration steps before the build
+before_script:
+  - cd ./runtime/Cpp
+  - ./autogen.sh --enable-shared --with-gcc=$CC"
+
+# Build the runtime
+script:
+  - make
+  - make test
+
+# Turn off email notifications
 notifications:
   email: false
-
-script:     cd ./runtime/Cpp &&
-                ./autogen.sh --enable-shared &&
-                make &&
-                make  test
