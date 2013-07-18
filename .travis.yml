@@ -16,7 +16,7 @@ compiler:
 # Configuration steps before the build
 before_script:
   - cd ./runtime/Cpp
-  - ./autogen.sh --enable-shared --with-gcc=$CC"
+  - ./autogen.sh --enable-shared --with-gcc=$CC
 
 # Build the runtime
 script:
