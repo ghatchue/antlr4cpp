@@ -81,7 +81,7 @@ public:
 
     virtual bool isNil() const = 0;
     
-    virtual bool operator==(const IntSet& other) const = 0;
+    virtual bool equals(const Key<IntSet>& other) const = 0;
 
     virtual antlr_int32_t getSingleElement() const = 0;
 

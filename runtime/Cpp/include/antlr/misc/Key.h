@@ -54,8 +54,12 @@ public:
     
     virtual bool equals(const Key<T>& other) const;
     
+    virtual bool equals(const T& other) const;
+
     virtual bool operator==(const Key<T>& other) const;
     
+    virtual bool operator==(const T& other) const;
+
     virtual T* clone() const = 0;
 
     operator size_t() const;
@@ -69,13 +73,25 @@ Key<T>::~Key()
 template <typename T>
 bool Key<T>::equals(const Key<T>& other) const
 {
-    return this->operator==(other);
+    return hashCode() == other.hashCode();
+}
+
+template <typename T>
+bool Key<T>::equals(const T& other) const
+{
+    return equals(static_cast< const Key<T>& > (other));
 }
 
 template <typename T>
 bool Key<T>::operator==(const Key<T>& other) const
 {
-    return hashCode() == other.hashCode();
+    return equals(other);
+}
+
+template <typename T>
+bool Key<T>::operator==(const T& other) const
+{
+    return equals(other);
 }
 
 template <typename T>

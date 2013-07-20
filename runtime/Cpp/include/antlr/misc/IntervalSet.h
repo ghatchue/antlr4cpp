@@ -168,7 +168,7 @@ public:
      *  by the List.equals() method to check the ranges.
      */
     ANTLR_OVERRIDE
-    bool operator==(const IntSet& other) const;
+    bool equals(const Key<IntSet>& o) const;
 
     ANTLR_OVERRIDE
     IntSet* clone() const;

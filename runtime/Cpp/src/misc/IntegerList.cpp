@@ -203,9 +203,13 @@ void IntegerList::sort()
  * @param o the object to be compared for equality with this list
  * @return {@code true} if the specified object is equal to this list
  */
-bool IntegerList::operator==(const IntegerList& other) const
+bool IntegerList::equals(const Key<IntegerList>& o) const
 {
-    return _data == other._data;
+    const IntegerList* other = dynamic_cast<const IntegerList*>(&o);
+    if (other == NULL) {
+        return false;
+    }
+    return _data == other->_data;
 }
 
 IntegerList* IntegerList::clone() const

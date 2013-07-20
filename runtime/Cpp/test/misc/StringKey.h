@@ -64,7 +64,14 @@ public:
     }
     
     ANTLR_OVERRIDE
-    bool equals(const StringKey& other) const { return value == other.value; }
+    bool equals(const Key<StringKey>& other) const
+    {
+        const StringKey* o = dynamic_cast<const StringKey*>(&other);
+        if (o == NULL) {
+            return false;
+        }
+        return value == o->value;
+    }
     
     ANTLR_OVERRIDE
     StringKey* clone() const { return new StringKey(*this); }    

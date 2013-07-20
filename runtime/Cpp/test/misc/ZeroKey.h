@@ -53,7 +53,7 @@ public:
     antlr_int32_t hashCode() const { return 0; }
     
     ANTLR_OVERRIDE
-    bool equals(const ZeroKey&) const { return true; }
+    bool equals(const Key<ZeroKey>&) const { return true; }
     
     ANTLR_OVERRIDE
     ZeroKey* clone() const { return new ZeroKey(*this); }    

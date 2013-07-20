@@ -37,13 +37,14 @@
 #define INTERVAL_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/Key.h>
 #include <string>
 
 namespace antlr4 {
 namespace misc {
 
 /** An immutable inclusive interval a..b */
-class ANTLR_API Interval
+class ANTLR_API Interval : public virtual Key<Interval>
 {
 public:
 
@@ -64,7 +65,14 @@ public:
      */
     antlr_int32_t length() const;
 
-    bool operator==(const Interval& other) const;
+    ANTLR_OVERRIDE
+    Interval* clone() const;
+
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const;
+
+    ANTLR_OVERRIDE
+    bool equals(const Key<Interval>& o) const;
 
     /** Does this start completely before other? Disjoint */
     bool startsBeforeDisjoint(const Interval& other) const;

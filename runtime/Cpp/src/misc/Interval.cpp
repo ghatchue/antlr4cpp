@@ -34,6 +34,7 @@
  */
 
 #include <antlr/misc/Interval.h>
+#include <antlr/misc/MurmurHash.h>
 #include <algorithm>
 #include <sstream>
 
@@ -49,7 +50,8 @@ Interval::Interval(antlr_int32_t a, antlr_int32_t b)
 }
 
 Interval::Interval(const Interval& other)
-    :   a(other.a),
+    :   Key<Interval>(),
+        a(other.a),
         b(other.b)
 {
 }
@@ -74,9 +76,27 @@ antlr_int32_t Interval::length() const
     return b-a+1;
 }
 
-bool Interval::operator==(const Interval& other) const
+Interval* Interval::clone() const
 {
-    return this->a==other.a && this->b==other.b;
+    return new Interval(*this);
+}
+
+antlr_int32_t Interval::hashCode() const
+{
+    antlr_int32_t hash = MurmurHash::initialize();
+    hash = MurmurHash::update(hash, a);
+    hash = MurmurHash::update(hash, b);
+    hash = MurmurHash::finish(hash, 2);
+    return hash;
+}
+
+bool Interval::equals(const Key<Interval>& o) const
+{
+    const Interval* other = dynamic_cast<const Interval*>(&o);
+    if (other == NULL) {
+        return false;
+    }
+    return this->a==other->a && this->b==other->b;
 }
 
 /** Does this start completely before other? Disjoint */

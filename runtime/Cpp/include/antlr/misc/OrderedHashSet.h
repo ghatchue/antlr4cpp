@@ -93,7 +93,7 @@ public:
     antlr_int32_t hashCode() const;
 
     ANTLR_OVERRIDE
-    bool operator==(const OrderedHashSet& other);
+    bool equals(const Key< OrderedHashSet<T> >& o) const;
 
     ANTLR_OVERRIDE
     const_iterator begin() const;
@@ -212,9 +212,13 @@ antlr_int32_t OrderedHashSet<T>::hashCode() const
 }
 
 template<typename T>
-bool OrderedHashSet<T>::operator==(const OrderedHashSet& other)
+bool OrderedHashSet<T>::equals(const Key< OrderedHashSet<T> >& o) const
 {
-    return _elements == other._elements;
+    const OrderedHashSet<T>* other = dynamic_cast<const OrderedHashSet<T>*>(&o);
+    if (other == NULL) {
+        return false;
+    }
+    return _elements == other->_elements;
 }
 
 template<typename T>

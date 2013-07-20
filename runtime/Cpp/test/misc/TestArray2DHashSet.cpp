@@ -163,6 +163,26 @@ TEST_F(TestArray2DHashSet, testEqualOperator)
     EXPECT_FALSE(a == b);
 }
 
+TEST_F(TestArray2DHashSet, testEquals)
+{
+    Array2DHashSet<IntKey> a;
+    Array2DHashSet<IntKey> b;
+    for (antlr_int32_t i = 0; i < 200; i++) {
+        a.add(i);
+        b.add(200-i-1);
+    }
+    EXPECT_EQ(200u, a.size());
+    EXPECT_EQ(200u, b.size());
+    EXPECT_TRUE(a.equals(b));
+    a.remove(100);
+    EXPECT_FALSE(a.equals(b));
+    b.remove(100);
+    EXPECT_TRUE(a.equals(b));
+    a.remove(99);
+    b.remove(98);
+    EXPECT_FALSE(a.equals(b));
+}
+
 TEST_F(TestArray2DHashSet, testClone)
 {
     Array2DHashSet<IntKey> a;

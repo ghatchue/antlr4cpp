@@ -55,7 +55,7 @@ template <typename T, typename K = T, bool K_isBaseOf_T = Traits::super<K, T>::v
 class ANTLR_API Array2DHashSet;
 
 template <typename T, typename K>
-class ANTLR_API Array2DHashSet<T, K, true> : Key< Array2DHashSet<T, K, true> >
+class ANTLR_API Array2DHashSet<T, K, true> : public virtual Key< Array2DHashSet<T, K, true> >
 {
 protected:
     
@@ -92,7 +92,7 @@ public:
     antlr_int32_t hashCode() const;
 
     ANTLR_OVERRIDE
-    bool operator==(Array2DHashSet<T, K, true>& other) const;
+    bool equals(const Key< Array2DHashSet<T, K, true> >& o) const;
     
     ANTLR_OVERRIDE
     Array2DHashSet<T, K, true>* clone() const;
@@ -130,7 +130,7 @@ public:
     bool removeFast(ANTLR_NULLABLE const T* obj);
 
     ANTLR_OVERRIDE
-    bool containsAll(Array2DHashSet<T, K, true>& other) const;
+    bool containsAll(const Array2DHashSet<T, K, true>& other) const;
 
     //ANTLR_OVERRIDE
     //boolean addAll(Collection<? extends T> c);
@@ -145,9 +145,9 @@ public:
     void clear();
 
     ANTLR_OVERRIDE
-    std::string toString();
+    std::string toString() const;
 
-    std::string toTableString();
+    std::string toTableString() const;
 
 protected:
     
@@ -354,10 +354,12 @@ antlr_int32_t Array2DHashSet<T, K, true>::hashCode() const
 }
 
 template <typename T, typename K>
-bool Array2DHashSet<T, K, true>::operator==(Array2DHashSet<T, K, true>& other) const
+bool Array2DHashSet<T, K, true>::equals(const Key< Array2DHashSet<T, K, true> >& o) const
 {
-    if ( other.size() != size() ) return false;
-    bool same = this->containsAll(other);
+    const Array2DHashSet<T, K, true>* other = dynamic_cast<const Array2DHashSet<T, K, true>*>(&o);
+    if (other == NULL) return false;
+    if ( other->size() != size() ) return false;
+    bool same = this->containsAll(*other);
     return same;
 }
 
@@ -520,7 +522,7 @@ bool Array2DHashSet<T, K, true>::removeFast(ANTLR_NULLABLE const T* obj)
 }
 
 template <typename T, typename K>
-bool Array2DHashSet<T, K, true>::containsAll(Array2DHashSet<T, K, true>& other) const
+bool Array2DHashSet<T, K, true>::containsAll(const Array2DHashSet<T, K, true>& other) const
 {
     for (antlr_int32_t i = 0; i < other.numBuckets; i++) {
         const TVal* bucket = other.buckets[i];
@@ -544,7 +546,7 @@ void Array2DHashSet<T, K, true>::clear()
 }
 
 template <typename T, typename K>
-std::string Array2DHashSet<T, K, true>::toString()
+std::string Array2DHashSet<T, K, true>::toString() const
 {
     if ( size()==0 ) return "{}";
 
@@ -567,7 +569,7 @@ std::string Array2DHashSet<T, K, true>::toString()
 }
 
 template <typename T, typename K>
-std::string Array2DHashSet<T, K, true>::toTableString()
+std::string Array2DHashSet<T, K, true>::toTableString() const
 {
     std::stringstream buf;
     for (antlr_int32_t i = 0; i < numBuckets; i++) {

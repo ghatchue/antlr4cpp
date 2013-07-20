@@ -146,6 +146,20 @@ TEST_F(TestOrderedHashSet, testEqualOperator)
     a.add(15); b.add(15);
     a.add(16); b.add(16);
     EXPECT_TRUE(a == b);
+    a.add(20);
+    EXPECT_FALSE(a == b);
+}
+
+TEST_F(TestOrderedHashSet, testEquals)
+{
+    OrderedHashSet<antlr_int32_t> a, b;
+    a.add(-5); b.add(-5);
+    a.add(10); b.add(10);
+    a.add(15); b.add(15);
+    a.add(16); b.add(16);
+    EXPECT_TRUE(a.equals(b));
+    a.add(20);
+    EXPECT_FALSE(a.equals(b));
 }
 
 TEST_F(TestOrderedHashSet, testClone)

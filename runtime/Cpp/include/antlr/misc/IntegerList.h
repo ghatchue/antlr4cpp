@@ -114,7 +114,7 @@ public:
      * @return {@code true} if the specified object is equal to this list
      */
     ANTLR_OVERRIDE
-    bool operator==(const IntegerList& other) const;
+    bool equals(const Key<IntegerList>& o) const;
     
     ANTLR_OVERRIDE
     IntegerList* clone() const;

@@ -65,7 +65,7 @@ class ANTLR_API FlexibleHashMap;
  *  varying hashCode/equals.
  */
 template <typename K, typename V, typename B>
-class ANTLR_API FlexibleHashMap<K, V, B, true> : Key< FlexibleHashMap<K, V, B, true> >
+class ANTLR_API FlexibleHashMap<K, V, B, true> : public virtual Key< FlexibleHashMap<K, V, B, true> >
 {
 public:
     
@@ -127,7 +127,7 @@ public:
     antlr_int32_t hashCode() const;
 
     ANTLR_OVERRIDE
-    bool operator==(FlexibleHashMap<K, V, B, true>& other) const;
+    bool equals(const Key< FlexibleHashMap<K, V, B, true> >& other) const;
     
     ANTLR_OVERRIDE
     FlexibleHashMap<K, V, B, true>* clone() const;
@@ -359,9 +359,9 @@ antlr_int32_t FlexibleHashMap<K, V, B, true>::hashCode() const
 }
 
 template <typename K, typename V, typename B>
-bool FlexibleHashMap<K, V, B, true>::operator==(FlexibleHashMap<K, V, B, true>&) const
+bool FlexibleHashMap<K, V, B, true>::equals(const Key< FlexibleHashMap<K, V, B, true> >&) const
 {
-    throw std::logic_error("FlexibleHashMap::operator== not supported");
+    throw std::logic_error("FlexibleHashMap::equals not supported");
 }
 
 template <typename K, typename V, typename B>

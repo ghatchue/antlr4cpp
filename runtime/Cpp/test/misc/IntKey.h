@@ -54,7 +54,14 @@ public:
     antlr_int32_t hashCode() const { return value; }
     
     ANTLR_OVERRIDE
-    bool equals(const IntKey& other) const { return value == other.value; }
+    bool equals(const Key<IntKey>& other) const
+    {
+        const IntKey* o = dynamic_cast<const IntKey*>(&other);
+        if (o == NULL) {
+            return false;
+        }
+        return value == o->value;
+    }
 
     ANTLR_OVERRIDE
     IntKey* clone() const { return new IntKey(*this); }
