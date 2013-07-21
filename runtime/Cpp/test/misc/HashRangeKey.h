@@ -53,13 +53,13 @@ public:
     antlr_int32_t hashCode() const { return value % maxHash; }
     
     ANTLR_OVERRIDE
-    bool equals(const Key<HashRangeKey>& other) const
+    bool equals(const Key<HashRangeKey>* o) const
     {
-        const HashRangeKey* o = dynamic_cast<const HashRangeKey*>(&other);
-        if (o == NULL) {
+        const HashRangeKey* other = dynamic_cast<const HashRangeKey*>(o);
+        if (other == NULL) {
             return false;
         }
-        return value == o->value;
+        return value == other->value;
     }
     
     ANTLR_OVERRIDE

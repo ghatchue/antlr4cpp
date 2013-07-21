@@ -131,7 +131,7 @@ public:
      * {@link #stateNumber} is irrelevant.
      */
     ANTLR_OVERRIDE
-    bool equals(const Key<DFAState>& o) const;
+    bool equals(const Key<DFAState>* o) const;
 
     ANTLR_OVERRIDE
     DFAState* clone() const;

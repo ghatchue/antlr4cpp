@@ -52,9 +52,9 @@ public:
 
     virtual antlr_int32_t hashCode() const = 0;
     
-    virtual bool equals(const Key<T>& other) const;
+    virtual bool equals(const Key<T>* other) const;
     
-    virtual bool equals(const T& other) const;
+    virtual bool equals(const T* other) const;
 
     virtual bool operator==(const Key<T>& other) const;
     
@@ -71,27 +71,30 @@ Key<T>::~Key()
 }
 
 template <typename T>
-bool Key<T>::equals(const Key<T>& other) const
+bool Key<T>::equals(const Key<T>* other) const
 {
-    return hashCode() == other.hashCode();
+    if (other == NULL) {
+        return false;
+    }
+    return hashCode() == other->hashCode();
 }
 
 template <typename T>
-bool Key<T>::equals(const T& other) const
+bool Key<T>::equals(const T* other) const
 {
-    return equals(static_cast< const Key<T>& > (other));
+    return equals(static_cast< const Key<T>* > (other));
 }
 
 template <typename T>
 bool Key<T>::operator==(const Key<T>& other) const
 {
-    return equals(other);
+    return equals(&other);
 }
 
 template <typename T>
 bool Key<T>::operator==(const T& other) const
 {
-    return equals(other);
+    return equals(&other);
 }
 
 template <typename T>

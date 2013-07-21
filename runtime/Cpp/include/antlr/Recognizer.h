@@ -41,6 +41,7 @@
 
 namespace antlr4 {
 
+template <typename Symbol, typename ATNInterpreter>
 class ANTLR_API Recognizer
 {
 public:

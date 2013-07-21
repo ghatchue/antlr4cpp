@@ -127,7 +127,7 @@ public:
     antlr_int32_t hashCode() const;
 
     ANTLR_OVERRIDE
-    bool equals(const Key< FlexibleHashMap<K, V, B, true> >& other) const;
+    bool equals(const Key< FlexibleHashMap<K, V, B, true> >* o) const;
     
     ANTLR_OVERRIDE
     FlexibleHashMap<K, V, B, true>* clone() const;
@@ -359,7 +359,7 @@ antlr_int32_t FlexibleHashMap<K, V, B, true>::hashCode() const
 }
 
 template <typename K, typename V, typename B>
-bool FlexibleHashMap<K, V, B, true>::equals(const Key< FlexibleHashMap<K, V, B, true> >&) const
+bool FlexibleHashMap<K, V, B, true>::equals(const Key< FlexibleHashMap<K, V, B, true> >*) const
 {
     throw std::logic_error("FlexibleHashMap::equals not supported");
 }

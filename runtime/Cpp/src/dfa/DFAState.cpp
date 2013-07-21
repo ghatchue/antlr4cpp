@@ -158,7 +158,7 @@ namespace dfa {
 // * exists that has this exact set of ATN configurations. The
 // * {@link #stateNumber} is irrelevant.
 // */
-//bool DFAState::equals(const Key<DFAState>& o) const
+//bool DFAState::equals(const Key<DFAState>* o) const
 //{
 //    perform dynamic_cast
 //    // TODO (sam): what to do when configs==null?

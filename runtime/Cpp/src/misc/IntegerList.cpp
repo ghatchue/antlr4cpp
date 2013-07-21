@@ -203,9 +203,9 @@ void IntegerList::sort()
  * @param o the object to be compared for equality with this list
  * @return {@code true} if the specified object is equal to this list
  */
-bool IntegerList::equals(const Key<IntegerList>& o) const
+bool IntegerList::equals(const Key<IntegerList>* o) const
 {
-    const IntegerList* other = dynamic_cast<const IntegerList*>(&o);
+    const IntegerList* other = dynamic_cast<const IntegerList*>(o);
     if (other == NULL) {
         return false;
     }

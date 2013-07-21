@@ -90,9 +90,9 @@ antlr_int32_t Interval::hashCode() const
     return hash;
 }
 
-bool Interval::equals(const Key<Interval>& o) const
+bool Interval::equals(const Key<Interval>* o) const
 {
-    const Interval* other = dynamic_cast<const Interval*>(&o);
+    const Interval* other = dynamic_cast<const Interval*>(o);
     if (other == NULL) {
         return false;
     }

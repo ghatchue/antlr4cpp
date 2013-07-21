@@ -64,13 +64,13 @@ public:
     }
     
     ANTLR_OVERRIDE
-    bool equals(const Key<StringKey>& other) const
+    bool equals(const Key<StringKey>* o) const
     {
-        const StringKey* o = dynamic_cast<const StringKey*>(&other);
-        if (o == NULL) {
+        const StringKey* other = dynamic_cast<const StringKey*>(o);
+        if (other == NULL) {
             return false;
         }
-        return value == o->value;
+        return value == other->value;
     }
     
     ANTLR_OVERRIDE

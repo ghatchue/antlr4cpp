@@ -125,7 +125,7 @@ bool HashKeyHelper<K, true>::operator()(const K& left, const K& right) const
         // when using MS hash_map, this function indicates if left < right
         return left.hashCode() < right.hashCode();
 #else
-        return left.equals(right);
+        return left.equals(&right);
 #endif
 }
 
@@ -160,7 +160,7 @@ antlr_int32_t HashKeyHelper<K, false>::hashCode(const K& key) const
 template <typename K>
 bool HashKeyHelper<K, true>::areEqual(const K& left, const K& right) const
 {
-    return left.equals(right);
+    return left.equals(&right);
 }
 
 // Indicates if two values are equal

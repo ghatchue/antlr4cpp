@@ -38,6 +38,126 @@
 namespace antlr4 {
 namespace atn {
 
+ATNConfig::ATNConfig(const ATNConfig& old)
+    :   Key<ATNConfig>(),
+        state(old.state),
+        alt(old.alt),
+        context(old.context),
+        reachesIntoOuterContext(old.reachesIntoOuterContext),
+        semanticContext(old.semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNState* state,antlr_int32_t alt,
+                     ANTLR_NULLABLE const PredictionContext* context)
+    :   state(state),
+        alt(alt),
+        context(context),
+        reachesIntoOuterContext(0),
+        semanticContext(NULL)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNState* state,
+                     antlr_int32_t alt,
+                     ANTLR_NULLABLE const PredictionContext* context,
+                     ANTLR_NOTNULL const SemanticContext* semanticContext)
+    :   state(state),
+        alt(alt),
+        context(context),
+        reachesIntoOuterContext(0),
+        semanticContext(semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c, ANTLR_NOTNULL const ATNState* state)
+    :   state(state),
+        alt(c->alt),
+        context(c->context),
+        reachesIntoOuterContext(c->reachesIntoOuterContext),
+        semanticContext(c->semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c, ANTLR_NOTNULL const ATNState* state,
+                     ANTLR_NOTNULL const SemanticContext* semanticContext)
+    :   state(state),
+        alt(c->alt),
+        context(c->context),
+        reachesIntoOuterContext(c->reachesIntoOuterContext),
+        semanticContext(semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c,
+                     ANTLR_NOTNULL const SemanticContext* semanticContext)
+    :   state(c->state),
+        alt(c->alt),
+        context(c->context),
+        reachesIntoOuterContext(c->reachesIntoOuterContext),
+        semanticContext(semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c, ANTLR_NOTNULL const ATNState* state,
+                     ANTLR_NULLABLE const PredictionContext* context)
+    :   state(state),
+        alt(c->alt),
+        context(context),
+        reachesIntoOuterContext(c->reachesIntoOuterContext),
+        semanticContext(c->semanticContext)
+{
+}
+
+ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c, ANTLR_NOTNULL const ATNState* state,
+                     ANTLR_NULLABLE const PredictionContext* context,
+                     ANTLR_NOTNULL const SemanticContext* semanticContext)
+    :   state(state),
+        alt(c->alt),
+        context(context),
+        reachesIntoOuterContext(c->reachesIntoOuterContext),
+        semanticContext(semanticContext)
+{
+}
+
+/** An ATN configuration is equal to another if both have
+ *  the same state, they predict the same alternative, and
+ *  syntactic/semantic contexts are the same.
+ */
+bool ATNConfig::equals(const Key<ATNConfig>* o) const
+{
+    return false;
+//    const ATNConfig* other = dynamic_cast<const ATNConfig*>(&o);
+//    if (other == NULL) {
+//        return false;
+//    }
+//    return this->state->stateNumber==other->state->stateNumber
+//        && this->alt==other.alt
+//        && (this->context==other->context || (this.context != NULL && this->context->equals(other.context)))
+//        && this->semanticContext.equals(other.semanticContext);
+}
+
+antlr_int32_t ATNConfig::hashCode() const
+{
+    return 0;
+}
+
+ATNConfig* ATNConfig::clone() const
+{
+    return new ATNConfig(*this);
+}
+
+std::string ATNConfig::toString() const
+{
+    return std::string();
+}
+
+template <typename Symbol, typename ATNInterpreter>
+std::string ATNConfig::toString(ANTLR_NULLABLE const Recognizer<Symbol, ATNInterpreter>* recog, bool showAlt) const
+{
+    return std::string();
+}
+
 
 } /* namespace atn */
 } /* namespace antlr4 */

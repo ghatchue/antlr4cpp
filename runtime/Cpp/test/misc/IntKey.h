@@ -54,13 +54,13 @@ public:
     antlr_int32_t hashCode() const { return value; }
     
     ANTLR_OVERRIDE
-    bool equals(const Key<IntKey>& other) const
+    bool equals(const Key<IntKey>* o) const
     {
-        const IntKey* o = dynamic_cast<const IntKey*>(&other);
-        if (o == NULL) {
+        const IntKey* other = dynamic_cast<const IntKey*>(o);
+        if (other == NULL) {
             return false;
         }
-        return value == o->value;
+        return value == other->value;
     }
 
     ANTLR_OVERRIDE

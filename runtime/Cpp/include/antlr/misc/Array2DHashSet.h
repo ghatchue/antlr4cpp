@@ -92,7 +92,7 @@ public:
     antlr_int32_t hashCode() const;
 
     ANTLR_OVERRIDE
-    bool equals(const Key< Array2DHashSet<T, K, true> >& o) const;
+    bool equals(const Key< Array2DHashSet<T, K, true> >* o) const;
     
     ANTLR_OVERRIDE
     Array2DHashSet<T, K, true>* clone() const;
@@ -354,9 +354,9 @@ antlr_int32_t Array2DHashSet<T, K, true>::hashCode() const
 }
 
 template <typename T, typename K>
-bool Array2DHashSet<T, K, true>::equals(const Key< Array2DHashSet<T, K, true> >& o) const
+bool Array2DHashSet<T, K, true>::equals(const Key< Array2DHashSet<T, K, true> >* o) const
 {
-    const Array2DHashSet<T, K, true>* other = dynamic_cast<const Array2DHashSet<T, K, true>*>(&o);
+    const Array2DHashSet<T, K, true>* other = dynamic_cast<const Array2DHashSet<T, K, true>*>(o);
     if (other == NULL) return false;
     if ( other->size() != size() ) return false;
     bool same = this->containsAll(*other);

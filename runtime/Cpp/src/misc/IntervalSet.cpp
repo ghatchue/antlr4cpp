@@ -462,9 +462,9 @@ antlr_int32_t IntervalSet::hashCode() const
  *  to make sure they are the same.  Interval.equals() is used
  *  by the List.equals() method to check the ranges.
  */
-bool IntervalSet::equals(const Key<IntSet>& o) const
+bool IntervalSet::equals(const Key<IntSet>* o) const
 {
-    const IntervalSet* other = dynamic_cast<const IntervalSet*>(&o);
+    const IntervalSet* other = dynamic_cast<const IntervalSet*>(o);
     antlr_uint32_t n = intervals.size();
     if ( !other || n != other->intervals.size() ) {
         return false;

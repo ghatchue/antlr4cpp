@@ -173,14 +173,14 @@ TEST_F(TestArray2DHashSet, testEquals)
     }
     EXPECT_EQ(200u, a.size());
     EXPECT_EQ(200u, b.size());
-    EXPECT_TRUE(a.equals(b));
+    EXPECT_TRUE(a.equals(&b));
     a.remove(100);
-    EXPECT_FALSE(a.equals(b));
+    EXPECT_FALSE(a.equals(&b));
     b.remove(100);
-    EXPECT_TRUE(a.equals(b));
+    EXPECT_TRUE(a.equals(&b));
     a.remove(99);
     b.remove(98);
-    EXPECT_FALSE(a.equals(b));
+    EXPECT_FALSE(a.equals(&b));
 }
 
 TEST_F(TestArray2DHashSet, testClone)

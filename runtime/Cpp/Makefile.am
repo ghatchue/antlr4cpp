@@ -159,7 +159,6 @@ antlr4cpp_sources = \
     src/ParserRuleContext.cpp \
     src/ProxyErrorListener.cpp \
     src/RecognitionException.cpp \
-    src/Recognizer.cpp \
     src/RuleContext.cpp \
     src/Token.cpp \
     src/TokenFactory.cpp \
