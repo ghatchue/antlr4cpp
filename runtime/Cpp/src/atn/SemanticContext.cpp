@@ -38,6 +38,7 @@
 namespace antlr4 {
 namespace atn {
 
+const SemanticContext SemanticContext::NONE = SemanticContext();
 
 } /* namespace atn */
 } /* namespace antlr4 */
