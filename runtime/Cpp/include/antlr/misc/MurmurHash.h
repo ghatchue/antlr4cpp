@@ -37,6 +37,7 @@
 #define MURMUR_HASH_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/Key.h>
 #include <vector>
 
 namespace antlr4 {
@@ -74,6 +75,16 @@ public:
      */
     static antlr_int32_t update(antlr_int32_t hash, antlr_int32_t value);
 
+	/**
+	 * Update the intermediate hash value for the next input {@code value}.
+	 *
+	 * @param hash the intermediate hash value
+	 * @param value the value to add to the current hash
+	 * @return the updated intermediate hash value
+	 */
+    template <typename T>
+	static antlr_int32_t update(antlr_int32_t hash, const Key<T>* value);
+    
     /**
      * Apply the final computation steps to the intermediate value {@code hash}
      * to form the final result of the MurmurHash 3 hash function.
@@ -102,6 +113,13 @@ private:
     
     static const antlr_int32_t DEFAULT_SEED;
 };
+
+
+template <typename T>
+static antlr_int32_t update(antlr_int32_t hash, const Key<T>* value)
+{
+    return update(hash, value != NULL ? value->hashCode() : 0);
+}
 
 
 //template<typename T>

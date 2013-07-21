@@ -46,6 +46,7 @@ class ANTLR_API ATNState
 {
 public:
 
+    antlr_int32_t stateNumber;
 };
 
 

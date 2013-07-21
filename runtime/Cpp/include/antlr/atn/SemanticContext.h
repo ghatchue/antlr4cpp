@@ -37,19 +37,38 @@
 #define SEMANTIC_CONTEXT_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/Key.h>
 #include <string>
 
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API SemanticContext
+class ANTLR_API SemanticContext : public virtual Key<SemanticContext>
 {
 public:
 
+    SemanticContext() { }
+    
+    SemanticContext(const SemanticContext&) : Key<SemanticContext>() { }
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const { return 0; }
+    
+    ANTLR_OVERRIDE
+    bool equals(const Key<SemanticContext>*) const { return false; }
+    
+    ANTLR_OVERRIDE
+    SemanticContext* clone() const { return NULL; }
+
     ANTLR_OVERRIDE
     std::string toString() const { return std::string(); }
-    
+
+public:
+
+    static const SemanticContext NONE;
 };
 
 

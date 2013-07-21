@@ -37,14 +37,20 @@
 #define PREDICTION_CONTEXT_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/Key.h>
+#include <string>
 
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API PredictionContext
+class ANTLR_API PredictionContext : public virtual Key<PredictionContext>
 {
 public:
+    
+    std::string toString() const { return std::string(); }
 
 };
 

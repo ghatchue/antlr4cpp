@@ -47,7 +47,6 @@ namespace antlr4 { namespace atn { class PredictionContext; } }
 namespace antlr4 { namespace atn { class SemanticContext; } }
 
 using namespace antlr4;
-using namespace antlr4::atn;
 using namespace antlr4::misc;
 
 namespace antlr4 {

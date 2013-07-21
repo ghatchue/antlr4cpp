@@ -60,6 +60,10 @@ public:
     
     virtual bool operator==(const T& other) const;
 
+    virtual bool operator!=(const Key<T>& other) const;
+    
+    virtual bool operator!=(const T& other) const;
+
     virtual T* clone() const = 0;
 
     operator size_t() const;
@@ -95,6 +99,18 @@ template <typename T>
 bool Key<T>::operator==(const T& other) const
 {
     return equals(&other);
+}
+
+template <typename T>
+bool Key<T>::operator!=(const Key<T>& other) const
+{
+    return !equals(&other);
+}
+
+template <typename T>
+bool Key<T>::operator!=(const T& other) const
+{
+    return !equals(&other);
 }
 
 template <typename T>

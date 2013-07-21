@@ -34,6 +34,13 @@
  */
 
 #include <antlr/atn/ATNConfig.h>
+#include <antlr/atn/ATNState.h>
+#include <antlr/atn/ATNSimulator.h>
+#include <antlr/atn/PredictionContext.h>
+#include <antlr/atn/SemanticContext.h>
+#include <antlr/misc/MurmurHash.h>
+#include <sstream>
+
 
 namespace antlr4 {
 namespace atn {
@@ -126,20 +133,25 @@ ATNConfig::ATNConfig(ANTLR_NOTNULL const ATNConfig* c, ANTLR_NOTNULL const ATNSt
  */
 bool ATNConfig::equals(const Key<ATNConfig>* o) const
 {
-    return false;
-//    const ATNConfig* other = dynamic_cast<const ATNConfig*>(&o);
-//    if (other == NULL) {
-//        return false;
-//    }
-//    return this->state->stateNumber==other->state->stateNumber
-//        && this->alt==other.alt
-//        && (this->context==other->context || (this.context != NULL && this->context->equals(other.context)))
-//        && this->semanticContext.equals(other.semanticContext);
+    const ATNConfig* other = dynamic_cast<const ATNConfig*>(o);
+    if (other == NULL) {
+        return false;
+    }
+    return this->state->stateNumber==other->state->stateNumber
+        && this->alt==other->alt
+        && (this->context==other->context || (this->context != NULL && this->context->equals(other->context)))
+        && this->semanticContext->equals(other->semanticContext);
 }
 
 antlr_int32_t ATNConfig::hashCode() const
 {
-    return 0;
+    antlr_int32_t hashCode = MurmurHash::initialize(7);
+    hashCode = MurmurHash::update(hashCode, state->stateNumber);
+    hashCode = MurmurHash::update(hashCode, alt);
+    hashCode = MurmurHash::update(hashCode, context);
+    hashCode = MurmurHash::update(hashCode, semanticContext);
+    hashCode = MurmurHash::finish(hashCode, 4);
+    return hashCode;
 }
 
 ATNConfig* ATNConfig::clone() const
@@ -149,13 +161,37 @@ ATNConfig* ATNConfig::clone() const
 
 std::string ATNConfig::toString() const
 {
-    return std::string();
+    return toString<antlr_int32_t, ATNSimulator>(NULL, true);
 }
 
 template <typename Symbol, typename ATNInterpreter>
-std::string ATNConfig::toString(ANTLR_NULLABLE const Recognizer<Symbol, ATNInterpreter>* recog, bool showAlt) const
+std::string ATNConfig::toString(ANTLR_NULLABLE const Recognizer<Symbol, ATNInterpreter>*, bool showAlt) const
 {
-    return std::string();
+    std::stringstream buf;
+    //if ( state->ruleIndex>=0 ) {
+    //    if ( recog!=NULL ) buf << recog->getRuleNames()[state->ruleIndex] << ":");
+    //    else buf << state->ruleIndex << ":";
+    //}
+    buf << "(";
+    buf << state;
+    if (showAlt) {
+        buf << ",";
+        buf << alt;
+    }
+    if (context != NULL) {
+        buf << ",[";
+        buf << context->toString();
+        buf << "]";
+    }
+    if (semanticContext != NULL && *semanticContext != SemanticContext::NONE) {
+        buf << ",";
+        buf << semanticContext->toString();
+    }
+    if (reachesIntoOuterContext > 0) {
+        buf << ",up=" << reachesIntoOuterContext;
+    }
+    buf << ")";
+    return buf.str();
 }
 
 
