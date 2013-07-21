@@ -116,7 +116,7 @@ private:
 
 
 template <typename T>
-static antlr_int32_t MurmurHash::update(antlr_int32_t hash, const Key<T>* value)
+antlr_int32_t MurmurHash::update(antlr_int32_t hash, const Key<T>* value)
 {
     return update(hash, value != NULL ? value->hashCode() : 0);
 }
