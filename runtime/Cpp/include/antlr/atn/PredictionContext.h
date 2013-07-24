@@ -37,9 +37,10 @@
 #define PREDICTION_CONTEXT_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/DoubleKeyMap.h>
 #include <antlr/misc/Key.h>
+#include <antlr/misc/KeyPtr.h>
 #include <string>
-
 
 using namespace antlr4::misc;
 
@@ -52,6 +53,14 @@ public:
     
     std::string toString() const { return std::string(); }
 
+    static PredictionContext* merge(
+        const PredictionContext*, const PredictionContext*,
+        bool,
+        DoubleKeyMap< KeyPtr<PredictionContext>,KeyPtr<PredictionContext>,KeyPtr<PredictionContext> >*)
+    {
+        return NULL;
+    }
+    
 };
 
 

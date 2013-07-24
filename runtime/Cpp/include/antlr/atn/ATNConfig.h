@@ -63,6 +63,8 @@ class ANTLR_API ATNConfig : public virtual Key<ATNConfig>
 {
 public:
     
+    ATNConfig();
+    
     ATNConfig(const ATNConfig& old);
 
     ATNConfig(ANTLR_NOTNULL const ATNState* state,antlr_int32_t alt,
@@ -114,7 +116,7 @@ public:
     const ATNState* state;
 
     /** What alt (or lexer rule) is predicted by this configuration */
-    const antlr_int32_t alt;
+    antlr_int32_t alt;
 
     /** The stack of invoking states leading to the rule/states associated
      *  with this config.  We track only those contexts pushed during

@@ -37,15 +37,38 @@
 #define ATN_STATE_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/Key.h>
 
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API ATNState
+class ANTLR_API ATNState : public virtual Key<ATNState>
 {
 public:
 
+    ANTLR_OVERRIDE
+    bool equals(const Key<ATNState>*) const
+    {
+        return false;
+    }
+
+    ANTLR_OVERRIDE
+    antlr_int32_t hashCode() const
+    {
+        return 0;
+    }
+    
+    ANTLR_OVERRIDE
+    ATNState* clone() const
+    {
+        return NULL;
+    }
+    
+public:
+    
     antlr_int32_t stateNumber;
 };
 

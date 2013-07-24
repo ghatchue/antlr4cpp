@@ -45,6 +45,15 @@
 namespace antlr4 {
 namespace atn {
 
+ATNConfig::ATNConfig()
+   :    state(NULL),
+        alt(0),
+        context(NULL),
+        reachesIntoOuterContext(0),
+        semanticContext(NULL)
+{
+}
+
 ATNConfig::ATNConfig(const ATNConfig& old)
     :   Key<ATNConfig>(),
         state(old.state),

@@ -85,7 +85,9 @@ public:
      * the return value.
      */
     const T* getOrAdd(const T& o);
-        
+    
+    const T* getOrAdd(const T& o, bool& added);
+
     const T* get(const T& o) const;
 
     ANTLR_OVERRIDE
@@ -150,8 +152,6 @@ public:
     std::string toTableString() const;
 
 protected:
-    
-    const T* getOrAdd(const T& o, bool& added);
     
     const T* getOrAddImpl(const T& o, bool& added);
 
