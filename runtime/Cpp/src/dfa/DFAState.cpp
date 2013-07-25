@@ -43,153 +43,135 @@ namespace antlr4 {
 namespace dfa {
 
 
-//DFAState::PredPrediction::PredPrediction(const SemanticContext* pred, antlr_int32_t alt)
-//    :   pred(pred),
-//        alt(alt)
-//{
-//}
-//
-//std::string DFAState::PredPrediction::toString() const
-//{
-//    return std::string("(")+Utils::stringValueOf(*pred)+", "+Utils::stringValueOf(alt)+ ")";
-//}
-//
-//DFAState::~DFAState()
-//{
-//}
-//
-//DFAState::DFAState()
-//    :   stateNumber(-1),
-//        configs(new ATNConfigSet()),
-//        edges(NULL),
-//        numEdges(0),
-//        isAcceptState(false),
-//        prediction(0),
-//        lexerRuleIndex(-1),
-//        lexerActionIndex(-1),
-//        requiresFullContext(false),
-//        predicates(NULL),
-//        numPredicates(0)
-//{
-//}
-//
-//DFAState::DFAState(antlr_int32_t stateNumber)
-//    :   stateNumber(stateNumber),
-//        configs(new ATNConfigSet()),
-//        edges(NULL),
-//        numEdges(0),
-//        isAcceptState(false),
-//        prediction(0),
-//        lexerRuleIndex(-1),
-//        lexerActionIndex(-1),
-//        requiresFullContext(false),
-//        predicates(NULL),
-//        numPredicates(0)
-//{
-//}
-//
-//DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet> configs)
-//    :   stateNumber(-1),
-//        configs(configs),
-//        edges(NULL),
-//        numEdges(0),
-//        isAcceptState(false),
-//        prediction(0),
-//        lexerRuleIndex(-1),
-//        lexerActionIndex(-1),
-//        requiresFullContext(false),
-//        predicates(NULL),
-//        numPredicates(0)
-//{
-//}
-//
-//DFAState::DFAState(const DFAState& other)
-//    :   Key<DFAState>(),
-//        stateNumber(-1),
-//        configs(new ATNConfigSet()),
-//        edges(NULL),
-//        numEdges(0),
-//        isAcceptState(false),
-//        prediction(0),
-//        lexerRuleIndex(-1),
-//        lexerActionIndex(-1),
-//        requiresFullContext(false),
-//        predicates(NULL),
-//        numPredicates(0)
-//{
-//    throw std::logic_error("DFAState:: copy constructor not impl");
-//}
-//
-///** Get the set of all alts mentioned by all ATN configurations in this
-// *  DFA state.
-// */
-//antlr_auto_ptr< HashSet<antlr_int32_t> > DFAState::getAltSet() const
-//{
-//    antlr_auto_ptr< HashSet<antlr_int32_t> > alts(new HashSet<antlr_int32_t>());
-//    if ( configs.get()!=NULL ) {
-//        antlr_auto_ptr< std::vector<const ATNConfig*> > cfgs = configs->toPtrArray();
-//        for ()
-//        for (ATNConfig c : configs) {
-//            alts.add(c.alt);
-//        }
-//    }
-//    if ( alts->empty() ) return antlr_auto_ptr< HashSet<antlr_int32_t> >();
-//    return alts;
-//}
-//
-//antlr_int32_t DFAState::hashCode() const
-//{
-//    antlr_int32_t hash = MurmurHash::initialize(7);
-//    hash = MurmurHash.update(hash, configs->hashCode());
-//    hash = MurmurHash.finish(hash, 1);
-//    return hash;
-//}
-//
-///**
-// * Two {@link DFAState} instances are equal if their ATN configuration sets
-// * are the same. This method is used to see if a state already exists.
-// * <p/>
-// * Because the number of alternatives and number of ATN configurations are
-// * finite, there is a finite number of DFA states that can be processed.
-// * This is necessary to show that the algorithm terminates.
-// * <p/>
-// * Cannot test the DFA state numbers here because in
-// * {@link ParserATNSimulator#addDFAState} we need to know if any other state
-// * exists that has this exact set of ATN configurations. The
-// * {@link #stateNumber} is irrelevant.
-// */
-//bool DFAState::equals(const Key<DFAState>* o) const
-//{
-//    const DFAState* other = dynamic_cast<const DFAState*>(o);
-//    if (other == NULL) {
-//        return false;
-//    }
-//    // TODO (sam): what to do when configs==null?
-//    bool sameSet = this->configs->equals()opetator==(other.configs);
-//    // System.out.println("DFAState.equals: "+configs+(sameSet?"==":"!=")+other.configs);
-//    return sameSet;
-//}
-//
-//DFAState* DFAState::clone() const
-//{
-//    return new DFAState(*this);
-//}
-//
-//std::string DFAState::toString() const
-//{
-//    std::stringstream buf;
-//    buf << stateNumber << ":" << configs->toString();
-//    if ( isAcceptState ) {
-//        buf << "=>";
-//        if ( predicates!=NULL ) {
-//            buf << Utils::stringValueOfPtrArray(predicates, numPredicates);
-//        }
-//        else {
-//            buf << prediction;
-//        }
-//    }
-//    return buf.str();
-//}
+DFAState::PredPrediction::PredPrediction(const SemanticContext* pred, antlr_int32_t alt)
+    :   pred(pred),
+        alt(alt)
+{
+}
+
+std::string DFAState::PredPrediction::toString() const
+{
+    return std::string("(")+Utils::stringValueOf(*pred)+", "+Utils::stringValueOf(alt)+ ")";
+}
+
+DFAState::~DFAState()
+{
+}
+
+DFAState::DFAState()
+    :   stateNumber(-1),
+        configs(new ATNConfigSet()),
+        edges(NULL),
+        numEdges(0),
+        isAcceptState(false),
+        prediction(0),
+        lexerRuleIndex(-1),
+        lexerActionIndex(-1),
+        requiresFullContext(false),
+        predicates(NULL),
+        numPredicates(0)
+{
+}
+
+DFAState::DFAState(antlr_int32_t stateNumber)
+    :   stateNumber(stateNumber),
+        configs(new ATNConfigSet()),
+        edges(NULL),
+        numEdges(0),
+        isAcceptState(false),
+        prediction(0),
+        lexerRuleIndex(-1),
+        lexerActionIndex(-1),
+        requiresFullContext(false),
+        predicates(NULL),
+        numPredicates(0)
+{
+}
+
+DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet> configs)
+    :   stateNumber(-1),
+        configs(configs),
+        edges(NULL),
+        numEdges(0),
+        isAcceptState(false),
+        prediction(0),
+        lexerRuleIndex(-1),
+        lexerActionIndex(-1),
+        requiresFullContext(false),
+        predicates(NULL),
+        numPredicates(0)
+{
+}
+
+/** Get the set of all alts mentioned by all ATN configurations in this
+ *  DFA state.
+ */
+antlr_auto_ptr< HashSet<antlr_int32_t> > DFAState::getAltSet() const
+{
+    antlr_auto_ptr< HashSet<antlr_int32_t> > alts(new HashSet<antlr_int32_t>());
+    if ( configs.get()!=NULL ) {
+        const std::vector<ATNConfig>& items = configs->elements();
+        for (std::vector<ATNConfig>::const_iterator it = items.begin(); it != items.end(); it++) {
+            alts->add(it->alt);
+        }
+    }
+    if ( alts->empty() ) alts.reset();
+    return alts;
+}
+
+antlr_int32_t DFAState::hashCode() const
+{
+    antlr_int32_t hash = MurmurHash::initialize(7);
+    hash = MurmurHash::update(hash, configs->hashCode());
+    hash = MurmurHash::finish(hash, 1);
+    return hash;
+}
+
+/**
+ * Two {@link DFAState} instances are equal if their ATN configuration sets
+ * are the same. This method is used to see if a state already exists.
+ * <p/>
+ * Because the number of alternatives and number of ATN configurations are
+ * finite, there is a finite number of DFA states that can be processed.
+ * This is necessary to show that the algorithm terminates.
+ * <p/>
+ * Cannot test the DFA state numbers here because in
+ * {@link ParserATNSimulator#addDFAState} we need to know if any other state
+ * exists that has this exact set of ATN configurations. The
+ * {@link #stateNumber} is irrelevant.
+ */
+bool DFAState::equals(const Key<DFAState>* o) const
+{
+    const DFAState* other = dynamic_cast<const DFAState*>(o);
+    if (other == NULL) {
+        return false;
+    }
+    // TODO (sam): what to do when configs==null?
+    bool sameSet = this->configs->equals(other->configs.get());
+    // System.out.println("DFAState.equals: "+configs+(sameSet?"==":"!=")+other.configs);
+    return sameSet;
+}
+
+DFAState* DFAState::clone() const
+{
+    throw std::logic_error("DFAState::clone not implemented");
+}
+
+std::string DFAState::toString() const
+{
+    std::stringstream buf;
+    buf << stateNumber << ":" << configs->toString();
+    if ( isAcceptState ) {
+        buf << "=>";
+        if ( predicates!=NULL ) {
+            buf << Utils::stringValueOfPtrArray(predicates, numPredicates);
+        }
+        else {
+            buf << prediction;
+        }
+    }
+    return buf.str();
+}
 
 } /* namespace dfa */
 } /* namespace antlr4 */
