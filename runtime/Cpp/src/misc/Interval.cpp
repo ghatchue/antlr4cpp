@@ -83,7 +83,7 @@ Interval* Interval::clone() const
 
 antlr_int32_t Interval::hashCode() const
 {
-    antlr_int32_t hash = MurmurHash::initialize();
+    antlr_int32_t hash = MurmurHash::initialize(7);
     hash = MurmurHash::update(hash, a);
     hash = MurmurHash::update(hash, b);
     hash = MurmurHash::finish(hash, 2);

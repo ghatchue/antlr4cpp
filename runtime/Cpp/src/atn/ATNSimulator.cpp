@@ -38,6 +38,11 @@
 namespace antlr4 {
 namespace atn {
 
+const PredictionContext* ATNSimulator::getCachedContext(const PredictionContext* context) const
+{
+    return 0;
+}
+
 
 } /* namespace atn */
 } /* namespace antlr4 */

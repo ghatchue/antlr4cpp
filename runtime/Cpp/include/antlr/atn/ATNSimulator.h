@@ -39,6 +39,9 @@
 #include <antlr/Definitions.h>
 
 
+namespace antlr4 { namespace atn { class PredictionContext; } }
+
+
 namespace antlr4 {
 namespace atn {
 
@@ -46,6 +49,8 @@ class ANTLR_API ATNSimulator
 {
 public:
 
+	const PredictionContext* getCachedContext(const PredictionContext* context) const;
+    
 };
 
 

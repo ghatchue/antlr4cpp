@@ -374,8 +374,8 @@ public:
     template <typename U>
     std::vector<U>& toArray(std::vector<U>& a) const;
 
-    ANTLR_OVERRIDE
-    bool remove(const ATNConfig& o);
+    //ANTLR_OVERRIDE
+    //bool remove(const ATNConfig& o);
 
     //ANTLR_OVERRIDE
     //boolean containsAll(Collection<?> c);
@@ -435,7 +435,7 @@ private:
 template <typename U>
 std::vector<U>& ATNConfigSet::toArray(std::vector<U>& a) const
 {
-    return a;
+    return configLookup->toArray(a);
 }
 
 

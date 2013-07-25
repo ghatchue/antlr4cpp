@@ -48,6 +48,7 @@ public:
     
     MyClass(const std::string& s) : s(s) { }
     std::string toString() const { return s + ":" + s; }
+    bool operator==(const MyClass& o) const { return s == o.s; }
     
 public:
     std::string s;
@@ -121,4 +122,18 @@ TEST_F(TestUtils, testStringValueOfPtr)
     MyClass* p = NULL;
     EXPECT_EQ("one:one", Utils::String<MyClass>::valueOf(&a));
     EXPECT_EQ("null", Utils::String<MyClass>::valueOf(p));
+}
+
+TEST_F(TestUtils, testAutoPtrEquals)
+{
+    antlr_auto_ptr<MyClass> a(new MyClass("one"));
+    antlr_auto_ptr<MyClass> b(new MyClass("one"));
+    antlr_auto_ptr<MyClass> c(new MyClass("two"));
+    EXPECT_TRUE(Utils::equals(a, a));
+    EXPECT_TRUE(Utils::equals(a, b));
+    EXPECT_FALSE(Utils::equals(a, c));
+    a.reset();
+    c.reset();
+    EXPECT_TRUE(Utils::equals(a, c));
+    EXPECT_FALSE(Utils::equals(a, b));
 }

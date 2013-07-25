@@ -33,11 +33,16 @@
  * Gael Hatchue
  */
 
+#include <antlr/atn/ATN.h>
 #include <antlr/atn/ATNConfigSet.h>
+#include <antlr/atn/ATNSimulator.h>
 #include <antlr/atn/SemanticContext.h>
 #include <antlr/misc/MurmurHash.h>
+#include <antlr/misc/Utils.h>
 #include <algorithm>
 #include <stdexcept>
+#include <sstream>
+
 
 namespace antlr4 {
 namespace atn {
@@ -160,12 +165,24 @@ const std::vector<ATNConfig>& ATNConfigSet::elements() const
 
 antlr_auto_ptr< HashSet<ATNState> > ATNConfigSet::getStates() const
 {
-    return antlr_auto_ptr< HashSet<ATNState> >();
+    antlr_auto_ptr< HashSet<ATNState> > states(new HashSet<ATNState>());
+    for (std::vector<ATNConfig>::const_iterator it = configs.begin();
+            it != configs.end(); it++) {
+        states->add(*it->state);
+    }
+    return states;
 }
 
 antlr_auto_ptr< std::vector<const SemanticContext*> > ATNConfigSet::getPredicates() const
 {
-    return antlr_auto_ptr< std::vector<const SemanticContext*> >();
+    antlr_auto_ptr< std::vector<const SemanticContext*> > preds(new std::vector<const SemanticContext*>());
+    for (std::vector<ATNConfig>::const_iterator it = configs.begin();
+            it != configs.end(); it++) {
+        if (it->semanticContext->operator !=(SemanticContext::NONE)) {
+            preds->push_back(it->semanticContext);
+        }
+    }
+    return preds;
 }
 
 const ATNConfig& ATNConfigSet::get(antlr_int32_t i) const
@@ -175,6 +192,16 @@ const ATNConfig& ATNConfigSet::get(antlr_int32_t i) const
 
 void ATNConfigSet::optimizeConfigs(const ATNSimulator& interpreter)
 {
+    if ( readonly ) throw std::logic_error("This set is readonly");
+    if ( configLookup->isEmpty() ) return;
+
+    for (std::vector<ATNConfig>::iterator it = configs.begin();
+            it != configs.end(); it++) {
+        // int before = PredictionContext.getAllContextNodes(config.context).size();
+            it->context = interpreter.getCachedContext(it->context);
+        // int after = PredictionContext.getAllContextNodes(config.context).size();
+        // System.out.println("configs "+before+"->"+after);
+    }
 }
 
 ATNConfigSet* ATNConfigSet::clone() const
@@ -184,66 +211,105 @@ ATNConfigSet* ATNConfigSet::clone() const
 
 bool ATNConfigSet::equals(const Key<ATNConfigSet>& o) const
 {
-    return false;
+    const ATNConfigSet* other = dynamic_cast<const ATNConfigSet*>(&o);
+    if (other == NULL) {
+        return false;
+    }
+
+    // System.out.print("equals " + this + ", " + o+" = ");
+    bool same =
+        configs == (other->configs) &&  // includes stack context
+        this->fullCtx == other->fullCtx &&
+        this->uniqueAlt == other->uniqueAlt &&
+        Utils::equals(this->conflictingAlts, other->conflictingAlts) &&
+        this->hasSemanticContext == other->hasSemanticContext &&
+        this->dipsIntoOuterContext == other->dipsIntoOuterContext;
+
+    // System.out.println(same);
+    return same;
 }
 
 antlr_int32_t ATNConfigSet::hashCode() const
 {
-    return 0;
+    if (isReadonly()) {
+        if (cachedHashCode == -1) {
+            const_cast<ATNConfigSet*>(this)->cachedHashCode = MurmurHash::hashCode(configs, 7);
+        }
+
+        return cachedHashCode;
+    }
+
+    return MurmurHash::hashCode(configs, 7);
 }
 
 antlr_uint32_t ATNConfigSet::size() const
 {
-    return 0;
+    return static_cast<antlr_uint32_t>(configs.size());
 }
 
 bool ATNConfigSet::isEmpty() const
 {
-    return false;
+    return configs.empty();
 }
 
 bool ATNConfigSet::contains(const ATNConfig& o) const
 {
-    return false;
+    if (configLookup.get() == NULL) {
+        throw std::logic_error("This method is not implemented for readonly sets.");
+    }
+
+    return configLookup->contains(o);
 }
 
 bool ATNConfigSet::containsFast(const ATNConfig& obj) const
 {
-    return false;
+    if (configLookup.get() == NULL) {
+        throw std::logic_error("This method is not implemented for readonly sets.");
+    }
+
+    return configLookup->containsFast(&obj);
 }
 
 void ATNConfigSet::clear()
 {
+    if ( readonly ) throw std::logic_error("This set is readonly");
+    configs.clear();
+    cachedHashCode = -1;
+    configLookup->clear();
 }
 
 bool ATNConfigSet::isReadonly() const
 {
-    return false;
+    return readonly;
 }
 
 void ATNConfigSet::setReadonly(bool readonly)
 {
+    this->readonly = readonly;
+    configLookup.reset();   // can't mod, no need for lookup cache
 }
 
 std::string ATNConfigSet::toString() const
 {
-    return std::string();
+    std::stringstream buf;
+    buf << Utils::stringValueOf(elements());
+    if ( hasSemanticContext ) buf << std::boolalpha << ",hasSemanticContext=" << hasSemanticContext;
+    if ( uniqueAlt!=ATN::INVALID_ALT_NUMBER ) buf << ",uniqueAlt=" << uniqueAlt;
+    if ( conflictingAlts.get()!=NULL ) buf << ",conflictingAlts=" << Utils::stringValueOf(*conflictingAlts);
+    if ( dipsIntoOuterContext ) buf << ",dipsIntoOuterContext";
+    return buf.str();
 }
 
 antlr_auto_ptr< std::vector<const ATNConfig*> > ATNConfigSet::toPtrArray() const
 {
-    return antlr_auto_ptr< std::vector<const ATNConfig*> >();
+    return configLookup->toPtrArray();
 }
 
 antlr_auto_ptr< std::vector<ATNConfig> > ATNConfigSet::toArray() const
 {
-    return antlr_auto_ptr< std::vector<ATNConfig> >();
+    return configLookup->toArray();
 }
 
-bool ATNConfigSet::remove(const ATNConfig& o)
-{
-    return false;
-}
 
 } /* namespace atn */
 } /* namespace antlr4 */

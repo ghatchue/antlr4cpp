@@ -38,6 +38,7 @@
 namespace antlr4 {
 namespace atn {
 
+const antlr_int32_t ATN::INVALID_ALT_NUMBER = 0;    
 
 } /* namespace atn */
 } /* namespace antlr4 */

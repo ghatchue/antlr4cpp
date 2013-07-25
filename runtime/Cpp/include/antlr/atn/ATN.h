@@ -46,6 +46,10 @@ class ANTLR_API ATN
 {
 public:
 
+    
+public:
+    
+	static const antlr_int32_t INVALID_ALT_NUMBER;    
 };
 
 

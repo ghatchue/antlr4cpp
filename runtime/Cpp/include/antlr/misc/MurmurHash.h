@@ -104,8 +104,8 @@ public:
      * @param seed the seed for the MurmurHash algorithm
      * @return the hash code of the data
      */
-    //template <typename T>
-    //static antlr_int32_t hashCode(std::vector<T> data, antlr_int32_t seed);
+    template <typename T>
+    static antlr_int32_t hashCode(const std::vector<T>& items, antlr_int32_t seed);
 
 private:
 
@@ -122,16 +122,16 @@ antlr_int32_t MurmurHash::update(antlr_int32_t hash, const Key<T>* value)
 }
 
 
-//template<typename T>
-//antlr_int32_t MurmurHash::hashCode(std::vector<T> data, antlr_int32_t seed)
-//{
-//    antlr_int32_t hash = initialize(seed);
-//    for (typename std::list<T>::const_iterator it = data.begin(); it != list.end(); it++) {
-//        hash = update(hash, value);
-//    }
-//    hash = finish(hash, data.length);
-//    return hash;
-//}
+template<typename T>
+antlr_int32_t MurmurHash::hashCode(const std::vector<T>& items, antlr_int32_t seed)
+{
+    antlr_int32_t hash = initialize(seed);
+    for (typename std::vector<T>::const_iterator it = items.begin(); it != items.end(); it++) {
+        hash = update(hash, *it);
+    }
+    hash = finish(hash, static_cast<antlr_int32_t>(items.size()));
+    return hash;
+}
 
 } /* namespace misc */
 } /* namespace antlr4 */

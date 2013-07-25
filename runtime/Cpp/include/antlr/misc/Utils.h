@@ -40,6 +40,7 @@
 #include <antlr/misc/Traits.h>
 #include <algorithm>
 #include <list>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -84,6 +85,9 @@ public:
         
     template <typename Iter, typename T>
     static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value);
+    
+    template<typename T>
+    static bool equals(const antlr_auto_ptr<T>& a, const antlr_auto_ptr<T>& b);
 };
 
 
@@ -178,6 +182,18 @@ antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
     }
     return result;
 }
+
+template<typename T>
+bool Utils::equals(const antlr_auto_ptr<T>& a, const antlr_auto_ptr<T>& b)
+{
+    if (a.get() == b.get()) {
+        return true;
+    } else if (a.get() != NULL && b.get() != NULL) {
+        return *a == *b;
+    }
+    return false;
+}
+
 
 } /* namespace misc */
 } /* namespace antlr4 */
