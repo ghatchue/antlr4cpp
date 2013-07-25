@@ -209,9 +209,9 @@ ATNConfigSet* ATNConfigSet::clone() const
     throw std::logic_error("ATNConfigSet::clone not supported");
 }
 
-bool ATNConfigSet::equals(const Key<ATNConfigSet>& o) const
+bool ATNConfigSet::equals(const Key<ATNConfigSet>* o) const
 {
-    const ATNConfigSet* other = dynamic_cast<const ATNConfigSet*>(&o);
+    const ATNConfigSet* other = dynamic_cast<const ATNConfigSet*>(o);
     if (other == NULL) {
         return false;
     }

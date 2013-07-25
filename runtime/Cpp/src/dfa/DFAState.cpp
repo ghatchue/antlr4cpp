@@ -126,7 +126,7 @@ namespace dfa {
 //antlr_auto_ptr< HashSet<antlr_int32_t> > DFAState::getAltSet() const
 //{
 //    antlr_auto_ptr< HashSet<antlr_int32_t> > alts(new HashSet<antlr_int32_t>());
-//    if ( configs!=NULL ) {
+//    if ( configs.get()!=NULL ) {
 //        antlr_auto_ptr< std::vector<const ATNConfig*> > cfgs = configs->toPtrArray();
 //        for ()
 //        for (ATNConfig c : configs) {
@@ -160,9 +160,12 @@ namespace dfa {
 // */
 //bool DFAState::equals(const Key<DFAState>* o) const
 //{
-//    perform dynamic_cast
+//    const DFAState* other = dynamic_cast<const DFAState*>(o);
+//    if (other == NULL) {
+//        return false;
+//    }
 //    // TODO (sam): what to do when configs==null?
-//    bool sameSet = this->configs->opetator==(other.configs);
+//    bool sameSet = this->configs->equals()opetator==(other.configs);
 //    // System.out.println("DFAState.equals: "+configs+(sameSet?"==":"!=")+other.configs);
 //    return sameSet;
 //}

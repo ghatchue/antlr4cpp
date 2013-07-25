@@ -335,7 +335,7 @@ public:
     ATNConfigSet* clone() const;
     
     ANTLR_OVERRIDE
-    bool equals(const Key<ATNConfigSet>& o) const;
+    bool equals(const Key<ATNConfigSet>* o) const;
 
     ANTLR_OVERRIDE
     antlr_int32_t hashCode() const;
