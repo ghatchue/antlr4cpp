@@ -100,7 +100,7 @@ DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet>& configs)
         predicates(NULL),
         numPredicates(0)
 {
-    this->configs = configs;
+    this->configs.reset(configs.release());
 }
 
 /** Get the set of all alts mentioned by all ATN configurations in this
