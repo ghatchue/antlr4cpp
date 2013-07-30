@@ -90,7 +90,6 @@ DFAState::DFAState(antlr_int32_t stateNumber)
 
 DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet>& configs)
     :   stateNumber(-1),
-        configs(configs),
         edges(NULL),
         numEdges(0),
         isAcceptState(false),
@@ -101,6 +100,7 @@ DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet>& configs)
         predicates(NULL),
         numPredicates(0)
 {
+    this->configs = configs;
 }
 
 /** Get the set of all alts mentioned by all ATN configurations in this
