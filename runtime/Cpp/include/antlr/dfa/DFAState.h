@@ -105,7 +105,7 @@ public:
 
     DFAState(antlr_int32_t stateNumber);
 
-    DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet> configs);
+    DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet>& configs);
     
     /** Get the set of all alts mentioned by all ATN configurations in this
      *  DFA state.

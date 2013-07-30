@@ -88,7 +88,7 @@ DFAState::DFAState(antlr_int32_t stateNumber)
 {
 }
 
-DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet> configs)
+DFAState::DFAState(ANTLR_NOTNULL antlr_auto_ptr<ATNConfigSet>& configs)
     :   stateNumber(-1),
         configs(configs),
         edges(NULL),
