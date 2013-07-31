@@ -114,7 +114,6 @@
     <ClCompile Include="src\ParserRuleContext.cpp" />
     <ClCompile Include="src\ProxyErrorListener.cpp" />
     <ClCompile Include="src\RecognitionException.cpp" />
-    <ClCompile Include="src\Recognizer.cpp" />
     <ClCompile Include="src\RuleContext.cpp" />
     <ClCompile Include="src\Token.cpp" />
     <ClCompile Include="src\TokenFactory.cpp" />

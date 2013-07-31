@@ -79,7 +79,7 @@ bool HashSet<T>::contains(const T& value) const
 template <typename T>
 bool HashSet<T>::add(const T& value)
 {
-    std::pair<typename HashSetBase::iterator, bool> result = insert(value);
+    std::pair<typename HashSetBase::iterator, bool> result = HashSetBase::insert(value);
     return result.second;
 }
 

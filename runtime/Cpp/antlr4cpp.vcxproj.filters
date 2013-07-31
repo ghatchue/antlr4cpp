@@ -276,9 +276,6 @@
     <ClCompile Include="src\RecognitionException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Recognizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RuleContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
