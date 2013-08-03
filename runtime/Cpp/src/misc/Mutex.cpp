@@ -33,61 +33,81 @@
  * Gael Hatchue
  */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#include <antlr/misc/Mutex.h>
+#include <stdexcept>
 
-#include <cstddef>
+namespace antlr4 {
+namespace misc {
 
-/* config.h */
-#ifdef HAVE_CONFIG_H
-#    include "config.h"
-#endif
+#if defined(HAVE_PTHREAD)
 
-/* C++11 support for VS2012 C++ compiler */
-#if _MSC_VER >= 1700
-#    define HAVE_CXX11
-#endif
+// Acquires this mutex.
+void MutexBase::lock()
+{
+    antlr_int32_t status = pthread_mutex_lock(&mutex_);
+    if (status != 0) {
+        throw std::runtime_error("pthread_mutex_lock failed");
+    }
+    owner_ = pthread_self();
+}
+
+// Releases this mutex.
+void MutexBase::unlock()
+{
+    // We don't protect writing to owner_ here, as it's the caller's
+    // responsibility to ensure that the current thread holds the
+    // mutex when this is called.
+    owner_ = 0;
+    antlr_int32_t status = pthread_mutex_unlock(&mutex_);
+    if (status != 0) {
+        throw std::runtime_error("pthread_mutex_unlock failed");
+    }
+}
+
+// Indicates if the current thread holds the mutex
+bool MutexBase::isHeld() const
+{
+    return owner_ == pthread_self();
+}
+
+Mutex::Mutex()
+{
+    antlr_int32_t status = pthread_mutex_init(&mutex_, NULL);
+    if (status != 0) {
+        throw std::runtime_error("pthread_mutex_init failed");
+    }
+    owner_ = 0;
+}
+
+Mutex::~Mutex()
+{
+    antlr_int32_t status = pthread_mutex_destroy(&mutex_);
+    if (status != 0) {
+        throw std::runtime_error("pthread_mutex_destroy failed");
+    }
+}
+
+#else /* HAVE_PTHREAD */
+
+void MutexBase::lock()
+{
+}
+
+void MutexBase::unlock()
+{
+}
+
+bool MutexBase::isHeld() const
+{
+    return true;
+}
+
+Mutex::Mutex()
+{
+}
+
+#endif /* HAVE_PTHREAD */
 
 
-/* ANTLR_API */
-#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_SHARED
-#        if defined ANTLR4_EXPORTS
-#            define ANTLR_API __declspec(dllexport)
-#        else
-#            define ANTLR_API __declspec(dllimport)
-#        endif
-#    else
-#        define ANTLR_API
-#    endif
-#else
-#    define ANTLR_API
-#endif
-
-
-/* Integer data types */
-#ifdef HAVE_INTTYPES_H
-#   include <inttypes.h>
-    typedef int32_t antlr_int32_t;
-    typedef uint32_t antlr_uint32_t;
-#else /* HAVE_INTTYPES_H */
-    typedef int antlr_int32_t;
-    typedef unsigned int antlr_uint32_t;
-#endif /* HAVE_INTTYPES_H */
-
-/* Limits */
-#define ANTLR_INT32_MAX 0x7FFFFFFF
-
-/* Attributes */
-#define ANTLR_OVERRIDE virtual
-#define ANTLR_NOTNULL
-#define ANTLR_NULLABLE
-
-/* Auto ptr */
-#ifdef HAVE_CXX11
-#   define antlr_auto_ptr std::unique_ptr
-#else
-#   define antlr_auto_ptr std::auto_ptr
-#endif
-    
-#endif /* DEFINITIONS_H */
+} /* namespace misc */
+} /* namespace antlr4 */

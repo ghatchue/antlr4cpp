@@ -33,61 +33,67 @@
  * Gael Hatchue
  */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#include <antlr/misc/Thread.h>
+#include <stdexcept>
 
-#include <cstddef>
+#if defined(HAVE_PTHREAD) || defined(_MSC_VER)
 
-/* config.h */
-#ifdef HAVE_CONFIG_H
-#    include "config.h"
-#endif
+namespace antlr4 {
+namespace misc {
 
-/* C++11 support for VS2012 C++ compiler */
-#if _MSC_VER >= 1700
-#    define HAVE_CXX11
-#endif
+RunnableThread::~RunnableThread()
+{
+}
+
+void* ThreadFuncWithCLinkage(void* thread)
+{
+  static_cast<RunnableThread*>(thread)->run();
+  return NULL;
+}
+
+ThreadBase::ThreadBase()
+    :   finished_(false)
+{
+}
+
+ThreadBase::~ThreadBase()
+{
+    join();
+}
+
+void ThreadBase::start()
+{
+    RunnableThread* const base = this;
+    // The thread can be created only after all fields except thread_
+    // have been initialized.
+    antlr_int32_t status = pthread_create(&thread_, 0, &ThreadFuncWithCLinkage, base);
+    if (status != 0) {
+        throw std::runtime_error("pthread_create failed");
+    }
+}
+
+void ThreadBase::join() {
+    if (!finished_) {
+        antlr_int32_t status = pthread_join(thread_, 0);
+        finished_ = true;
+        if (status != 0) {
+            throw std::runtime_error("pthread_join failed");
+        }
+    }
+}
+
+Thread::Thread(Thread::UserThreadFunc func)
+    :   func_(func)
+{
+}
+
+void Thread::run()
+{
+    func_();
+}
 
 
-/* ANTLR_API */
-#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_SHARED
-#        if defined ANTLR4_EXPORTS
-#            define ANTLR_API __declspec(dllexport)
-#        else
-#            define ANTLR_API __declspec(dllimport)
-#        endif
-#    else
-#        define ANTLR_API
-#    endif
-#else
-#    define ANTLR_API
-#endif
+} /* namespace misc */
+} /* namespace antlr4 */
 
-
-/* Integer data types */
-#ifdef HAVE_INTTYPES_H
-#   include <inttypes.h>
-    typedef int32_t antlr_int32_t;
-    typedef uint32_t antlr_uint32_t;
-#else /* HAVE_INTTYPES_H */
-    typedef int antlr_int32_t;
-    typedef unsigned int antlr_uint32_t;
-#endif /* HAVE_INTTYPES_H */
-
-/* Limits */
-#define ANTLR_INT32_MAX 0x7FFFFFFF
-
-/* Attributes */
-#define ANTLR_OVERRIDE virtual
-#define ANTLR_NOTNULL
-#define ANTLR_NULLABLE
-
-/* Auto ptr */
-#ifdef HAVE_CXX11
-#   define antlr_auto_ptr std::unique_ptr
-#else
-#   define antlr_auto_ptr std::auto_ptr
-#endif
-    
-#endif /* DEFINITIONS_H */
+#endif /* defined(HAVE_PTHREAD) || defined(_MSC_VER) */

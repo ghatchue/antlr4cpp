@@ -33,61 +33,22 @@
  * Gael Hatchue
  */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#include <antlr/misc/MutexLock.h>
 
-#include <cstddef>
+namespace antlr4 {
+namespace misc {
 
-/* config.h */
-#ifdef HAVE_CONFIG_H
-#    include "config.h"
-#endif
+AntlrMutexLock::AntlrMutexLock(MutexBase* mutex)
+    : mutex_(mutex)
+{
+    mutex_->lock();
+}
 
-/* C++11 support for VS2012 C++ compiler */
-#if _MSC_VER >= 1700
-#    define HAVE_CXX11
-#endif
-
-
-/* ANTLR_API */
-#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_SHARED
-#        if defined ANTLR4_EXPORTS
-#            define ANTLR_API __declspec(dllexport)
-#        else
-#            define ANTLR_API __declspec(dllimport)
-#        endif
-#    else
-#        define ANTLR_API
-#    endif
-#else
-#    define ANTLR_API
-#endif
+AntlrMutexLock::~AntlrMutexLock()
+{
+    mutex_->unlock();
+}
 
 
-/* Integer data types */
-#ifdef HAVE_INTTYPES_H
-#   include <inttypes.h>
-    typedef int32_t antlr_int32_t;
-    typedef uint32_t antlr_uint32_t;
-#else /* HAVE_INTTYPES_H */
-    typedef int antlr_int32_t;
-    typedef unsigned int antlr_uint32_t;
-#endif /* HAVE_INTTYPES_H */
-
-/* Limits */
-#define ANTLR_INT32_MAX 0x7FFFFFFF
-
-/* Attributes */
-#define ANTLR_OVERRIDE virtual
-#define ANTLR_NOTNULL
-#define ANTLR_NULLABLE
-
-/* Auto ptr */
-#ifdef HAVE_CXX11
-#   define antlr_auto_ptr std::unique_ptr
-#else
-#   define antlr_auto_ptr std::auto_ptr
-#endif
-    
-#endif /* DEFINITIONS_H */
+} /* namespace misc */
+} /* namespace antlr4 */

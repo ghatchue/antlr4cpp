@@ -33,61 +33,36 @@
  * Gael Hatchue
  */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#ifndef MUTEX_LOCK_H
+#define MUTEX_LOCK_H
 
-#include <cstddef>
+#include <antlr/Definitions.h>
+#include <antlr/misc/Mutex.h>
 
-/* config.h */
-#ifdef HAVE_CONFIG_H
-#    include "config.h"
-#endif
+namespace antlr4 {
+namespace misc {
 
-/* C++11 support for VS2012 C++ compiler */
-#if _MSC_VER >= 1700
-#    define HAVE_CXX11
-#endif
-
-
-/* ANTLR_API */
-#if (defined _WIN32 || defined __CYGWIN__) && !defined __GNUC__
-#    if defined ANTLR4_SHARED
-#        if defined ANTLR4_EXPORTS
-#            define ANTLR_API __declspec(dllexport)
-#        else
-#            define ANTLR_API __declspec(dllimport)
-#        endif
-#    else
-#        define ANTLR_API
-#    endif
-#else
-#    define ANTLR_API
-#endif
-
-
-/* Integer data types */
-#ifdef HAVE_INTTYPES_H
-#   include <inttypes.h>
-    typedef int32_t antlr_int32_t;
-    typedef uint32_t antlr_uint32_t;
-#else /* HAVE_INTTYPES_H */
-    typedef int antlr_int32_t;
-    typedef unsigned int antlr_uint32_t;
-#endif /* HAVE_INTTYPES_H */
-
-/* Limits */
-#define ANTLR_INT32_MAX 0x7FFFFFFF
-
-/* Attributes */
-#define ANTLR_OVERRIDE virtual
-#define ANTLR_NOTNULL
-#define ANTLR_NULLABLE
-
-/* Auto ptr */
-#ifdef HAVE_CXX11
-#   define antlr_auto_ptr std::unique_ptr
-#else
-#   define antlr_auto_ptr std::auto_ptr
-#endif
+// We cannot name this class MutexLock as the ctor declaration would
+// conflict with a macro named MutexLock, which is defined on some
+// platforms.  Hence the typedef trick below.
+class ANTLR_API AntlrMutexLock
+{
+public:
+    explicit AntlrMutexLock(MutexBase* mutex);
+    ~AntlrMutexLock();
     
-#endif /* DEFINITIONS_H */
+private:
+    AntlrMutexLock(const AntlrMutexLock&);
+    void operator=(const AntlrMutexLock&);
+
+private:
+    MutexBase* const mutex_;
+};
+
+typedef AntlrMutexLock MutexLock;
+
+
+} /* namespace misc */
+} /* namespace antlr4 */
+
+#endif /* ifndef MUTEX_LOCK_H */

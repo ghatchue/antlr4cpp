@@ -122,6 +122,8 @@ antlr4cpp_headers = \
     include/antlr/misc/KeyPtr.h \
     include/antlr/misc/MultiMap.h \
     include/antlr/misc/MurmurHash.h \
+    include/antlr/misc/Mutex.h \
+    include/antlr/misc/MutexLock.h \
     include/antlr/misc/ObjectEqualityComparator.h \
     include/antlr/misc/OrderedHashSet.h \
     include/antlr/misc/Pair.h \
@@ -130,6 +132,7 @@ antlr4cpp_headers = \
     include/antlr/misc/StdHashMap.h \
     include/antlr/misc/StdHashSet.h \
     include/antlr/misc/Traits.h \
+    include/antlr/misc/Thread.h \
     include/antlr/misc/Triple.h \
     include/antlr/misc/Utils.h
 
@@ -220,8 +223,11 @@ antlr4cpp_sources = \
     src/misc/Interval.cpp \
     src/misc/IntSet.cpp \
     src/misc/MurmurHash.cpp \
+    src/misc/Mutex.cpp \
+    src/misc/MutexLock.cpp \
     src/misc/ParseCancellationException.cpp \
     src/misc/RuntimeException.cpp \
+    src/misc/Thread.cpp \
     src/misc/Utils.cpp
 
 antlr4cpp_unit_test_sources = \
