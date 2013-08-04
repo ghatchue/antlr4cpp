@@ -34,10 +34,52 @@
  */
 
 #include <antlr/atn/ActionTransition.h>
+#include <antlr/misc/Utils.h>
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
+ActionTransition::ActionTransition(ANTLR_NOTNULL const ATNState* target,
+                                   antlr_int32_t ruleIndex)
+    :   Transition(target),
+        ruleIndex(ruleIndex),
+        actionIndex(-1),
+        isCtxDependent(false)
+{
+}
+
+ActionTransition::ActionTransition(ANTLR_NOTNULL const ATNState* target,
+                                   antlr_int32_t ruleIndex,
+                                   antlr_int32_t actionIndex,
+                                   bool isCtxDependent)
+    :   Transition(target),
+        ruleIndex(ruleIndex),
+        actionIndex(actionIndex),
+        isCtxDependent(isCtxDependent)
+{
+}
+
+antlr_int32_t ActionTransition::getSerializationType() const
+{
+    return ACTION;
+}
+
+bool ActionTransition::isEpsilon() const
+{
+    return true; // we are to be ignored by analysis 'cept for predicates
+}
+
+bool ActionTransition::matches(antlr_int32_t, antlr_int32_t, antlr_int32_t) const
+{
+    return false;
+}
+
+std::string ActionTransition::toString() const
+{
+    return std::string("action_")+Utils::stringValueOf(ruleIndex)+":"+Utils::stringValueOf(actionIndex);
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

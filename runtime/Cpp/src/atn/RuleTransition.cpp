@@ -34,10 +34,35 @@
  */
 
 #include <antlr/atn/RuleTransition.h>
+#include <antlr/atn/RuleStartState.h>
 
 namespace antlr4 {
 namespace atn {
 
+RuleTransition::RuleTransition(
+               ANTLR_NOTNULL const RuleStartState* ruleStart,
+               antlr_int32_t ruleIndex,
+               ANTLR_NOTNULL const ATNState* followState)
+    :   Transition(ruleStart),
+        ruleIndex(ruleIndex),
+        followState(followState)
+{
+}
+
+antlr_int32_t RuleTransition::getSerializationType() const
+{
+    return RULE;
+}
+
+bool RuleTransition::isEpsilon() const
+{
+    return true;
+}
+
+bool RuleTransition::matches(antlr_int32_t, antlr_int32_t, antlr_int32_t) const
+{
+    return false;
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

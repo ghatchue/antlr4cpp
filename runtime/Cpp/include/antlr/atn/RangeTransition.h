@@ -45,7 +45,7 @@ namespace atn {
 class ANTLR_API RangeTransition : public Transition
 {
 public:
-    RangeTransition(ANTLR_NOTNULL ATNState* target, antlr_int32_t from, antlr_int32_t to);
+    RangeTransition(ANTLR_NOTNULL const ATNState* target, antlr_int32_t from, antlr_int32_t to);
 
     ANTLR_OVERRIDE
     antlr_int32_t getSerializationType() const;

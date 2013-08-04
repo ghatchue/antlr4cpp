@@ -38,6 +38,28 @@
 namespace antlr4 {
 namespace atn {
 
+NotSetTransition::NotSetTransition(ANTLR_NOTNULL const ATNState* target,
+                                   ANTLR_NULLABLE const IntervalSet* set)
+    :   SetTransition(target, set)
+{
+}
+
+antlr_int32_t NotSetTransition::getSerializationType() const
+{
+    return NOT_SET;
+}
+
+bool NotSetTransition::matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const
+{
+    return symbol >= minVocabSymbol
+        && symbol <= maxVocabSymbol
+        && !SetTransition::matches(symbol, minVocabSymbol, maxVocabSymbol);
+}
+
+std::string NotSetTransition::toString() const
+{
+    return std::string("~")+SetTransition::toString();
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

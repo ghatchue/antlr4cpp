@@ -38,7 +38,7 @@
 namespace antlr4 {
 namespace atn {
 
-WildcardTransition::WildcardTransition(ANTLR_NOTNULL ATNState* target)
+WildcardTransition::WildcardTransition(ANTLR_NOTNULL const ATNState* target)
     :   Transition(target)
 {
 }

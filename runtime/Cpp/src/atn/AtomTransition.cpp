@@ -34,10 +34,40 @@
  */
 
 #include <antlr/atn/AtomTransition.h>
+#include <antlr/misc/Utils.h>
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
+AtomTransition::AtomTransition(ANTLR_NOTNULL const ATNState* target, antlr_int32_t label)
+    :   Transition(target),
+        label_(label)
+{
+}
+
+antlr_int32_t AtomTransition::getSerializationType() const
+{
+    return ATOM;
+}
+
+antlr_auto_ptr<IntervalSet> AtomTransition::label() const
+{
+    antlr_auto_ptr<IntervalSet> s(new IntervalSet());
+    s->add(label_);
+    return s;
+}
+
+bool AtomTransition::matches(antlr_int32_t symbol, antlr_int32_t, antlr_int32_t) const
+{
+    return label_ == symbol;
+}
+
+std::string AtomTransition::toString() const
+{
+    return Utils::stringValueOf(label_);
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

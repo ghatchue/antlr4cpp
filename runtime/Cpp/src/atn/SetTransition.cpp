@@ -34,10 +34,44 @@
  */
 
 #include <antlr/atn/SetTransition.h>
+#include <antlr/Token.h>
+
+using namespace antlr4;
 
 namespace antlr4 {
 namespace atn {
 
+// TODO (sam): should we really allow null here?
+SetTransition::SetTransition(ANTLR_NOTNULL const ATNState* target,
+                             ANTLR_NULLABLE const IntervalSet* set)
+    :   Transition(target)
+{
+    if (set == NULL) {
+        this->set = IntervalSet::of(Token::INVALID_TYPE);
+    } else {
+        this->set = *set;
+    }
+}
+
+antlr_int32_t SetTransition::getSerializationType() const
+{
+    return SET;
+}
+
+antlr_auto_ptr<IntervalSet> SetTransition::label() const
+{
+    return antlr_auto_ptr<IntervalSet>(new IntervalSet(set));
+}
+
+bool SetTransition::matches(antlr_int32_t symbol, antlr_int32_t, antlr_int32_t) const
+{
+    return set.contains(symbol);
+}
+
+std::string SetTransition::toString() const
+{
+    return set.toString();
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

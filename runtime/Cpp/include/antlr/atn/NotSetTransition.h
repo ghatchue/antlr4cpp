@@ -37,14 +37,24 @@
 #define NOT_SET_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/SetTransition.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API NotSetTransition
+class ANTLR_API NotSetTransition : public SetTransition
 {
 public:
+    NotSetTransition(ANTLR_NOTNULL const ATNState* target, ANTLR_NULLABLE const IntervalSet* set);
+
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+    
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+    
+    ANTLR_OVERRIDE
+    std::string toString() const;
 
 };
 

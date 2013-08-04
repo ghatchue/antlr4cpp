@@ -37,12 +37,12 @@
 #define RULE_START_STATE_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/ATNState.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API RuleStartState
+class ANTLR_API RuleStartState : public ATNState
 {
 public:
 

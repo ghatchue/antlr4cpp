@@ -65,6 +65,12 @@ public:
 
     ANTLR_OVERRIDE
     std::string toString() const { return std::string(); }
+    
+    class Predicate
+    {
+    public:
+        Predicate(int, int, bool) { }
+    };
 
 public:
 

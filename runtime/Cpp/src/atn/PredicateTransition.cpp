@@ -34,10 +34,49 @@
  */
 
 #include <antlr/atn/PredicateTransition.h>
+#include <antlr/misc/Utils.h>
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
+PredicateTransition::PredicateTransition(ANTLR_NOTNULL const ATNState* target,
+                                         antlr_int32_t ruleIndex,
+                                         antlr_int32_t predIndex,
+                                         bool isCtxDependent)
+    :   Transition(target),
+        ruleIndex(ruleIndex),
+        predIndex(predIndex),
+        isCtxDependent(isCtxDependent)
+{
+}
+
+antlr_int32_t PredicateTransition::getSerializationType() const
+{
+    return PREDICATE;
+}
+
+bool PredicateTransition::isEpsilon() const
+{
+    return true;
+}
+
+bool PredicateTransition::matches(antlr_int32_t, antlr_int32_t, antlr_int32_t) const
+{
+    return false;
+}
+
+antlr_auto_ptr<SemanticContext::Predicate> PredicateTransition::getPredicate() const
+{
+    return antlr_auto_ptr<SemanticContext::Predicate>(
+        new SemanticContext::Predicate(ruleIndex, predIndex, isCtxDependent));
+}
+
+std::string PredicateTransition::toString() const
+{
+    return std::string("pred_")+Utils::stringValueOf(ruleIndex)+":"+Utils::stringValueOf(predIndex);
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

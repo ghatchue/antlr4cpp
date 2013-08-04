@@ -45,7 +45,7 @@ namespace atn {
 class ANTLR_API WildcardTransition : public Transition
 {
 public:
-    WildcardTransition(ANTLR_NOTNULL ATNState* target);
+    WildcardTransition(ANTLR_NOTNULL const ATNState* target);
 
     ANTLR_OVERRIDE
     antlr_int32_t getSerializationType() const;

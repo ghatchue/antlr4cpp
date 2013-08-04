@@ -37,15 +37,35 @@
 #define RULE_TRANSITION_H
 
 #include <antlr/Definitions.h>
+#include <antlr/atn/Transition.h>
 
-
+namespace antlr4 { namespace atn { class RuleStartState; } }
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API RuleTransition
+class ANTLR_API RuleTransition : public Transition
 {
 public:
+    RuleTransition(ANTLR_NOTNULL const RuleStartState* ruleStart,
+                   antlr_int32_t ruleIndex,
+                   ANTLR_NOTNULL const ATNState* followState);
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+    
+    ANTLR_OVERRIDE
+    bool isEpsilon() const;
+    
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+    
+public:
+    /** Ptr to the rule definition object for this rule ref */
+    const antlr_int32_t ruleIndex;     // no Rule object at runtime
 
+    /** What node to begin computations following ref to rule */
+    ANTLR_NOTNULL
+    const ATNState* followState;
 };
 
 

@@ -37,15 +37,34 @@
 #define ATOM_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/Transition.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API AtomTransition
+/** TODO: make all transitions sets? no, should remove set edges */
+class ANTLR_API AtomTransition : public Transition
 {
 public:
-
+    AtomTransition(ANTLR_NOTNULL const ATNState* target, antlr_int32_t label);
+    
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+    
+    ANTLR_OVERRIDE
+    ANTLR_NOTNULL
+    antlr_auto_ptr<IntervalSet> label() const;
+    
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+    
+    ANTLR_OVERRIDE
+    std::string toString() const;
+    
+public:
+    
+    /** The token type or character value; or, signifies special label. */
+    const antlr_int32_t label_;
 };
 
 

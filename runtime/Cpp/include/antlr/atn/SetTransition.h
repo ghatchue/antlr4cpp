@@ -37,15 +37,36 @@
 #define SET_TRANSITION_H
 
 #include <antlr/Definitions.h>
+#include <antlr/atn/Transition.h>
+#include <antlr/misc/IntervalSet.h>
 
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API SetTransition
+class ANTLR_API SetTransition : public Transition
 {
 public:
+    // TODO (sam): should we really allow null here?
+    SetTransition(ANTLR_NOTNULL const ATNState* target, ANTLR_NULLABLE const IntervalSet* set);
 
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+    
+    ANTLR_OVERRIDE
+    ANTLR_NOTNULL
+    antlr_auto_ptr<IntervalSet> label() const;
+    
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+    
+    ANTLR_OVERRIDE
+    std::string toString() const;
+    
+public:
+    
+    IntervalSet set;
 };
 
 

@@ -37,15 +37,37 @@
 #define PREDICATE_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/Transition.h>
+#include <antlr/atn/SemanticContext.h>
+#include <memory>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API PredicateTransition
+class ANTLR_API PredicateTransition : public Transition
 {
 public:
+    PredicateTransition(ANTLR_NOTNULL const ATNState* target, antlr_int32_t ruleIndex,
+            antlr_int32_t predIndex, bool isCtxDependent);
 
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+
+    ANTLR_OVERRIDE
+    bool isEpsilon() const;
+
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+
+    antlr_auto_ptr<SemanticContext::Predicate> getPredicate() const;
+
+    ANTLR_OVERRIDE
+    std::string toString() const;
+    
+public:
+    const antlr_int32_t ruleIndex;
+    const antlr_int32_t predIndex;
+    const bool isCtxDependent;  // e.g., $i ref in pred    
 };
 
 

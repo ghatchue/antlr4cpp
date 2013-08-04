@@ -45,7 +45,7 @@ namespace atn {
 class ANTLR_API EpsilonTransition : public Transition
 {
 public:
-    EpsilonTransition(ANTLR_NOTNULL ATNState* target);
+    EpsilonTransition(ANTLR_NOTNULL const ATNState* target);
 
     ANTLR_OVERRIDE
     antlr_int32_t getSerializationType() const;

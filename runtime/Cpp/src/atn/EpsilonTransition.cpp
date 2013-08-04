@@ -38,7 +38,7 @@
 namespace antlr4 {
 namespace atn {
 
-EpsilonTransition::EpsilonTransition(ANTLR_NOTNULL ATNState* target)
+EpsilonTransition::EpsilonTransition(ANTLR_NOTNULL const ATNState* target)
     :   Transition(target)
 {
 }

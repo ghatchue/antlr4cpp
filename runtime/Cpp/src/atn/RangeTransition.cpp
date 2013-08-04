@@ -38,7 +38,7 @@
 namespace antlr4 {
 namespace atn {
 
-RangeTransition::RangeTransition(ANTLR_NOTNULL ATNState* target, antlr_int32_t from, antlr_int32_t to)
+RangeTransition::RangeTransition(ANTLR_NOTNULL const ATNState* target, antlr_int32_t from, antlr_int32_t to)
     :   Transition(target),
         from(from),
         to(to)
