@@ -78,7 +78,7 @@ public:
     virtual bool isEpsilon() const;
 
     ANTLR_NULLABLE
-    virtual std::auto_ptr<IntervalSet> label() const;
+    virtual antlr_auto_ptr<IntervalSet> label() const;
 
     virtual bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const = 0;
     

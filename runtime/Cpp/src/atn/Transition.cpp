@@ -168,9 +168,9 @@ bool Transition::isEpsilon() const
     return false;
 }
 
-std::auto_ptr<IntervalSet> Transition::label() const
+antlr_auto_ptr<IntervalSet> Transition::label() const
 {
-    return std::auto_ptr<IntervalSet>();
+    return antlr_auto_ptr<IntervalSet>();
 }
 
 } /* namespace atn */
