@@ -37,14 +37,86 @@
 #define TRANSITION_H
 
 #include <antlr/Definitions.h>
+#include <antlr/misc/HashMap.h>
+#include <antlr/misc/IntervalSet.h>
+#include <memory>
+#include <string>
+#include <typeinfo>
+#include <vector>
 
+
+namespace antlr4 { namespace atn { class ATNState; } }
+
+using namespace antlr4::misc;
 
 namespace antlr4 {
 namespace atn {
 
+/** An ATN transition between any two ATN states.  Subclasses define
+ *  atom, set, epsilon, action, predicate, rule transitions.
+ * <p/>
+ *  This is a one way link.  It emanates from a state (usually via a list of
+ *  transitions) and has a target state.
+ * <p/>
+ *  Since we never have to change the ATN transitions once we construct it,
+ *  we can fix these transitions as specific classes. The DFA transitions
+ *  on the other hand need to update the labels as it adds transitions to
+ *  the states. We'll use the term Edge for the DFA to distinguish them from
+ *  ATN transitions.
+ */
 class ANTLR_API Transition
 {
 public:
+    
+    ~Transition();
+    
+    static antlr_int32_t getSerializationType(const std::type_info& type);
+
+    virtual antlr_int32_t getSerializationType() const = 0;
+
+    /** Are we epsilon, action, sempred? */
+    virtual bool isEpsilon() const;
+
+    ANTLR_NULLABLE
+    virtual std::auto_ptr<IntervalSet> label() const;
+
+    virtual bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const = 0;
+    
+protected:
+    
+    Transition(ANTLR_NOTNULL const ATNState* target);
+
+private:
+    
+    static std::vector<std::string> getSerializationNames();
+
+#if defined(HAVE_CX11)
+    static HashMap<std::size_t, antlr_int32_t> getSerializationTypes();
+    static const HashMap<std::size_t, antlr_int32_t> serializationTypes;    
+#else
+    typedef std::pair<const std::type_info*, antlr_int32_t> TypeInfo;
+    static std::vector<TypeInfo> getSerializationTypes();
+    static const std::vector<TypeInfo> serializationTypes;    
+#endif
+    
+public:
+    
+    // constants for serialization
+    static const antlr_int32_t EPSILON;
+    static const antlr_int32_t RANGE;
+    static const antlr_int32_t RULE;
+    static const antlr_int32_t PREDICATE;
+    static const antlr_int32_t ATOM;
+    static const antlr_int32_t ACTION;
+    static const antlr_int32_t SET;
+    static const antlr_int32_t NOT_SET;
+    static const antlr_int32_t WILDCARD;
+    
+    static const std::vector<std::string> serializationNames;
+    
+    /** The target of this transition. */
+    ANTLR_NOTNULL
+    const ATNState* target;
 
 };
 

@@ -82,10 +82,13 @@ public:
     {
         static std::string valueOf(const T& value);
     };
-        
+
     template <typename Iter, typename T>
     static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value);
     
+    template <typename Iter, typename T, typename Comp>
+    static antlr_int32_t binarySearch(Iter begin, Iter end, const T& value, Comp cmp);
+
     template<typename T>
     static bool equals(const antlr_auto_ptr<T>& a, const antlr_auto_ptr<T>& b);
 };
@@ -169,6 +172,25 @@ antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value)
 {
     antlr_int32_t result;
     Iter it = std::upper_bound(begin, end, value);
+    if (it == begin) {
+        result = -1;
+    } else {
+        if (*(it-1) == value) {
+            // value was found
+            result = it-1 - begin;
+        } else {
+            // value was not found
+            result = -(it - begin) - 1;
+        }
+    }
+    return result;
+}
+
+template <typename Iter, typename T, typename Comp>
+antlr_int32_t Utils::binarySearch(Iter begin, Iter end, const T& value, Comp cmp)
+{
+    antlr_int32_t result;
+    Iter it = std::upper_bound(begin, end, value, cmp);
     if (it == begin) {
         result = -1;
     } else {
