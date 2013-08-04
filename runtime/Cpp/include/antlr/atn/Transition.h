@@ -82,6 +82,8 @@ public:
 
     virtual bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const = 0;
     
+    virtual std::string toString() const = 0;
+
 protected:
     
     Transition(ANTLR_NOTNULL const ATNState* target);

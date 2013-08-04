@@ -38,6 +38,25 @@
 namespace antlr4 {
 namespace atn {
 
+WildcardTransition::WildcardTransition(ANTLR_NOTNULL ATNState* target)
+    :   Transition(target)
+{
+}
+
+antlr_int32_t WildcardTransition::getSerializationType() const
+{
+    return WILDCARD;
+}
+
+bool WildcardTransition::matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const
+{
+    return symbol >= minVocabSymbol && symbol <= maxVocabSymbol;
+}
+
+std::string WildcardTransition::toString() const
+{
+    return ".";
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

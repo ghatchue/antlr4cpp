@@ -37,15 +37,24 @@
 #define WILDCARD_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/Transition.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API WildcardTransition
+class ANTLR_API WildcardTransition : public Transition
 {
 public:
+    WildcardTransition(ANTLR_NOTNULL ATNState* target);
 
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+
+    ANTLR_OVERRIDE
+    std::string toString() const;
 };
 
 

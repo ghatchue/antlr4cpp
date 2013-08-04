@@ -38,6 +38,30 @@
 namespace antlr4 {
 namespace atn {
 
+EpsilonTransition::EpsilonTransition(ANTLR_NOTNULL ATNState* target)
+    :   Transition(target)
+{
+}
+
+antlr_int32_t EpsilonTransition::getSerializationType() const
+{
+    return EPSILON;
+}
+
+bool EpsilonTransition::isEpsilon() const
+{
+    return true;
+}
+
+bool EpsilonTransition::matches(antlr_int32_t, antlr_int32_t, antlr_int32_t) const
+{
+    return false;
+}
+
+std::string EpsilonTransition::toString() const
+{
+    return "epsilon";
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

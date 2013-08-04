@@ -37,15 +37,27 @@
 #define EPSILON_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/Transition.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API EpsilonTransition
+class ANTLR_API EpsilonTransition : public Transition
 {
 public:
+    EpsilonTransition(ANTLR_NOTNULL ATNState* target);
 
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+
+    ANTLR_OVERRIDE
+    bool isEpsilon() const;
+
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+
+    ANTLR_OVERRIDE
+    std::string toString() const;
 };
 
 

@@ -38,6 +38,34 @@
 namespace antlr4 {
 namespace atn {
 
+RangeTransition::RangeTransition(ANTLR_NOTNULL ATNState* target, antlr_int32_t from, antlr_int32_t to)
+    :   Transition(target),
+        from(from),
+        to(to)
+{
+}
+
+antlr_int32_t RangeTransition::getSerializationType() const
+{
+    return RANGE;
+}
+
+antlr_auto_ptr<IntervalSet> RangeTransition::label() const
+{
+    antlr_auto_ptr<IntervalSet> s(new IntervalSet());
+    s->add(from, to);
+    return s;
+}
+
+bool RangeTransition::matches(antlr_int32_t symbol, antlr_int32_t, antlr_int32_t) const
+{
+    return symbol >= from && symbol <= to;
+}
+
+std::string RangeTransition::toString() const
+{
+    return std::string("'")+(char)from+"'..'"+(char)to+"'";
+}
 
 } /* namespace atn */
 } /* namespace antlr4 */

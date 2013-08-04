@@ -37,15 +37,32 @@
 #define RANGE_TRANSITION_H
 
 #include <antlr/Definitions.h>
-
+#include <antlr/atn/Transition.h>
 
 namespace antlr4 {
 namespace atn {
 
-class ANTLR_API RangeTransition
+class ANTLR_API RangeTransition : public Transition
 {
 public:
+    RangeTransition(ANTLR_NOTNULL ATNState* target, antlr_int32_t from, antlr_int32_t to);
 
+    ANTLR_OVERRIDE
+    antlr_int32_t getSerializationType() const;
+
+    ANTLR_OVERRIDE
+    ANTLR_NOTNULL
+    antlr_auto_ptr<IntervalSet> label() const;
+
+    ANTLR_OVERRIDE
+    bool matches(antlr_int32_t symbol, antlr_int32_t minVocabSymbol, antlr_int32_t maxVocabSymbol) const;
+
+    ANTLR_OVERRIDE
+    std::string toString() const;
+    
+public:
+    const antlr_int32_t from;
+    const antlr_int32_t to;    
 };
 
 
